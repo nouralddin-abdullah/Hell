@@ -1,0 +1,39 @@
+.input-field {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.input-field label {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: text;
+  font-weight: 600;
+  color: var(--highlight);
+  transition: 0.4s;
+}
+
+.input-field input:focus + label,
+.input-field label.has-text {
+  top: -9px;
+  left: 0;
+  font-size: 14px;
+  z-index: 1;
+  padding-inline-start: 5px;
+  padding-inline-end: 5px;
+  transition: 0.4s;
+  cursor: default;
+  color: black;
+}
+
+.input-field input {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background-color: var(--base);
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+}

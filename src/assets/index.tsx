@@ -1,0 +1,12 @@
+export { default as logoIcon } from "./logo-icon.png";
+export { default as profileImage } from "./profile-image.jpg";
+export { default as profileBadge1 } from "./badge1.png";
+export { default as profileBadge2 } from "./badge2.png";
+export { default as anonymousUser } from "./user.png";
+export { default as women } from "./women.png";
+export { default as meating } from "./meating.png";
+export { default as logo } from "./logo.png";
+export { default as pdfIcon } from "./pdf-icon.png";
+export { default as folderIcon } from "./folder-icon.png";
+export { default as backIcon } from "./back-arrow.svg";
+export { default as noMaterialsIcon } from "./no-materials-icon.svg";

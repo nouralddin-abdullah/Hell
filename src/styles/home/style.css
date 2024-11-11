@@ -1,0 +1,220 @@
+.home {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+@media (max-width: 767px) {
+  .home {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: calc(100vh - 60px);
+  }
+}
+
+.home .container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+@media (max-width: 767px) {
+  .home .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.home .container > div {
+  background-color: white;
+  box-shadow: 0px 3px 3px silver;
+  padding: 15px 0px 40px;
+}
+
+.home .subs {
+  min-width: 300px;
+  padding-right: 30px !important;
+  padding-left: 30px !important;
+  border-radius: 1rem;
+}
+
+.home .container > div > p:first-of-type {
+  margin-left: 15px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  margin-right: var(--main-margin);
+  margin-left: var(--main-margin);
+}
+
+.home .container > div .sub-card {
+  background: var(--secondary-color);
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+
+.home .container > div .sub-card .bold {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.home .container > div .sub-card p:last-child {
+  font-weight: lighter;
+  font-size: 10px;
+  color: #71727a;
+}
+
+.sub-card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.sub-card summary {
+  position: relative;
+  padding: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sub-card summary::marker {
+  content: ""; /* Remove default marker */
+}
+
+.sub-card summary::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+  border-top: #71727a solid 2px;
+  border-right: #71727a solid 2px;
+  transform: translateY(-50%) rotate(45deg);
+  top: 50%;
+  right: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sub-card[open] summary::after {
+  transform: rotate(135deg); /* Rotate arrow when open */
+}
+
+.sub-card li {
+  list-style: none;
+  /* margin: 1rem 0; */
+}
+
+.sub-card .subject-link {
+  text-decoration: none;
+  color: black;
+  padding: 1rem;
+  transition: all 200ms;
+  width: 100%;
+  display: block;
+}
+.sub-card .subject-link:hover {
+  background-color: var(--secondary-light);
+}
+
+.home .schedule {
+  overflow-x: scroll;
+  border-radius: 1rem;
+}
+
+.home .schedule ul {
+  display: flex;
+  justify-content: space-around;
+  margin-left: var(--main-margin);
+  margin-right: var(--main-margin);
+}
+
+.home .schedule ul li {
+  font-size: 18px;
+  text-align: center;
+  align-content: center;
+  width: 44px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: #f2f2f2;
+  transition: all 0.1s;
+  cursor: pointer;
+}
+
+.home .schedule ul li:hover {
+  border: solid 2px black;
+  color: white;
+  background-color: var(--primary);
+}
+
+.schedule .notification {
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: var(--secondary-color);
+  margin-left: var(--main-margin);
+  margin-right: var(--main-margin);
+}
+
+.schedule .notification > p {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.schedule .notification > p span {
+  color: var(--primary);
+}
+
+.schedule .notification .time p {
+  font-size: 10px;
+  color: #71727a;
+  line-height: 1.6;
+}
+
+.schedule table {
+  width: 100%;
+  text-align: center;
+  overflow-x: scroll;
+  margin-top: 20px;
+  border-spacing: 0px;
+}
+
+.schedule table caption {
+  padding: 20px 0px 20px 20px;
+  border-bottom: #5c6c7a solid 1px;
+  text-align: left;
+  font-weight: bold;
+  font-size: large;
+}
+
+.schedule table th {
+  color: #5c6c7a;
+}
+
+@media (min-width: 768px) {
+  .schedule table td,
+  .schedule table th {
+    padding: 25px 30px 20px 10px;
+    font-weight: bold;
+  }
+  .schedule table td {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 991px) {
+  .schedule table td,
+  .schedule table th {
+    padding: 20px 15px 20px 5px;
+  }
+}
+
+.schedule table tr:not(:only-of-type):hover {
+  background-color: var(--primary);
+  color: white;
+}
+/* End Home */

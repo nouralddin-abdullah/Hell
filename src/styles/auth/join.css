@@ -1,0 +1,228 @@
+.join-body {
+    overflow-x: hidden;
+    font-family: "Manrope", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef2ff;
+}
+
+.join-container {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding: 60px;
+    background-color: #eef2ff;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.join-us-h1 {
+    font-size: 26px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+
+.join-logo {
+    width: 160px;
+    height: auto;
+    margin-right: -30px;
+}
+
+.join-design {
+    display: flex;
+    gap: 70px;
+    justify-content: center;
+
+}
+
+.join-card {
+    background: #eef2ff;
+    width: 400px;
+    height: 494px;
+    top: auto;
+    left: auto;
+    gap: 0px;
+    opacity: 0px;
+    border: 2px solid black;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+
+}
+
+.join-card:hover {
+    transform: scale(1.05);
+
+}
+
+
+.join-image-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 2px;
+    opacity: 2px;
+    overflow: hidden;
+    background-color: #eef2ff;
+    transition: transform 0.3s ease;
+
+
+}
+
+.join-image-container img {
+    transition: transform 0.3s ease;
+
+}
+
+.join-image-container:hover img {
+    transform: scale(1.1);
+
+}
+
+
+.join-image-student img {
+    width: 260px;
+    height: 270px;
+    background-color: #eef2ff;
+    margin-top: 50px;
+    margin-right: 40px;
+}
+
+.join-image-doctor img {
+    width: 350px;
+    height: 250px;
+    background-color: #eef2ff;
+    margin-top: 50px;
+
+}
+
+.join-card p {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 50px;
+    text-align: center;
+    background-color: #eef2ff;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 20px;
+
+        margin-top: 100px;
+
+    }
+
+    .join-design {
+
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+
+    }
+
+    .join-card {
+        width: 200px;
+        height: fit-content;
+        margin-bottom: 50px;
+        /*margin-top: ;
+        margin-left: ;
+        margin-right: ;*/
+        transition: none;
+    }
+
+    .join-card:hover {
+        transform: none;
+
+    }
+
+    .join-image-student img {
+        width: 120px;
+        height: 130px;
+        margin-top: 15px;
+        margin-left: 25px;
+
+    }
+
+    .join-image-doctor img {
+        width: 150px;
+        height: 120px;
+        margin-top: 15px;
+    }
+
+    .join-logo {
+        width: 150px;
+        height: fit-content;
+    }
+
+    .join-card p {
+        font-size: 20px;
+        color: black;
+        margin-bottom: 20px;
+        text-align: center;
+        background-color: #eef2ff;
+    }
+
+    .student-card {
+        /* margin-top: ; */
+        height: 200px;
+        width: 200px;
+        position: center;
+    }
+
+    .doctor-card {
+        height: 200px;
+        width: 200px;
+
+
+
+    }
+
+    body {
+
+        overflow-x: hidden;
+        font-family: "Manrope", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #eef2ff;
+
+    }
+
+    .join-image-container {
+        transition: none;
+
+    }
+
+    .join-image-container img {
+        transition: none;
+
+    }
+
+    .join-image-container:hover img {
+        transform: none;
+
+    }
+
+    .join-container {
+        text-align: center;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding: px;
+        background-color: #eef2ff;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}

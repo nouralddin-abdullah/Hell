@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+
+:root {
+  --primary: #6366f1;
+  --primary-bold: #4338ca;
+  --primary-extra-bold: #1e1b4b;
+  --secondary: #a5b4fc;
+  --secondary-light: #eef2ff;
+  --base: #d9d9d9;
+  --highlight: #777777;
+  --main-padding-top: 20px;
+  --main-padding-bottom: 20px;
+  --main-margin: 30px;
+  --secondary-color: #f8f9fe;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: "Manrope", sans-serif;
+}
+
+li {
+  list-style: none;
+}
+
+.btn {
+  color: white;
+  background-color: var(--primary);
+  border-radius: 10px;
+  padding: 15px 50px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px 0px #2e2f35;
+  transition: 0.3s;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn:hover {
+  background-color: var(--primary-bold);
+  /* letter-spacing: 8px; */
+  /* box-shadow: -3px -3px 0px 0px #2e2f35; */
+}
+
+.chip-btn {
+  background-color: #f2f2f2;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.back-btn {
+  padding: 0.25rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 10;
+  left: 10;
+}
+
+@media (max-width: 767px) {
+  .chip-btn {
+    height: fit-content;
+    padding: 8px 20px;
+  }
+}
+
+.chip-btn:hover,
+.chip-btn-selected {
+  background-color: var(--primary);
+  color: white;
+  transition: 0.3s;
+  border: 2px solid black;
+}
+
+.reusable-input {
+  display: block;
+  /* margin-bottom: 1.5rem; */
+  width: 100%;
+  padding: 12px 20px;
+  background-color: var(--base);
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+}
+
+.container {
+  /* padding-left: 15px;
+  padding-right: 15px; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 767px) {
+  .error-msg {
+    font-size: 12px;
+    color: red;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 90%;
+  }
+}

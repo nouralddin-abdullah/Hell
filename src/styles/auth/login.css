@@ -1,0 +1,73 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .login-container form {
+    max-width: 80%;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Styles for small devices */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .login-container {
+    width: 750px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .services .serv:last-child {
+    display: none;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  /* Styles for extra large devices */
+}
+
+/* Extra-extra large devices (very large desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  /* Styles for extra-extra large devices */
+}
+
+.form-bg {
+  background: linear-gradient(#cfd9df, #cfd9df);
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* start login */
+.login {
+  border-radius: 20px;
+  /* padding: 20px 40px; */
+  background-color: #fff;
+  text-align: center;
+  width: 100%;
+}
+
+.login-container img {
+  width: 60px;
+}
+
+.login-container p {
+  font-weight: bold;
+  font-size: 28px;
+  margin: 10px 0px 40px;
+}
+
+/* end login */

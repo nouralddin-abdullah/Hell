@@ -1,0 +1,29 @@
+.materials-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 40px;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.material-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--secondary-light);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 200ms;
+}
+
+.material-item:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.material-item img {
+  width: 32px;
+}
