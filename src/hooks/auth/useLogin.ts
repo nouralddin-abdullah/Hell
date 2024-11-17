@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
-import Cookies from "js-cookie";
-import { tokenKey } from "../../constants/tokenKey";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../types/User";
 import toast from "react-hot-toast";
+import useAuthStore from "../../store/authTokenStore";
 
 // interface LoginForm {
 //   identifier: string;
@@ -13,6 +12,9 @@ import toast from "react-hot-toast";
 
 export const useLogin = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuthStore();
+
+  const handleCreateToken = (token: string) => setToken(token);
 
   return useMutation({
     mutationKey: ["user"],
@@ -28,7 +30,7 @@ export const useLogin = () => {
       }
 
       const data = await response.json();
-      Cookies.set(tokenKey, data.token);
+      handleCreateToken(data.token);
       return data.data as User;
     },
     onSuccess: () => {

@@ -1,12 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
-import Cookies from "js-cookie";
-import { tokenKey } from "../../constants/tokenKey";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useAuthStore from "../../store/authTokenStore";
 
 export const useSignUp = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuthStore();
+
+  const handleCreateToken = (token: string) => setToken(token);
 
   return useMutation({
     mutationKey: ["user"],
@@ -22,7 +24,7 @@ export const useSignUp = () => {
       }
 
       const data = await response.json();
-      Cookies.set(tokenKey, data.token);
+      handleCreateToken(data.token);
       return data.data;
     },
     onSuccess: () => {

@@ -2,18 +2,14 @@ import { Link } from "react-router-dom";
 import { logoIcon } from "../../../assets";
 import "../../../styles/nav/top-nav-bar.css";
 import Button from "../button/Button";
-// import { useGetCurrentUser } from "../../../hooks/auth/useGetCurrentUser";
-// import { tokenKey } from "../../../constants/tokenKey";
-// import Cookies from "js-cookie";
-// import { useEffect, useState } from "react";
+import useAuthStore from "../../../store/authTokenStore";
 
 const TopNavBar = () => {
-  // const token = Cookies.get(tokenKey);
-  // const [showNav, setShowNav] = useState(token ? true : false);
+  const token = useAuthStore((state) => state.token);
 
-  // useEffect(() => {
-  //   setShowNav(token ? true : false);
-  // }, [token]);
+  if (!token) {
+    return null;
+  }
 
   return (
     <nav className="nav">

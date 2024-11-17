@@ -4,53 +4,23 @@ import { profileBadge2 } from "../../assets";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 import "../../styles/profile/style.css";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import { useGetUserPosts } from "../../hooks/posts/useGetUserPosts";
 import ChipButton from "../../components/common/button/ChipButton";
-import { PostPreview as PostPreviewType } from "../../types/PostPreview";
 import PostPreview from "../../components/common/post preview/PostPreview";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
+import { getLabelImage } from "../../utils/postLabelImages";
+import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
+import { useState } from "react";
 
 const ProfilePage = () => {
+  const [selectedCourse, setSelectedCourse] = useState<string>("All");
   const { data: user } = useGetCurrentUser();
-
-  const posts: PostPreviewType[] = [
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #1`,
-      label: "subject",
-    },
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #2`,
-      label: "subject",
-    },
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #3`,
-      label: "subject",
-    },
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #4`,
-      label: "subject",
-    },
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #5`,
-      label: "subject",
-    },
-    {
-      image: anonymousUser,
-      title: "Title",
-      description: `Note #6`,
-      label: "subject",
-    },
-  ];
-
+  const { data: postsData } = useGetUserPosts(user?.user._id || "", selectedCourse);
+  const { data: courses, isLoading: isLoadingCourses } = useGetAllCourses();
+  
+  const handleCourseClick = (courseName: string) => {
+    setSelectedCourse(courseName);
+  };
   return (
     <ProtectedRoute>
       <PageWrapper>
@@ -100,7 +70,7 @@ const ProfilePage = () => {
                     >
                       Group {user?.user.group}
                     </p>
-                    <p className="profile-description">I am The best Student</p>
+                    <p className="profile-description">{user?.user.caption}</p>
                   </div>
                   <div className="profile-badges">
                     <div className="profile-badge">
@@ -128,37 +98,51 @@ const ProfilePage = () => {
             </div>
           </div>
           {/* end categories title  */}
-          {/* start profile courses */}
-          <div className="profile-courses">
-            <div className="container">
-              <div className="profile-courses-container">
-                <ChipButton>All</ChipButton>
-                <ChipButton>Accounting</ChipButton>
-                <ChipButton>Marketing</ChipButton>
-                <ChipButton>Data Security</ChipButton>
-                <ChipButton>Tax Accounting</ChipButton>
-                <ChipButton>SQL</ChipButton>
-              </div>
+          {/* start profile Courses */}
+        <div className="profile-courses">
+          <div className="container">
+            <div className="profile-courses-container">
+              <ChipButton
+                onClick={() => handleCourseClick("All")}
+                isSelected={selectedCourse === "All"}
+              >
+                All
+              </ChipButton>
+              {isLoadingCourses ? (
+                <div>Loading courses...</div>
+              ) : (
+                courses?.map((course) => (
+                  <ChipButton
+                    key={course._id}
+                    onClick={() => handleCourseClick(course.courseName)}
+                    isSelected={selectedCourse === course.courseName}
+                  >
+                    {course.courseName}
+                  </ChipButton>
+                ))
+              )}
             </div>
           </div>
-          {/* end profile courses */}
-          {/* start profile posts */}
-          <div className="profile-posts">
-            <div className="container">
-              <div className="profile-posts-container">
-                {posts.map((post, index) => (
-                  <PostPreview
-                    key={index}
-                    image={post.image}
-                    description={post.description}
-                    title={post.title}
-                    label={post.label}
-                  />
-                ))}
-              </div>
+        </div>
+        {/* end profile courses */}
+
+        {/* start profile posts */}
+        <div className="profile-posts">
+          <div className="container">
+            <div className="profile-posts-container">
+              {postsData?.data.posts.map((post) => (
+                <PostPreview
+                  key={post._id}
+                  image={getLabelImage(post.label)}
+                  title={post.title}
+                  description={post.contentBlocks[0]?.content || ""}
+                  label={post.label}
+                />
+              ))}
             </div>
           </div>
-          {/* end profile posts */}
+        </div>
+        {/* end profile posts */}
         </section>
       </PageWrapper>
     </ProtectedRoute>
