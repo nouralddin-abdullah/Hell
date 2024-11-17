@@ -1,4 +1,4 @@
-import { PostPreview as PostPreviewType } from "../../../types/PostPreview";
+import { PostPreviewProps as PostPreviewType } from "../../../types/PostPreview";
 
 const PostPreview = ({ image, title, description, label }: PostPreviewType) => {
   return (
