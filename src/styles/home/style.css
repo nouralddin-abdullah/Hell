@@ -214,7 +214,8 @@
   }
 }
 
-.schedule table tr:not(:only-of-type):hover {
+.schedule table tr:not(:only-of-type):hover,
+.upcoming {
   background-color: var(--primary);
   color: white;
 }
