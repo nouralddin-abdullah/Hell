@@ -1,0 +1,47 @@
+/* AnnouncementForm.css */
+.announcement-form {
+  padding: 1rem;
+}
+
+.announcement-form__title {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.announcement-form__file-input {
+  display: none;
+}
+
+.announcement-form__file-label {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.announcement-form__file-label:hover {
+  background-color: #2563eb;
+}
+
+.announcement-form__attachment-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.announcement-form__remove-attachment {
+  color: #ef4444;
+  cursor: pointer;
+}
+
+.announcement-form__remove-attachment:hover {
+  color: #dc2626;
+}
+
+.announcement-form__submit-btn {
+  margin: 1rem auto;
+  display: block;
+}

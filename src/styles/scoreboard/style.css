@@ -1,0 +1,455 @@
+.scoreboard-main {
+  background-color: var(--secondary-light);
+}
+
+/* top three ranks end  */
+.container .scoreboard-topThree-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-top: 220px;
+  padding-bottom: 40px;
+}
+
+@media (max-width: 767px) {
+  .container .scoreboard-topThree-container {
+    padding-top: 150px;
+    padding-bottom: 30px;
+  }
+}
+
+.container .scoreboard-topThree-container > div {
+  width: 200px;
+  background-color: var(--secondary);
+  text-align: center;
+  position: relative;
+  height: fit-content;
+  padding-top: 60px;
+}
+
+@media (max-width: 767px) {
+  .container .scoreboard-topThree-container > div {
+    width: 130px;
+    padding-top: 40px;
+  }
+}
+
+.container .scoreboard-topThree-container .scoreboard-image-container {
+  width: 69%;
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 767px) {
+  .container .scoreboard-topThree-container .scoreboard-image-container {
+    top: -65px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .scoreboard-image-container
+  .scoreboard-user-image {
+  width: 100%;
+  border-radius: 50%;
+  border: 6px solid;
+  position: relative;
+}
+
+.container .scoreboard-topThree-container > div p {
+  margin-bottom: 10px;
+}
+
+.container
+  .scoreboard-topThree-container
+  .scoreboard-userinfo
+  .scoreboard-userFullname {
+  font-size: 19px;
+  font-weight: 500;
+  color: white;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .scoreboard-userinfo
+    .scoreboard-userFullname {
+    font-size: 12px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .scoreboard-userinfo
+  .scoreboard-username {
+  color: white;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .scoreboard-userinfo
+    .scoreboard-username {
+    font-size: 10px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .scoreboard-userinfo
+  .scoreboard-user-points {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .scoreboard-userinfo
+    .scoreboard-user-points {
+    font-size: 20px;
+  }
+}
+
+/* Rank One Styles start*/
+
+.container .scoreboard-topThree-container .user-rank1-container {
+  height: 300px;
+  border-top-left-radius: 45px;
+  border-top-right-radius: 45px;
+  background-color: var(--primary);
+}
+
+@media (max-width: 767px) {
+  .container .scoreboard-topThree-container .user-rank1-container {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    height: 190px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-userinfo {
+  margin-top: 30px;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-image-container {
+  top: -150px;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .user-rank1-container
+    .scoreboard-image-container {
+    top: -100px;
+  }
+}
+
+@media (max-width: 767px) {
+  .container .scoreboard-topThree-container .user-rank1-container .crown-image {
+    width: 45px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-image-container
+  .scoreboard-user-image {
+  border-color: gold;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-image-container::after {
+  content: "";
+  position: absolute;
+  height: 31px;
+  width: 31px;
+  border-radius: 6px;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  background-color: gold;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .user-rank1-container
+    .scoreboard-image-container::after {
+    height: 24px;
+    width: 24px;
+    bottom: -1px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-image-container::before {
+  content: "1";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 1;
+  font-weight: 600;
+  color: white;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank1-container
+  .scoreboard-userinfo
+  .scoreboard-user-points {
+  color: gold;
+}
+
+/* Rank One Styles end*/
+
+/* Rank two Styles start*/
+
+.container .scoreboard-topThree-container .user-rank2-container {
+  border-top-left-radius: 17px;
+  /* border-bottom-left-radius: 17px; */
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank2-container
+  .scoreboard-image-container
+  .scoreboard-user-image {
+  border-color: #d9d9d9;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank2-container
+  .scoreboard-image-container::after {
+  content: "";
+  position: absolute;
+  height: 31px;
+  width: 31px;
+  border-radius: 6px;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  background-color: #d9d9d9;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .user-rank2-container
+    .scoreboard-image-container::after {
+    height: 24px;
+    width: 24px;
+    bottom: -1px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank2-container
+  .scoreboard-image-container::before {
+  content: "2";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 1;
+  font-weight: 600;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank2-container
+  .scoreboard-userinfo
+  .scoreboard-user-points {
+  color: #d9d9d9;
+}
+
+/* Rank two Styles end*/
+
+/* Rank three Styles start*/
+
+.container .scoreboard-topThree-container .user-rank3-container {
+  border-top-right-radius: 17px;
+  /* border-bottom-right-radius: 17px; */
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank3-container
+  .scoreboard-image-container
+  .scoreboard-user-image {
+  border-color: #b55500;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank3-container
+  .scoreboard-image-container::after {
+  content: "";
+  position: absolute;
+  height: 31px;
+  width: 31px;
+  border-radius: 6px;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  background-color: #b55500;
+}
+
+@media (max-width: 767px) {
+  .container
+    .scoreboard-topThree-container
+    .user-rank3-container
+    .scoreboard-image-container::after {
+    height: 24px;
+    width: 24px;
+    bottom: -1px;
+  }
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank3-container
+  .scoreboard-image-container::before {
+  content: "3";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 1;
+  font-weight: 600;
+}
+
+.container
+  .scoreboard-topThree-container
+  .user-rank3-container
+  .scoreboard-userinfo
+  .scoreboard-user-points {
+  color: #b55500;
+}
+
+/* Rank three Styles end*/
+/* top three ranks end  */
+
+/* regular rank styles start */
+
+@media (max-width: 991px) {
+  .scoreboard-rest-of-ranks {
+    background-color: var(--secondary);
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+  }
+}
+
+.scoreboard-rest-of-ranks .rest-of-ranks-container {
+  margin: 0 150px;
+  padding: 10px 30px;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  background-color: var(--secondary);
+}
+
+@media (max-width: 991px) {
+  .scoreboard-rest-of-ranks .rest-of-ranks-container {
+    width: 100%;
+    margin: 0 auto;
+    border: 0;
+    padding: 10px 0px;
+  }
+}
+
+.scoreboard-rest-of-ranks .scoreboard-rank {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  padding: 20px 0;
+}
+
+.scoreboard-rest-of-ranks .scoreboard-rank:not(:last-child) {
+  border-bottom: 2px solid #eee;
+}
+
+.scoreboard-rest-of-ranks .scoreboard-rank .regular-rank-userinfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.scoreboard-rest-of-ranks
+  .scoreboard-rank
+  .regular-rank-userinfo
+  .regular-rank-name-and-user
+  .regular-rank-userFullname {
+  font-size: 20px;
+}
+
+@media (max-width: 991px) {
+  .scoreboard-rest-of-ranks
+    .scoreboard-rank
+    .regular-rank-userinfo
+    .regular-rank-name-and-user
+    .regular-rank-userFullname {
+    font-size: 13px;
+  }
+}
+
+.scoreboard-rest-of-ranks
+  .scoreboard-rank
+  .regular-rank-userinfo
+  .regular-rank-name-and-user
+  .regular-rank-username {
+  margin-top: 5px;
+}
+
+@media (max-width: 991px) {
+  .scoreboard-rest-of-ranks
+    .scoreboard-rank
+    .regular-rank-userinfo
+    .regular-rank-name-and-user
+    .regular-rank-username {
+    font-size: 10px;
+  }
+}
+
+.scoreboard-rest-of-ranks .scoreboard-rank img {
+  width: 80px;
+  border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+  .scoreboard-rest-of-ranks .scoreboard-rank img {
+    width: 60px;
+  }
+}
+
+.scoreboard-rest-of-ranks .scoreboard-rank .regular-rank-points {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  font-size: 30px;
+}
+
+@media (max-width: 767px) {
+  .scoreboard-rest-of-ranks .scoreboard-rank .regular-rank-points {
+    font-size: 20px;
+  }
+}
+
+/* regular rank styles end */

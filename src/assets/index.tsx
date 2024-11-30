@@ -10,3 +10,5 @@ export { default as pdfIcon } from "./pdf-icon.png";
 export { default as folderIcon } from "./folder-icon.png";
 export { default as backIcon } from "./back-arrow.svg";
 export { default as noMaterialsIcon } from "./no-materials-icon.svg";
+export { default as imageIcon } from "./image-icon.svg";
+export { default as scoreboardCrown } from "./crown.png";

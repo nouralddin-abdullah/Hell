@@ -189,7 +189,7 @@
 
     }
 
-    body {
+    /* body {
 
         overflow-x: hidden;
         font-family: "Manrope", sans-serif;
@@ -198,7 +198,7 @@
         align-items: center;
         background: #eef2ff;
 
-    }
+    } */
 
     .join-image-container {
         transition: none;

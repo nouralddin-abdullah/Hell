@@ -33,7 +33,7 @@ const SubjectsDetails = () => {
             <li>
               <Link
                 className="subject-link"
-                to={`/announcements/${course.slug}`}
+                to={`/announcements/${course._id}`}
               >
                 Announcements
               </Link>

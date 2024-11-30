@@ -1,3 +1,10 @@
+interface PostUser {
+  _id: string;
+  username: string;
+  photo: string;
+  id: string;
+}
+
 // content structure to hanlde the order of the text / image
 export interface ContentBlock {
   orderIndex: number;
@@ -5,6 +12,7 @@ export interface ContentBlock {
   content: string;
   _id: string;
   id: string;
+  imageUrl?: string;
 }
 
 // post types enum as backend
@@ -18,7 +26,7 @@ export interface Course {
 // post module as api
 export interface Post {
   _id: string;
-  userId: PostUser; 
+  userId: PostUser;
   courseId?: Course;
   title: string;
   contentBlocks: ContentBlock[];
@@ -29,6 +37,7 @@ export interface Post {
   updatedAt: string;
   __v: number;
   id: string;
+  slug: string;
 }
 // api respose structure
 export interface PostsResponse {

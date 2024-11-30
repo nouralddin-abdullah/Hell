@@ -1,9 +1,11 @@
-.input-field {
+.input-field,
+.textarea-field {
   position: relative;
   margin-bottom: 1.8rem;
 }
 
-.input-field label {
+.input-field label,
+.textarea-field label {
   position: absolute;
   left: 20px;
   top: 50%;
@@ -15,7 +17,9 @@
 }
 
 .input-field input:focus + label,
-.input-field label.has-text {
+.input-field label.has-text,
+.textarea-field textarea:focus + label,
+.textarea-field label.has-text {
   top: -9px;
   left: 0;
   font-size: 14px;
@@ -27,7 +31,8 @@
   color: black;
 }
 
-.input-field input {
+.input-field input,
+.textarea-field textarea {
   display: block;
   width: 100%;
   padding: 12px 20px;
@@ -36,4 +41,10 @@
   border: none;
   outline: none;
   font-weight: 600;
+  resize: none; /* Prevents resizing if unnecessary */
+}
+
+.textarea-field textarea {
+  min-height: 120px; /* Adjust as needed */
+  padding: 12px 20px;
 }

@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoIcon } from "../../../assets";
 import "../../../styles/nav/top-nav-bar.css";
 import Button from "../button/Button";
 import useAuthStore from "../../../store/authTokenStore";
+import { useGetCurrentUser } from "../../../hooks/auth/useGetCurrentUser";
 
 const TopNavBar = () => {
+  const navigate = useNavigate();
+  const { data: user } = useGetCurrentUser();
+
   const token = useAuthStore((state) => state.token);
 
   if (!token) {
@@ -14,10 +18,10 @@ const TopNavBar = () => {
   return (
     <nav className="nav">
       <div className="nav-container">
-        <div className="logo">
+        <Link to={"/"} className="logo">
           <img src={logoIcon} alt="" />
           <p>BIShell</p>
-        </div>
+        </Link>
         <div className="navigation">
           <div className="large-nav">
             <ul>
@@ -32,17 +36,20 @@ const TopNavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link className="top-nav-link" to="/">
+                <Link className="top-nav-link" to="/questions">
                   Questions
                 </Link>
               </li>
               <li>
-                <Link className="top-nav-link" to="/">
-                  Settings
+                <Link className="top-nav-link" to="/announcements">
+                  Announcements
                 </Link>
               </li>
               <li>
-                <Link className="top-nav-link" to="/profile">
+                <Link
+                  className="top-nav-link"
+                  to={`/profile/${user?.user.username}`}
+                >
                   Profile
                 </Link>
               </li>
@@ -51,6 +58,7 @@ const TopNavBar = () => {
               style={{
                 padding: "10px 20px",
               }}
+              onClick={() => navigate("/scoreboard")}
             >
               Scoreboard
             </Button>

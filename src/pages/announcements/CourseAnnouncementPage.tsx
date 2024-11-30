@@ -5,15 +5,18 @@ import { baseURL } from "../../constants/baseURL";
 import AnnouncementSkeleton from "../../components/announcements/AnnouncementSkeleton";
 import { useState } from "react";
 import AnnouncementDetails from "../../components/announcements/AnnouncementDetails";
+import { useParams } from "react-router-dom";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import Modal from "../../components/common/modal/Modal";
 import AnnouncementForm from "../../components/announcements/AnnouncementForm";
 
-const AnnouncementsPage = () => {
+const CourseAnnouncementPage = () => {
   const { data: currentUser } = useGetCurrentUser();
 
+  const { courseId } = useParams();
+
   const { data: announcementsList, isPending } =
-    useGetAllAnnouncements("general");
+    useGetAllAnnouncements(courseId);
 
   const [selectedAnnouncement, setSelectedAnnouncement] = useState<
     string | undefined
@@ -83,7 +86,7 @@ const AnnouncementsPage = () => {
           <div className="sect-announce">
             {selectedAnnouncement && (
               <AnnouncementDetails
-                courseId="general"
+                courseId={courseId}
                 announcementId={selectedAnnouncement}
               />
             )}
@@ -93,7 +96,8 @@ const AnnouncementsPage = () => {
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <AnnouncementForm
-          courseId="general"
+          // @ts-ignore
+          courseId={courseId}
           onClose={() => setIsModalOpen(false)}
         />
       </Modal>
@@ -101,4 +105,4 @@ const AnnouncementsPage = () => {
   );
 };
 
-export default AnnouncementsPage;
+export default CourseAnnouncementPage;
