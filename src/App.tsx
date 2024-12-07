@@ -28,18 +28,19 @@ const navigate = useNavigate();
   useEffect(() => {
     const requestPermission = async () => {
       try {
+        const registration = await navigator.serviceWorker.ready;
+        
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
-          const token = await getToken(messaging, {
-            vapidKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ"
-          });
-          console.log("FCM Token:", token);
-          //Ensure we got the token, must be sended with login - signup
-        } else {
-          console.log("Notification permission denied");
+          if (registration.active) {
+            const token = await getToken(messaging, {
+              vapidKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ"
+            });
+            console.log("FCM Token:", token);
+          }
         }
       } catch (error) {
-        console.error("Error requesting notification permission:", error);
+        console.error("Error:", error);
       }
     };
 
