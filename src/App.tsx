@@ -71,7 +71,7 @@ function App() {
     
         if (permission === 'granted') {
           console.log('Getting Push Subscription...');
-          const vapidPublicKey = import.meta.env.VITE_FIREBASE_VAPID_KEY
+          const vapidPublicKey = 'BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ';
           const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
     
           const subscribeOptions = {
