@@ -10,7 +10,6 @@ import SignUpPage from "./pages/auth/signup";
 import JoinUsPage from "./pages/auth/join";
 import TopNavBar from "./components/common/nav/TopNavBar";
 import ProfilePage from "./pages/profile";
-import { Toaster } from "react-hot-toast";
 import "react-image-crop/dist/ReactCrop.css"; // needed for the crop uploaded img functionalities
 import MaterialsPage from "./pages/materials";
 import BottomNavBar from "./components/common/nav/BottomNavBar";
@@ -21,7 +20,7 @@ import CourseAnnouncementPage from "./pages/announcements/CourseAnnouncementPage
 import ChatPage from "./pages/chat";
 import QuestionsPage from "./pages/questions";
 import ChosenQuestionPage from "./pages/questions/ChosenQuestionPage";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -43,12 +42,12 @@ function App() {
   useEffect(() => {
     const registerServiceWorker = async () => {
       try {
-        // Check if service workers are supported
+        //check if the user browser has service workers supported wla la
         if (!('serviceWorker' in navigator)) {
           throw new Error('Service Worker not supported');
         }
 
-        // Register service worker
+        // register the service worker
         const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
           scope: '/'
         });
@@ -136,7 +135,12 @@ function App() {
           background: '#333',
           color: '#fff',
           padding: '16px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          fontSize: '14px',
+          maxWidth: '350px',
         },
+        icon: '👋',
       });
     });
   }, [navigate]);
