@@ -5,7 +5,6 @@
     top: 0;
     background-color: white;
     z-index: 10;
-    padding: 1rem 0;
   }
 }
 
@@ -66,6 +65,10 @@
 .nav ul li a.top-nav-link {
   transition: all 0.3s;
   padding: 20px 25px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
 }
 
 .nav ul li:hover a {

@@ -314,6 +314,10 @@
     padding-top: 40px;
     justify-items: center;
   }
+  .profile-posts .profile-posts-container a {
+    display: block;
+    width: 97%;
+  }
 }
 
 .profile-posts .profile-posts-container .profile-post {
@@ -329,12 +333,12 @@
 .profile-posts .profile-posts-container .profile-post:hover {
   transition: 0.3s;
   box-shadow: 0px 4px 4px 0px var(--primary);
-  margin-top: -5px;
+  transform: translateY(-5px);
 }
 
 @media (max-width: 767px) {
   .profile-posts .profile-posts-container .profile-post {
-    width: 97%;
+    width: 100%;
   }
 
   .profile-posts .profile-posts-container .profile-post:hover {

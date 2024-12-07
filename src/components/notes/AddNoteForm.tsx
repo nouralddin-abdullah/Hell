@@ -7,6 +7,7 @@ import Button from "../common/button/Button";
 import { useCreateNote } from "../../hooks/notes/useCreateNote";
 import { Post } from "../../types/PostPreview";
 import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
+import Textarea from "../common/input/Textarea";
 
 interface Props {
   setPostsList: React.Dispatch<React.SetStateAction<Post[]>>;
@@ -197,7 +198,7 @@ const AddNoteForm = ({ setPostsList, onClose }: Props) => {
                 }}
               >
                 <div style={{ width: "85%" }} key={idx}>
-                  <Input
+                  <Textarea
                     labelText="Content"
                     value={contentItem.content}
                     onChange={(e) =>
