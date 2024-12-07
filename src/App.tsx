@@ -23,6 +23,20 @@ import QuestionsPage from "./pages/questions";
 import ChosenQuestionPage from "./pages/questions/ChosenQuestionPage";
 import toast from "react-hot-toast";
 
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, "+")
+    .replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 function App() {
   const navigate = useNavigate();
   
@@ -54,46 +68,31 @@ function App() {
         console.log('Requesting permission...');
         const permission = await Notification.requestPermission();
         console.log('Permission status:', permission);
-
-        if (permission === "granted") {
-          // Subscribe to push service first
-          try {
-            const subscribeOptions = {
-              userVisibleOnly: true,
-              applicationServerKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ"
-            };
-            
-            const pushSubscription = await registration.pushManager.subscribe(subscribeOptions);
-            console.log('Push Subscription:', pushSubscription);
-
-            // Now get FCM token
-            if (registration.active) {
-              console.log('Getting FCM token...');
-              const token = await getToken(messaging, {
-                vapidKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ",
-                serviceWorkerRegistration: registration
-              });
-              console.log("FCM Token:", token);
-              
-              // Store token in localStorage or send to your server
-              localStorage.setItem('fcm_token', token);
-            }
-          } catch (subscribeError) {
-            console.error('Push subscription failed:', subscribeError);
-            // Check if error is because of existing subscription
-            const subscription = await registration.pushManager.getSubscription();
-            if (subscription) {
-              await subscription.unsubscribe();
-              // Retry subscription
-              await requestPermission(registration);
-            }
-          }
+    
+        if (permission === 'granted') {
+          console.log('Getting Push Subscription...');
+          const vapidPublicKey = 'BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ';
+          const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+    
+          const subscribeOptions = {
+            userVisibleOnly: true,
+            applicationServerKey: convertedVapidKey,
+          };
+    
+          const pushSubscription = await registration.pushManager.subscribe(subscribeOptions);
+          console.log('Push Subscription:', pushSubscription);
+    
+          console.log('Getting FCM token...');
+          const token = await getToken(messaging, {
+            vapidKey: vapidPublicKey,
+            serviceWorkerRegistration: registration,
+          });
+          console.log('FCM Token:', token);
         }
       } catch (error) {
-        console.error("Permission request error:", error);
+        console.error('Permission request error:', error);
       }
     };
-
     // Start registration process
     registerServiceWorker();
 
