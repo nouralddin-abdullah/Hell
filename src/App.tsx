@@ -24,27 +24,89 @@ import ChosenQuestionPage from "./pages/questions/ChosenQuestionPage";
 import toast from "react-hot-toast";
 
 function App() {
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  
   useEffect(() => {
-    const requestPermission = async () => {
+    const registerServiceWorker = async () => {
       try {
-        const registration = await navigator.serviceWorker.ready;
-        
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          if (registration.active) {
-            const token = await getToken(messaging, {
-              vapidKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ"
-            });
-            console.log("FCM Token:", token);
-          }
+        // Check if service workers are supported
+        if (!('serviceWorker' in navigator)) {
+          throw new Error('Service Worker not supported');
         }
+
+        // Register service worker
+        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+          scope: '/'
+        });
+        console.log('Service Worker registered:', registration);
+        
+        // Wait for the service worker to be ready
+        await navigator.serviceWorker.ready;
+        
+        await requestPermission(registration);
       } catch (error) {
-        console.error("Error:", error);
+        console.error('Service Worker registration failed:', error);
       }
     };
 
-    requestPermission();
+    const requestPermission = async (registration: ServiceWorkerRegistration) => {
+      try {
+        console.log('Requesting permission...');
+        const permission = await Notification.requestPermission();
+        console.log('Permission status:', permission);
+
+        if (permission === "granted") {
+          // Subscribe to push service first
+          try {
+            const subscribeOptions = {
+              userVisibleOnly: true,
+              applicationServerKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ"
+            };
+            
+            const pushSubscription = await registration.pushManager.subscribe(subscribeOptions);
+            console.log('Push Subscription:', pushSubscription);
+
+            // Now get FCM token
+            if (registration.active) {
+              console.log('Getting FCM token...');
+              const token = await getToken(messaging, {
+                vapidKey: "BI5HgYOsNI0RuAhXlomJkLBAvEyoAGm6JQJTjYvXZL9mjUPY2k23ew6qu2K6gQBt2HYkIF0AJ3xkVvaEuuoU_cQ",
+                serviceWorkerRegistration: registration
+              });
+              console.log("FCM Token:", token);
+              
+              // Store token in localStorage or send to your server
+              localStorage.setItem('fcm_token', token);
+            }
+          } catch (subscribeError) {
+            console.error('Push subscription failed:', subscribeError);
+            // Check if error is because of existing subscription
+            const subscription = await registration.pushManager.getSubscription();
+            if (subscription) {
+              await subscription.unsubscribe();
+              // Retry subscription
+              await requestPermission(registration);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Permission request error:", error);
+      }
+    };
+
+    // Start registration process
+    registerServiceWorker();
+
+    // Cleanup
+    return () => {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.pushManager.getSubscription().then(subscription => {
+          if (subscription) {
+            subscription.unsubscribe();
+          }
+        });
+      });
+    };
   }, []);
 
   useEffect(() => {
