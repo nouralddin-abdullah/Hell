@@ -19,8 +19,8 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title || 'New Message';
   const notificationOptions = {
     body: payload.notification.body || 'You have a new notification',
-    icon: '/logo192.png', //  app's icon path
-    badge: '/badge-icon.png', //  badge icon
+    icon: '../src/assets/logo-icon.png', //  app's icon path
+    badge: '../src/assets/logo-icon.png', //  badge icon
     data: payload.data, // any custom data
     click_action: payload.notification.click_action || '/' // URL to open on click
   };
