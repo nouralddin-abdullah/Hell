@@ -31,7 +31,7 @@ const NotePage = () => {
                   exit={{ opacity: 0, x: 40 }}
                   className="note-title"
                 >
-                  Cypher Caesar Notes
+                  {post.title}
                 </motion.h1>
               )}
             </div>

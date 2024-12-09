@@ -25,11 +25,10 @@ const ChosenQuestionPage = () => {
                         Youssef Kassab
                       </div>
                       <div className="comment-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Magnam, quam. Fugit quae, sunt ipsa iusto repellendus
-                        quia! Distinctio ipsum temporibus neque omnis, eum
-                        tenetur vero alias blanditiis exercitationem provident
-                        voluptatibus.
+                        Digital marketing has revolutionized the relationship
+                        between businesses and consumers by enabling more
+                        personalized, immediate, and interactive engagement.
+                        Unlike traditional marketing
                       </div>
                       <div className="comment-info">
                         <div className="comment-date">12/6/2024</div>
@@ -61,11 +60,10 @@ const ChosenQuestionPage = () => {
                           Youssef Kassab
                         </div>
                         <div className="comment-text">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Magnam, quam. Fugit quae, sunt ipsa iusto
-                          repellendus quia! Distinctio ipsum temporibus neque
-                          omnis, eum tenetur vero alias blanditiis
-                          exercitationem provident voluptatibus.
+                          Digital marketing has revolutionized the relationship
+                          between businesses and consumers by enabling more
+                          personalized, immediate, and interactive engagement.
+                          Unlike traditional marketing
                         </div>
                         <div className="comment-info">
                           <div className="comment-date">12/6/2024</div>

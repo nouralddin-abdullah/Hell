@@ -37,15 +37,15 @@ const QuestionsPage = () => {
             <div className="posted-question">
               <div className="verified-answer">Verified Answer</div>
               <div className="question-publisher">
-                <img src={profileImage} alt="image" />  
+                <img src={profileImage} alt="image" />
                 <div className="question-publisher-fullname">
                   Youssef Kassab
                 </div>
               </div>
               <div className="question-content">
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
+                How has digital marketing transformed the way businesses engage
+                with consumers, and what strategies are most effective in
+                building long-term customer relationships?
               </div>
               <div className="question-info">
                 <div className="question-date">12/5/2024</div>
@@ -72,9 +72,9 @@ const QuestionsPage = () => {
                 </div>
               </div>
               <div className="question-content">
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
+                How has digital marketing transformed the way businesses engage
+                with consumers, and what strategies are most effective in
+                building long-term customer relationships?
               </div>
               <div className="question-info">
                 <div className="question-date">12/5/2024</div>
@@ -101,9 +101,9 @@ const QuestionsPage = () => {
                 </div>
               </div>
               <div className="question-content">
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
-                I'M IN THE DARK HERE I'M IN THE DARK HERE I'M IN THE DARK HERE
+                How has digital marketing transformed the way businesses engage
+                with consumers, and what strategies are most effective in
+                building long-term customer relationships?
               </div>
               <div className="question-info">
                 <div className="question-date">12/5/2024</div>
