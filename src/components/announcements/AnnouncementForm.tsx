@@ -87,11 +87,12 @@ const AnnouncementForm = ({
         />
 
         <h4>Importance:</h4>
-        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2rem" }}>
+        <div className="importance-btn-wrapper">
           <ChipButton
             type="button"
             onClick={() => setImportance("Normal")}
             isSelected={importance === "Normal"}
+            className="announcement-form-btn"
           >
             Normal
           </ChipButton>
@@ -99,6 +100,7 @@ const AnnouncementForm = ({
             type="button"
             onClick={() => setImportance("Important")}
             isSelected={importance === "Important"}
+            className="announcement-form-btn"
           >
             Important
           </ChipButton>
@@ -106,6 +108,7 @@ const AnnouncementForm = ({
             type="button"
             onClick={() => setImportance("Urgent")}
             isSelected={importance === "Urgent"}
+            className="announcement-form-btn"
           >
             Urgent
           </ChipButton>

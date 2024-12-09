@@ -8,7 +8,7 @@ import { MaterialType } from "../../types/Material";
 
 export const useGetAllCourseMaterial = (id: string, parentPath: string) => {
   return useQuery({
-    queryKey: [id, parentPath],
+    queryKey: [id, parentPath, "materials"],
     queryFn: async () => {
       // Get the latest token from cookies
       const accessToken = Cookies.get(tokenKey);

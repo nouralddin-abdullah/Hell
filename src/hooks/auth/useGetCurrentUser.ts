@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
 import Cookies from "js-cookie";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { User } from "../../types/User";
 import { tokenKey } from "../../constants/tokenKey"; // Import the key used to store the token
 
@@ -14,7 +14,7 @@ export const useGetCurrentUser = () => {
 
       // If there's no token, handle as an error
       if (!accessToken) {
-        toast.error("No access token found");
+        // toast.error("No access token found");
         throw new Error("No access token found");
       }
 
@@ -26,7 +26,7 @@ export const useGetCurrentUser = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData.message || "Error Loading User Data");
+        // toast.error(errorData.message || "Error Loading User Data");
         throw new Error(errorData.message || "Error Loading User Data");
       }
 

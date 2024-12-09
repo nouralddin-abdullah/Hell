@@ -27,3 +27,18 @@
 .material-item img {
   width: 32px;
 }
+
+.download-material-button {
+  padding: 0.5rem;
+  background-color: var(--secondary-light);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 200ms;
+  height: fit-content;
+}
+
+.download-material-button:hover {
+  background-color: var(--primary);
+}
