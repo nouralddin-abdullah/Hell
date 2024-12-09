@@ -6,7 +6,6 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
-import { profileImage } from "../../../assets";
 
 const BottomNavBar = () => {
   return (
@@ -34,11 +33,6 @@ const BottomNavBar = () => {
       <div className="bottomNav-icon-wrapper">
         <Link to="/scoreboard">
           <FontAwesomeIcon className="bottomNav-icon" icon={faRankingStar} />
-        </Link>
-      </div>
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/profile">
-          <img src={profileImage} alt="" />
         </Link>
       </div>
     </nav>
