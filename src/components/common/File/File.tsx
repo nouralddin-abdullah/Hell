@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faFile, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faFile, faEye } from "@fortawesome/free-solid-svg-icons";
 import { Attachment } from "../../../types/Question";
 import "./file.css";
-import { useDownloadMaterialFolders } from "../../../hooks/materials/useDownloadMaterialsFolder";
+// import { useDownloadMaterialFolders } from "../../../hooks/materials/useDownloadMaterialsFolder";
 
 interface FileAttachmentProps {
   file: Attachment;
@@ -23,19 +23,19 @@ const FileAttachment: React.FC<FileAttachmentProps> = ({ file }) => {
     }
   };
 
-  const { mutateAsync } = useDownloadMaterialFolders();
-  const [isDownloading, setIsDownloading] = useState("");
+  // const { mutateAsync } = useDownloadMaterialFolders();
+  // const [isDownloading, setIsDownloading] = useState("");
 
-  const downloadFolder = async (materialId: string) => {
-    try {
-      setIsDownloading(materialId);
-      await mutateAsync(materialId);
-    } catch (error) {
-      console.error(error);
-    }
+  // const downloadFolder = async (materialId: string) => {
+  //   try {
+  //     setIsDownloading(materialId);
+  //     await mutateAsync(materialId);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
-    setIsDownloading("");
-  };
+  //   setIsDownloading("");
+  // };
 
   return (
     <div className="file-attachment">
