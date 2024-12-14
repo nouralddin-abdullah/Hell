@@ -55,14 +55,14 @@
   }
 }
 
-.comment-section .question-comment img {
+.comment-section .question-comment-profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
 @media (max-width: 767px) {
-  .comment-section .question-comment img {
+  .comment-section .question-comment-profile-pic {
     width: 30px;
     height: 30px;
   }
@@ -76,6 +76,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 
 @media (max-width: 767px) {

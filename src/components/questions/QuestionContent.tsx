@@ -1,32 +1,28 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faMessage } from "@fortawesome/free-solid-svg-icons";
-import { Question as QuestionType } from "../../types/Question";
 import { baseURL } from "../../constants/baseURL";
-import { useNavigate } from "react-router-dom";
+import { Question } from "../../types/Question";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage, faTrash } from "@fortawesome/free-solid-svg-icons";
+import QuestionAttachment from "./QuestionAttachment";
 import Dropdown from "../common/Dropdown/dropdown";
 import { useState } from "react";
-import LikeHandler from "./QuestionsLikeHandler";
+import { useParams } from "react-router-dom";
+import Modal from "../common/modal/Modal";
+import { useDeleteQuestion } from "../../hooks/questions/useDeleteQuestion";
+import toast from "react-hot-toast";
+import Button from "../common/button/Button";
+import QuestionsLikeHandler from "./QuestionsLikeHandler";
 
-interface QuestionActionProps {
-  setSelectedQuestion: (id: string) => void; // Add type for id
-  setIsDeleteModalOpen: (isOpen: boolean) => void; // Add type for modal state
-}
-
-type Props = QuestionType & QuestionActionProps;
-
-const Question = ({
+const QuestionContent = ({
   content,
   user,
   stats,
   verifiedAnswer,
   timestamps,
-  id,
-  setIsDeleteModalOpen,
-  setSelectedQuestion,
-}: Props) => {
-  const navigate = useNavigate();
+  attachment,
+}: Question) => {
+  const { id } = useParams();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
 
   // Prevent navigation when interacting with dropdown
@@ -35,20 +31,21 @@ const Question = ({
     setShowDropDown((prev) => !prev);
   };
 
+  const { mutateAsync, isPending: isDeleting } = useDeleteQuestion();
+
+  const handleDeleteQuestion = async (questionId: string) => {
+    try {
+      await mutateAsync(questionId);
+      setIsDeleteModalOpen(false);
+      toast("Question Deleted");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div
-      onClick={() => navigate(`/questions/${id}`)}
-      className="posted-question"
-      style={{ overflow: "visible" }}
-    >
-      {verifiedAnswer && (
-        <div
-          className="verified-answer"
-          // style={{ transform: "translateY(1.5rem)" }}
-        >
-          Verified Answer
-        </div>
-      )}
+    <div className="posted-question">
+      {verifiedAnswer && <div className="verified-answer">Verified Answer</div>}
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div className="question-publisher">
           <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" />
@@ -82,7 +79,6 @@ const Question = ({
                 }}
                 className="dropdown-button"
                 onClick={() => {
-                  setSelectedQuestion(id);
                   setIsDeleteModalOpen(true);
                 }}
               >
@@ -94,10 +90,19 @@ const Question = ({
         </div>
       </div>
       <div className="question-content">{content}</div>
+      {attachment && (
+        <QuestionAttachment
+          url={attachment.url}
+          mimeType={attachment.mimeType}
+          name={attachment.name}
+          size={attachment.size}
+        />
+      )}
       <div className="question-info">
         <div className="question-date">{timestamps.formatted}</div>
         <div className="question-likes-and-comments">
-          <LikeHandler
+          <QuestionsLikeHandler
+            // @ts-ignore
             contentId={id}
             isLikedByCurrentUser={stats.isLikedByCurrentUser}
             likesCount={stats.likesCount}
@@ -109,8 +114,25 @@ const Question = ({
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      >
+        <h3 style={{ textAlign: "center" }}>
+          Are You Sure You Want To Delete This Post ?
+        </h3>
+        <Button
+          isLoading={isDeleting}
+          // @ts-ignore
+          onClick={() => handleDeleteQuestion(id)}
+          style={{ margin: "3rem auto 0.5rem" }}
+        >
+          Confirm
+        </Button>
+      </Modal>
     </div>
   );
 };
 
-export default Question;
+export default QuestionContent;

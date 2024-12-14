@@ -34,7 +34,6 @@ const AddMaterialForm = ({
     if (selectedFile) {
       setFile(selectedFile);
       setFileName(selectedFile.name.split(".")[0]);
-      setMaterialType(selectedFile.type);
     }
   };
 
@@ -43,25 +42,26 @@ const AddMaterialForm = ({
     e.preventDefault();
 
     const formData = new FormData();
-    // @ts-ignore
-    formData.append("file", file);
-    formData.append("type", "file");
-    formData.append("fileName", fileName);
+    formData.append("type", materialType);
+    formData.append("name", fileName);
     formData.append("course", selectedCourse);
     formData.append("parentPath", parentPath);
 
-    if (file) {
-      try {
-        await uploadMutation.mutateAsync({ file, formData });
-        // Optionally reset form or do something with the response
-        setFileName("");
-        setFile(null);
-        onClose();
-      } catch (error) {
-        console.error(error);
+    if (materialType === "file") {
+      if (!file) {
+        toast.error("Please select a file to upload");
+        return;
       }
-    } else {
-      toast.error("Please select a file to upload");
+      formData.append("file", file);
+    }
+
+    try {
+      await uploadMutation.mutateAsync({ file, formData });
+      setFileName("");
+      setFile(null);
+      onClose();
+    } catch (error) {
+      console.error(error);
     }
   };
 

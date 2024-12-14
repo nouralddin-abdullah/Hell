@@ -22,13 +22,16 @@
 @media (max-width: 767px) {
   .home .container {
     grid-template-columns: 1fr;
+    padding-bottom: 80px;
   }
 }
 
-.home .container > div {
+.home .container>div {
   background-color: white;
   box-shadow: 0px 3px 3px silver;
   padding: 15px 0px 40px;
+  overflow: hidden;
+
 }
 
 .home .subs {
@@ -38,7 +41,7 @@
   border-radius: 1rem;
 }
 
-.home .container > div > p:first-of-type {
+.home .container>div>p:first-of-type {
   margin-left: 15px;
   margin-bottom: 40px;
   font-weight: bold;
@@ -46,7 +49,7 @@
   margin-left: var(--main-margin);
 }
 
-.home .container > div .sub-card {
+.home .container>div .sub-card {
   background: var(--secondary-color);
   position: relative;
   width: 100%;
@@ -56,12 +59,12 @@
   line-height: 1.6;
 }
 
-.home .container > div .sub-card .bold {
+.home .container>div .sub-card .bold {
   font-weight: bold;
   font-size: 14px;
 }
 
-.home .container > div .sub-card p:last-child {
+.home .container>div .sub-card p:last-child {
   font-weight: lighter;
   font-size: 10px;
   color: #71727a;
@@ -83,7 +86,8 @@
 }
 
 .sub-card summary::marker {
-  content: ""; /* Remove default marker */
+  content: "";
+  /* Remove default marker */
 }
 
 .sub-card summary::after {
@@ -102,7 +106,8 @@
 }
 
 .sub-card[open] summary::after {
-  transform: rotate(135deg); /* Rotate arrow when open */
+  transform: rotate(135deg);
+  /* Rotate arrow when open */
 }
 
 .sub-card li {
@@ -118,6 +123,7 @@
   width: 100%;
   display: block;
 }
+
 .sub-card .subject-link:hover {
   background-color: var(--secondary-light);
 }
@@ -161,12 +167,12 @@
   margin-right: var(--main-margin);
 }
 
-.schedule .notification > p {
+.schedule .notification>p {
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-.schedule .notification > p span {
+.schedule .notification>p span {
   color: var(--primary);
 }
 
@@ -197,17 +203,20 @@
 }
 
 @media (min-width: 768px) {
+
   .schedule table td,
   .schedule table th {
     padding: 25px 30px 20px 10px;
     font-weight: bold;
   }
+
   .schedule table td {
     font-size: 14px;
   }
 }
 
 @media (max-width: 991px) {
+
   .schedule table td,
   .schedule table th {
     padding: 20px 15px 20px 5px;
@@ -219,4 +228,5 @@
   background-color: var(--primary);
   color: white;
 }
+
 /* End Home */

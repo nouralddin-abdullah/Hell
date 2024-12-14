@@ -30,6 +30,7 @@ const NotePage = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 40 }}
                   className="note-title"
+                  style={{ whiteSpace: "pre-wrap" }}
                 >
                   {post.title}
                 </motion.h1>

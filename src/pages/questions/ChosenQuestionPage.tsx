@@ -1,104 +1,131 @@
 import "../../styles/questions/chosen-question.css";
-import { profileImage } from "../../assets";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faMessage } from "@fortawesome/free-solid-svg-icons";
-import { faFileImage } from "@fortawesome/free-solid-svg-icons";
-import Question from "../../components/questions/Question";
+import { useGetQuestion } from "../../hooks/questions/useGetQuestion";
+import { useParams } from "react-router-dom";
+import Comment from "../../components/questions/Comment";
+import PageWrapper from "../../components/common/page wrapper/PageWrapper";
+import { TailSpin } from "react-loader-spinner";
+import QuestionContent from "../../components/questions/QuestionContent";
+import AddCommentForm from "../../components/questions/AddCommentForm";
+import Modal from "../../components/common/modal/Modal";
+import Button from "../../components/common/button/Button";
+import { useDeleteQuestionsComment } from "../../hooks/questions/useDeleteQuetionsComment";
+import { useState } from "react";
 
 const ChosenQuestionPage = () => {
+  const { id } = useParams();
+
+  const { data: question, isPending } = useGetQuestion(id);
+
+  const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
+    useState(false);
+  const [selectedComment, setSelectedComment] = useState("");
+  const { mutateAsync, isPending: isDeleting } = useDeleteQuestionsComment(
+    // @ts-ignore
+    id,
+    selectedComment
+  );
+
+  const handleDeleteComment = async () => {
+    try {
+      await mutateAsync();
+      setIsDeleteCommentModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (isPending) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <h1></h1>
+        <TailSpin
+          visible={true}
+          height="50"
+          width="50"
+          color="#6366f1"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+
   return (
-    <section className="questions-main">
-      <div className="container">
-        <div className="questions-container">
-          <div className="posted-questions-container">
-            <Question isVerified={true} />
-            <div className="all-comments-section">
-              <div className="see-more-comments">See more comments</div>
-              <div className="question-comments-and-replies">
-                <div className="comment-section">
-                  <div className="question-comment">
-                    <img src={profileImage} alt="profileImage" />
-                    <div className="question-comment-content">
-                      <div className="comment-time">1:00 PM</div>
-                      <div className="comment-user-fullname">
-                        Youssef Kassab
-                      </div>
-                      <div className="comment-text">
-                        Digital marketing has revolutionized the relationship
-                        between businesses and consumers by enabling more
-                        personalized, immediate, and interactive engagement.
-                        Unlike traditional marketing
-                      </div>
-                      <div className="comment-info">
-                        <div className="comment-date">12/6/2024</div>
-                        <div className="comment-likes-and-comments">
-                          <div className="comment-likes">
-                            <FontAwesomeIcon
-                              className="like-icon"
-                              icon={faHeart}
-                            />
-                            <span>12</span>
-                          </div>
-                          <div className="comment-replies">
-                            <FontAwesomeIcon
-                              className="comment-icon"
-                              icon={faMessage}
-                            />
-                            <span>12</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="comment-replies-section">
-                    <div className="question-comment">
-                      <img src={profileImage} alt="profileImage" />
-                      <div className="question-comment-content">
-                        <div className="comment-time">1:00 PM</div>
-                        <div className="comment-user-fullname">
-                          Youssef Kassab
-                        </div>
-                        <div className="comment-text">
-                          Digital marketing has revolutionized the relationship
-                          between businesses and consumers by enabling more
-                          personalized, immediate, and interactive engagement.
-                          Unlike traditional marketing
-                        </div>
-                        <div className="comment-info">
-                          <div className="comment-date">12/6/2024</div>
-                          <div className="comment-likes-and-comments">
-                            <div className="comment-likes">
-                              <FontAwesomeIcon
-                                className="like-icon"
-                                icon={faHeart}
-                              />
-                              <span>12</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+    <PageWrapper>
+      <section className="questions-main">
+        <div className="container">
+          <div className="questions-container">
+            <div className="posted-questions-container">
+              {question ? (
+                <QuestionContent
+                  attachment={question?.attachment}
+                  content={question?.content}
+                  id={question?.id}
+                  stats={question?.stats}
+                  user={question?.user}
+                  timestamps={question?.timestamps}
+                  // @ts-ignore
+                  verifiedAnswer={question.verifiedAnswer}
+                />
+              ) : (
+                ""
+              )}
+              <div className="all-comments-section">
+                <div className="see-more-comments">See more comments</div>
+                <div className="question-comments-and-replies">
+                  <div className="comment-section">
+                    {question?.comments.data.map((comment) => (
+                      <Comment
+                        attachment={comment.attachment}
+                        content={comment.content}
+                        createdAt={comment.createdAt}
+                        stats={comment.stats}
+                        user={comment.user}
+                        id={comment.id}
+                        replies={comment.replies}
+                        openDeleteComment={() =>
+                          setIsDeleteCommentModalOpen(true)
+                        }
+                        setSelectedComment={setSelectedComment}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="post-comment">
-              <img src={profileImage} alt="profileImage" />
-              <div className="textarea-wrapper">
-                <textarea
-                  name="comment"
-                  id="comment"
-                  placeholder="Add a comment"
-                ></textarea>
-                <FontAwesomeIcon className="upload-image" icon={faFileImage} />
-              </div>
-              <button className="posting-comment-btn">Post</button>
+              <AddCommentForm />
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <Modal
+        isOpen={isDeleteCommentModalOpen}
+        onClose={() => setIsDeleteCommentModalOpen(false)}
+      >
+        <h3 style={{ textAlign: "center" }}>
+          Are You Sure You Want To Delete This Comment ?
+        </h3>
+        <Button
+          isLoading={isDeleting}
+          // @ts-ignore
+          onClick={() => handleDeleteComment()}
+          style={{ margin: "3rem auto 0.5rem" }}
+        >
+          Confirm
+        </Button>
+      </Modal>
+    </PageWrapper>
   );
 };
 

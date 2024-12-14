@@ -1,0 +1,47 @@
+.file-attachment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+.file-icon {
+  color: #1e90ff;
+  margin-right: 10px;
+}
+
+.file-name {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.view-button,
+.download-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.view-button:hover,
+.download-button:hover {
+  color: #1e90ff;
+}
+
+.view-button {
+  margin-right: 10px;
+}
+
+.download-button {
+  color: #4caf50;
+}
+
+.download-button:hover {
+  color: #45a049;
+}

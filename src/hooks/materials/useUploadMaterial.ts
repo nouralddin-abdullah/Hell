@@ -21,35 +21,41 @@ export const useUploadMaterial = () => {
   return useMutation<
     UploadResponse,
     UploadError,
-    { file: File; formData: FormData }
+    { file?: File | null; formData: FormData }
   >({
     mutationFn: async ({ file, formData }) => {
-      if (!file) {
-        throw new Error("No file selected");
+      try {
+        console.log('Uploading with:', {
+          type: formData.get('type'),
+          name: formData.get('name'),
+          course: formData.get('course'),
+          parentPath: formData.get('parentPath'),
+          hasFile: !!file
+        });
+
+        const response = await fetch(`${baseURL}/api/materials`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Upload error:', errorData);
+          throw new Error(errorData.message || 'Upload failed');
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error('Network error:', error);
+        throw error;
       }
-
-      const response = await fetch(`${baseURL}/api/materials`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = (await response
-          .json()
-          .catch(() => null)) as UploadError | null;
-        const errorMessage = errorData?.message || "Upload failed";
-        throw new Error(errorMessage);
-      }
-
-      return response.json() as Promise<UploadResponse>;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["materials"] });
       toast.success("Material uploaded successfully");
     },
-    onError: (error) => {
-      const errorMessage = error.message || "An error occurred during upload";
-      toast.error(errorMessage);
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to upload material");
     },
   });
 };

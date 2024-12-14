@@ -3,31 +3,41 @@
   z-index: 9999;
   bottom: 1rem;
   left: 50%;
-  background-color: #fff;
   transform: translate(-50%);
+  background-color: #fff;
   border-radius: 2rem;
-  padding: 1rem 0;
+  padding: 10px 0;
+  width: 95vw;
+  box-shadow: 0 7px 7px 0px #0000005c;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-@media (min-width: 858px) {
+@media (min-width: 768px) {
   .mobile-nav {
     display: none;
   }
 }
-@media (max-width: 858px) {
-  .mobile-nav {
-    width: 95vw;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    justify-content: space-around;
-    text-align: center;
-    gap: 10px;
-    padding: 1rem;
-    box-shadow: 0 7px 7px 0px #0000005c;
-  }
+
+.mobile-nav .bottomNav-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--primary);
 }
 
-.mobile-nav i {
-  font-size: 20px;
-  padding: 15px 0px;
+.mobile-nav .bottomNav-icon-wrapper .bottomNav-icon {
+  font-size: 22px;
+  color: #aaa;
+}
+
+.mobile-nav .bottomNav-icon-wrapper .bottomNav-icon:hover {
+  color: var(--primary);
+}
+
+.mobile-nav img {
+  width: 32px;
+  border-radius: 50%;
 }
