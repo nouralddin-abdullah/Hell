@@ -16,6 +16,7 @@ import { TailSpin } from "react-loader-spinner";
 import AddMaterialForm from "../../components/materials/AddMaterialForm";
 import Modal from "../../components/common/modal/Modal";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 
 const MaterialsPage = () => {
   const { id } = useParams();
@@ -56,127 +57,132 @@ const MaterialsPage = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   return (
-    <PageWrapper>
-      {currentUser?.user.role !== "student" && (
-        <div
-          style={{
-            margin: "1rem 0",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            // gap: "1rem",
-          }}
-        >
-          <h3>Add File To This Folder</h3>
-          <button
-            onClick={() => setShowUploadModal(true)}
-            className="add-content-btn"
-          >
-            +
-          </button>
-        </div>
-      )}
-      <Modal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)}>
-        <AddMaterialForm
-          parentPath={parentPath}
-          onClose={() => setShowUploadModal(false)}
-        />
-      </Modal>
-      <div className="materials-container container">
-        <BackButton
-          style={{ margin: "1rem 0" }}
-          onClick={() => handleBackButton()}
-        />
-
-        {isLoading ? (
-          [1, 2, 3, 4, 5, 6].map((_, index) => (
-            <Skeleton height="3.5rem" borderRadius="1rem" key={index} />
-          ))
-        ) : materials && materials.length === 0 ? (
+    <ProtectedRoute>
+      <PageWrapper>
+        {currentUser?.user.role !== "student" && (
           <div
             style={{
+              margin: "1rem 0",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gridColumn: "span 3",
-              gap: "1rem",
+              // gap: "1rem",
             }}
           >
-            <img style={{ width: "120px" }} src={noMaterialsIcon} alt="" />
-            <h1>No Materials Available</h1>
+            <h3>Add File To This Folder</h3>
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="add-content-btn"
+            >
+              +
+            </button>
           </div>
-        ) : (
-          materials?.map((material) =>
-            material.type === "folder" ? (
-              <div
-                style={{ display: "flex", gap: "1rem", alignItems: "center" }}
-              >
-                <span
-                  key={material._id}
-                  onClick={() => {
-                    setParentPath((prevState) =>
-                      prevState === ""
-                        ? material.name
-                        : `${prevState}/${material.name}`
-                    );
-                  }}
-                >
-                  <FolderComponent title={material.name} />
-                </span>
-
-                <button
-                  className="download-material-button"
-                  onClick={() => downloadFolder(material._id)}
-                >
-                  {isDownloading === material._id ? (
-                    <TailSpin
-                      visible={true}
-                      height="10"
-                      width="10"
-                      color="#6366f1"
-                      ariaLabel="tail-spin-loading"
-                      radius="1"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                    />
-                  ) : (
-                    <FontAwesomeIcon icon={faDownload} />
-                  )}
-                </button>
-              </div>
-            ) : (
-              <div
-                style={{ display: "flex", gap: "1rem", alignItems: "center" }}
-              >
-                <FileComponent title={material.name} />
-                <a
-                  href={`${baseURL}/api/materials/download/${material._id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={material._id}
-                  className="download-material-button"
-                >
-                  {isDownloading === material._id ? (
-                    <TailSpin
-                      visible={true}
-                      height="10"
-                      width="10"
-                      color="#6366f1"
-                      ariaLabel="tail-spin-loading"
-                      radius="1"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                    />
-                  ) : (
-                    <FontAwesomeIcon icon={faDownload} />
-                  )}
-                </a>
-              </div>
-            )
-          )
         )}
-      </div>
-    </PageWrapper>
+        <Modal
+          isOpen={showUploadModal}
+          onClose={() => setShowUploadModal(false)}
+        >
+          <AddMaterialForm
+            parentPath={parentPath}
+            onClose={() => setShowUploadModal(false)}
+          />
+        </Modal>
+        <div className="materials-container container">
+          <BackButton
+            style={{ margin: "1rem 0" }}
+            onClick={() => handleBackButton()}
+          />
+
+          {isLoading ? (
+            [1, 2, 3, 4, 5, 6].map((_, index) => (
+              <Skeleton height="3.5rem" borderRadius="1rem" key={index} />
+            ))
+          ) : materials && materials.length === 0 ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gridColumn: "span 3",
+                gap: "1rem",
+              }}
+            >
+              <img style={{ width: "120px" }} src={noMaterialsIcon} alt="" />
+              <h1>No Materials Available</h1>
+            </div>
+          ) : (
+            materials?.map((material) =>
+              material.type === "folder" ? (
+                <div
+                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+                >
+                  <span
+                    key={material._id}
+                    onClick={() => {
+                      setParentPath((prevState) =>
+                        prevState === ""
+                          ? material.name
+                          : `${prevState}/${material.name}`
+                      );
+                    }}
+                  >
+                    <FolderComponent title={material.name} />
+                  </span>
+
+                  <button
+                    className="download-material-button"
+                    onClick={() => downloadFolder(material._id)}
+                  >
+                    {isDownloading === material._id ? (
+                      <TailSpin
+                        visible={true}
+                        height="10"
+                        width="10"
+                        color="#6366f1"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon={faDownload} />
+                    )}
+                  </button>
+                </div>
+              ) : (
+                <div
+                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+                >
+                  <FileComponent title={material.name} />
+                  <a
+                    href={`${baseURL}/api/materials/download/${material._id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={material._id}
+                    className="download-material-button"
+                  >
+                    {isDownloading === material._id ? (
+                      <TailSpin
+                        visible={true}
+                        height="10"
+                        width="10"
+                        color="#6366f1"
+                        ariaLabel="tail-spin-loading"
+                        radius="1"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon={faDownload} />
+                    )}
+                  </a>
+                </div>
+              )
+            )
+          )}
+        </div>
+      </PageWrapper>
+    </ProtectedRoute>
   );
 };
 

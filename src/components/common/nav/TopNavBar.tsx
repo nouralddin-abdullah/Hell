@@ -124,7 +124,7 @@ const TopNavBar = () => {
         onClose={() => setIsLogoutModalOpen(false)}
       >
         <h3 style={{ textAlign: "center" }}>
-          Are You Sure You Want To Delete This Post ?
+          Are You Sure You Want To Logout ?
         </h3>
         <Button
           isLoading={isPending}
@@ -135,6 +135,7 @@ const TopNavBar = () => {
             try {
               await mutateAsync(formData);
               logUserOut();
+              setIsLogoutModalOpen(false);
             } catch (error) {
               console.error(error);
             }

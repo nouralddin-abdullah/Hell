@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import Modal from "../../components/common/modal/Modal";
 import AnnouncementForm from "../../components/announcements/AnnouncementForm";
+import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 
 const CourseAnnouncementPage = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -25,83 +26,87 @@ const CourseAnnouncementPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <PageWrapper>
-      <div className="announcements">
-        {currentUser?.user.role === "admin" && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              // gap: "1rem",
-              width: "250px",
-              background: "#fff",
-              borderRadius: "1rem",
-              margin: "1rem auto 3rem",
-            }}
-          >
-            <h3>Add Announcement</h3>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="add-content-btn"
+    <ProtectedRoute>
+      <PageWrapper>
+        <div className="announcements">
+          {currentUser?.user.role === "admin" && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                // gap: "1rem",
+                width: "250px",
+                background: "#fff",
+                borderRadius: "1rem",
+                margin: "1rem auto 3rem",
+              }}
             >
-              +
-            </button>
-          </div>
-        )}
-
-        <div className="container">
-          <div className="sect-notifaction">
-            {isPending && <AnnouncementSkeleton />}
-
-            {announcementsList?.length === 0 && <p>There's no Announcements</p>}
-
-            {announcementsList?.map((announ) => (
-              <div
-                style={{
-                  background: `${
-                    announ.importance === "Important"
-                      ? "#fbdc8e"
-                      : announ.importance === "Urgent"
-                      ? "#fb958e"
-                      : ""
-                  }`,
-                }}
-                key={announ._id}
-                className={`sect-card`}
-                onClick={() => setSelectedAnnouncement(announ._id)}
+              <h3>Add Announcement</h3>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="add-content-btn"
               >
-                <img
-                  src={`${baseURL}/profilePics/${announ.announcerId.photo}`}
-                  alt=""
-                />
-                <div className="desc">
-                  <p>{announ.announcerId.username}</p>
-                  <p>{announ.title}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+                +
+              </button>
+            </div>
+          )}
 
-          <div className="sect-announce">
-            {selectedAnnouncement && (
-              <AnnouncementDetails
-                courseId={courseId}
-                announcementId={selectedAnnouncement}
-              />
-            )}
+          <div className="container">
+            <div className="sect-notifaction">
+              {isPending && <AnnouncementSkeleton />}
+
+              {announcementsList?.length === 0 && (
+                <p>There's no Announcements</p>
+              )}
+
+              {announcementsList?.map((announ) => (
+                <div
+                  style={{
+                    background: `${
+                      announ.importance === "Important"
+                        ? "#fbdc8e"
+                        : announ.importance === "Urgent"
+                        ? "#fb958e"
+                        : ""
+                    }`,
+                  }}
+                  key={announ._id}
+                  className={`sect-card`}
+                  onClick={() => setSelectedAnnouncement(announ._id)}
+                >
+                  <img
+                    src={`${baseURL}/profilePics/${announ.announcerId.photo}`}
+                    alt=""
+                  />
+                  <div className="desc">
+                    <p>{announ.announcerId.username}</p>
+                    <p>{announ.title}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="sect-announce">
+              {selectedAnnouncement && (
+                <AnnouncementDetails
+                  courseId={courseId}
+                  announcementId={selectedAnnouncement}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <AnnouncementForm
-          // @ts-ignore
-          courseId={courseId}
-          onClose={() => setIsModalOpen(false)}
-        />
-      </Modal>
-    </PageWrapper>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <AnnouncementForm
+            // @ts-ignore
+            courseId={courseId}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      </PageWrapper>
+    </ProtectedRoute>
   );
 };
 

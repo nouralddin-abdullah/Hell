@@ -10,6 +10,7 @@ import Modal from "../../components/common/modal/Modal";
 import Button from "../../components/common/button/Button";
 import { useDeleteQuestionsComment } from "../../hooks/questions/useDeleteQuetionsComment";
 import { useState } from "react";
+import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 
 const ChosenQuestionPage = () => {
   const { id } = useParams();
@@ -62,70 +63,72 @@ const ChosenQuestionPage = () => {
   }
 
   return (
-    <PageWrapper>
-      <section className="questions-main">
-        <div className="container">
-          <div className="questions-container">
-            <div className="posted-questions-container">
-              {question ? (
-                <QuestionContent
-                  attachment={question?.attachment}
-                  content={question?.content}
-                  id={question?.id}
-                  stats={question?.stats}
-                  user={question?.user}
-                  timestamps={question?.timestamps}
-                  // @ts-ignore
-                  verifiedAnswer={question.verifiedAnswer}
-                />
-              ) : (
-                ""
-              )}
-              <div className="all-comments-section">
-                <div className="see-more-comments">See more comments</div>
-                <div className="question-comments-and-replies">
-                  <div className="comment-section">
-                    {question?.comments.data.map((comment) => (
-                      <Comment
-                        attachment={comment.attachment}
-                        content={comment.content}
-                        createdAt={comment.createdAt}
-                        stats={comment.stats}
-                        user={comment.user}
-                        id={comment.id}
-                        replies={comment.replies}
-                        openDeleteComment={() =>
-                          setIsDeleteCommentModalOpen(true)
-                        }
-                        setSelectedComment={setSelectedComment}
-                      />
-                    ))}
+    <ProtectedRoute>
+      <PageWrapper>
+        <section className="questions-main">
+          <div className="container">
+            <div className="questions-container">
+              <div className="posted-questions-container">
+                {question ? (
+                  <QuestionContent
+                    attachment={question?.attachment}
+                    content={question?.content}
+                    id={question?.id}
+                    stats={question?.stats}
+                    user={question?.user}
+                    timestamps={question?.timestamps}
+                    // @ts-ignore
+                    verifiedAnswer={question.verifiedAnswer}
+                  />
+                ) : (
+                  ""
+                )}
+                <div className="all-comments-section">
+                  <div className="see-more-comments">See more comments</div>
+                  <div className="question-comments-and-replies">
+                    <div className="comment-section">
+                      {question?.comments.data.map((comment) => (
+                        <Comment
+                          attachment={comment.attachment}
+                          content={comment.content}
+                          createdAt={comment.createdAt}
+                          stats={comment.stats}
+                          user={comment.user}
+                          id={comment.id}
+                          replies={comment.replies}
+                          openDeleteComment={() =>
+                            setIsDeleteCommentModalOpen(true)
+                          }
+                          setSelectedComment={setSelectedComment}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+                <AddCommentForm />
               </div>
-              <AddCommentForm />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Modal
-        isOpen={isDeleteCommentModalOpen}
-        onClose={() => setIsDeleteCommentModalOpen(false)}
-      >
-        <h3 style={{ textAlign: "center" }}>
-          Are You Sure You Want To Delete This Comment ?
-        </h3>
-        <Button
-          isLoading={isDeleting}
-          // @ts-ignore
-          onClick={() => handleDeleteComment()}
-          style={{ margin: "3rem auto 0.5rem" }}
+        <Modal
+          isOpen={isDeleteCommentModalOpen}
+          onClose={() => setIsDeleteCommentModalOpen(false)}
         >
-          Confirm
-        </Button>
-      </Modal>
-    </PageWrapper>
+          <h3 style={{ textAlign: "center" }}>
+            Are You Sure You Want To Delete This Comment ?
+          </h3>
+          <Button
+            isLoading={isDeleting}
+            // @ts-ignore
+            onClick={() => handleDeleteComment()}
+            style={{ margin: "3rem auto 0.5rem" }}
+          >
+            Confirm
+          </Button>
+        </Modal>
+      </PageWrapper>
+    </ProtectedRoute>
   );
 };
 
