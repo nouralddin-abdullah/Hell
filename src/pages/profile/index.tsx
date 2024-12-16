@@ -18,14 +18,20 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { Post } from "../../types/PostPreview";
 import EditProfileForm from "../../components/profile/EditProfileForm";
 import { useQueryClient } from "@tanstack/react-query";
+import { TailSpin } from "react-loader-spinner";
+import FollowHandler from "../../components/profile/FollowHandler";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
 
-  const { data: user, refetch: refetchUserByUsername } =
-    useGetUserByUsername(username);
-  const { data: currentUser } = useGetCurrentUser();
+  const {
+    data: user,
+    refetch: refetchUserByUsername,
+    isPending: profileUserLoading,
+  } = useGetUserByUsername(username);
+  const { data: currentUser, isPending: currentUserLoading } =
+    useGetCurrentUser();
 
   const [selectedCourse, setSelectedCourse] = useState<string>("All");
   const { data: postsData } = useGetUserPosts(
@@ -58,6 +64,34 @@ const ProfilePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isEditingMode, setIsEditingMode] = useState(false);
+
+  if (currentUserLoading || profileUserLoading) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <h1></h1>
+        <TailSpin
+          visible={true}
+          height="50"
+          width="50"
+          color="#6366f1"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+
   return (
     <ProtectedRoute>
       <PageWrapper>
@@ -104,7 +138,7 @@ const ProfilePage = () => {
                         Edit Profile
                       </button>
                     ) : (
-                      <button className="edit-profile">Follow</button>
+                      <FollowHandler />
                     )}
                   </div>
                 </div>
@@ -140,7 +174,7 @@ const ProfilePage = () => {
               <div className="categories-title-container">
                 <p className="notes">Notes</p>
                 <p className="todo">Todo</p>
-                <p className="statistics">Statistics</p>
+                {/* <p className="statistics">Statistics</p> */}
               </div>
             </div>
           </div>

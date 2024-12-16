@@ -2,6 +2,12 @@
   background-color: var(--secondary-light);
 }
 
+@media (max-width: 767px) {
+  .scoreboard-main {
+    padding-bottom: 70px;
+  }
+}
+
 /* top three ranks end  */
 .container .scoreboard-topThree-container {
   display: flex;

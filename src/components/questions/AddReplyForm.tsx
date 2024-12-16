@@ -4,12 +4,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import Button from "../common/button/Button";
 import { useParams } from "react-router-dom";
-import { useAddQuestionComment } from "../../hooks/questions/useAddQuestionComment";
 import { containsBadWords } from "../../utils/containsBadWords";
 import toast from "react-hot-toast";
+import { useAddQuestionReply } from "../../hooks/questions/useAddQuestionReply";
 
-const AddCommentForm = () => {
-  const { id } = useParams();
+interface Props {
+  commentId: string;
+}
+
+const AddReplyForm = ({ commentId }: Props) => {
+  const { id: questionId } = useParams();
   const { data: currentUser } = useGetCurrentUser();
 
   const [text, setText] = useState("");
@@ -27,7 +31,7 @@ const AddCommentForm = () => {
   };
 
   // @ts-ignore
-  const { mutateAsync, isPending } = useAddQuestionComment(id);
+  const { mutateAsync, isPending } = useAddQuestionReply(questionId, commentId);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -50,15 +54,18 @@ const AddCommentForm = () => {
       console.error(error);
     }
   };
-
   return (
-    <form onSubmit={handleSubmit} className="post-comment">
+    <form
+      onSubmit={handleSubmit}
+      className="post-comment"
+      style={{ paddingLeft: "3.5rem" }}
+    >
       <img src={currentUser?.user.photo} alt="profileImage" />
       <div className="textarea-wrapper">
         <textarea
           name="comment"
           id="comment"
-          placeholder="Add a comment"
+          placeholder="Add a Reply"
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
@@ -98,4 +105,4 @@ const AddCommentForm = () => {
   );
 };
 
-export default AddCommentForm;
+export default AddReplyForm;

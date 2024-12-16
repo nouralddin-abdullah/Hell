@@ -178,7 +178,6 @@ const badWords = [
   "كس اختك",
   "كس امك",
   "كس عرضك",
-  "كسا",
   "كسمك",
   "كسمكم",
   "كسها",
@@ -671,6 +670,8 @@ export function containsBadWords(comment: string) {
 
   for (const word of badWords) {
     if (text.includes(word.toLowerCase())) {
+      console.log(`Bad word detected: ${word}`);
+      console.log(`Normalized text: ${text}`);
       return true;
     }
   }

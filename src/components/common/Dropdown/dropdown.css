@@ -9,6 +9,15 @@
   animation: dropdown-animation 200ms cubic-bezier(0.25, 0.1, 0.25, 1) both;
 }
 
+.dropdown-delete-btn {
+  color: white;
+  background-color: #e62222 !important;
+}
+
+.dropdown-delete-btn:hover {
+  background-color: #fd2525 !important;
+}
+
 @keyframes dropdown-animation {
   from {
     opacity: 0;

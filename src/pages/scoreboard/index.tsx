@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { baseURL } from "../../constants/baseURL";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
 import { TailSpin } from "react-loader-spinner";
-import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 
 const ScoreboardPage = () => {
   const { data: leaderboardList, isPending } = useGetLeaderboard();
@@ -53,143 +52,139 @@ const ScoreboardPage = () => {
   }
 
   return (
-    <ProtectedRoute>
-      <PageWrapper>
-        <section className="scoreboard-main">
-          {/* start top three ranking */}
-          <div className="scoreboard-top-three">
-            <div className="container">
-              <div className="scoreboard-topThree-container">
-                {leaderboardList && (
-                  <>
-                    {/* Rank 2 */}
-                    <div className="user-rank2-container">
-                      <div className="scoreboard-image-container">
-                        <img
-                          src={`${baseURL}/profilePics/${leaderboardList[1].photo}`}
-                          alt="Rank2"
-                          className="scoreboard-user-image"
-                        />
-                      </div>
-                      <div className="scoreboard-userinfo">
-                        <p className="scoreboard-userFullname">
-                          {leaderboardList[1].fullName}
-                        </p>
-                        <p className="scoreboard-user-points">
-                          {leaderboardList[1].points}
-                        </p>
-                        <Link
-                          to={`/profile/${leaderboardList[1].username}`}
-                          className="scoreboard-username"
-                        >
-                          @{leaderboardList[1].username}
-                        </Link>
-                      </div>
+    <PageWrapper>
+      <section className="scoreboard-main">
+        {/* start top three ranking */}
+        <div className="scoreboard-top-three">
+          <div className="container">
+            <div className="scoreboard-topThree-container">
+              {leaderboardList && (
+                <>
+                  {/* Rank 2 */}
+                  <div className="user-rank2-container">
+                    <div className="scoreboard-image-container">
+                      <img
+                        src={`${baseURL}/profilePics/${leaderboardList[1].photo}`}
+                        alt="Rank2"
+                        className="scoreboard-user-image"
+                      />
                     </div>
+                    <div className="scoreboard-userinfo">
+                      <p className="scoreboard-userFullname">
+                        {leaderboardList[1].fullName}
+                      </p>
+                      <p className="scoreboard-user-points">
+                        {leaderboardList[1].points}
+                      </p>
+                      <Link
+                        to={`/profile/${leaderboardList[1].username}`}
+                        className="scoreboard-username"
+                      >
+                        @{leaderboardList[1].username}
+                      </Link>
+                    </div>
+                  </div>
 
-                    {/* Rank 1 */}
-                    <div className="user-rank1-container">
-                      <div className="scoreboard-image-container">
-                        <img
-                          src={scoreboardCrown}
-                          alt="crown"
-                          className="crown-image"
-                        />
-                        <img
-                          src={`${baseURL}/profilePics/${leaderboardList[0].photo}`}
-                          alt="Rank1"
-                          className="scoreboard-user-image"
-                        />
-                      </div>
-                      <div className="scoreboard-userinfo">
-                        <p className="scoreboard-userFullname">
-                          {leaderboardList[0].fullName}
-                        </p>
-                        <p className="scoreboard-user-points">
-                          {leaderboardList[0].points}
-                        </p>
-                        <Link
-                          to={`/profile/${leaderboardList[0].username}`}
-                          className="scoreboard-username"
-                        >
-                          @{leaderboardList[0].username}
-                        </Link>
-                      </div>
+                  {/* Rank 1 */}
+                  <div className="user-rank1-container">
+                    <div className="scoreboard-image-container">
+                      <img
+                        src={scoreboardCrown}
+                        alt="crown"
+                        className="crown-image"
+                      />
+                      <img
+                        src={`${baseURL}/profilePics/${leaderboardList[0].photo}`}
+                        alt="Rank1"
+                        className="scoreboard-user-image"
+                      />
                     </div>
+                    <div className="scoreboard-userinfo">
+                      <p className="scoreboard-userFullname">
+                        {leaderboardList[0].fullName}
+                      </p>
+                      <p className="scoreboard-user-points">
+                        {leaderboardList[0].points}
+                      </p>
+                      <Link
+                        to={`/profile/${leaderboardList[0].username}`}
+                        className="scoreboard-username"
+                      >
+                        @{leaderboardList[0].username}
+                      </Link>
+                    </div>
+                  </div>
 
-                    {/* Rank 3 */}
-                    <div className="user-rank3-container">
-                      <div className="scoreboard-image-container">
-                        <img
-                          src={`${baseURL}/profilePics/${leaderboardList[2].photo}`}
-                          alt="Rank3"
-                          className="scoreboard-user-image"
-                        />
-                      </div>
-                      <div className="scoreboard-userinfo">
-                        <p className="scoreboard-userFullname">
-                          {leaderboardList[2].fullName}
-                        </p>
-                        <p className="scoreboard-user-points">
-                          {leaderboardList[2].points}
-                        </p>
-                        <Link
-                          to={`/profile/${leaderboardList[2].username}`}
-                          className="scoreboard-username"
-                        >
-                          @{leaderboardList[2].username}
-                        </Link>
-                      </div>
+                  {/* Rank 3 */}
+                  <div className="user-rank3-container">
+                    <div className="scoreboard-image-container">
+                      <img
+                        src={`${baseURL}/profilePics/${leaderboardList[2].photo}`}
+                        alt="Rank3"
+                        className="scoreboard-user-image"
+                      />
                     </div>
-                  </>
-                )}
-              </div>
+                    <div className="scoreboard-userinfo">
+                      <p className="scoreboard-userFullname">
+                        {leaderboardList[2].fullName}
+                      </p>
+                      <p className="scoreboard-user-points">
+                        {leaderboardList[2].points}
+                      </p>
+                      <Link
+                        to={`/profile/${leaderboardList[2].username}`}
+                        className="scoreboard-username"
+                      >
+                        @{leaderboardList[2].username}
+                      </Link>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
+        </div>
 
-          {/* start top three ranking */}
-          {/* start the rest of the ranking */}
+        {/* start top three ranking */}
+        {/* start the rest of the ranking */}
 
-          <div className="scoreboard-rest-of-ranks">
-            <div className="container">
-              <div className="rest-of-ranks-container">
-                {leaderboardList
-                  ?.slice(3, leaderboardList.length)
-                  .map((user, idx) => (
-                    <div className="scoreboard-rank">
-                      <div className="regular-rank-userinfo">
-                        <img
-                          src={`${baseURL}/profilePics/${user.photo}`}
-                          alt=""
-                        />
-                        <div className="regular-rank-name-and-user">
-                          <p className="regular-rank-userFullname">
-                            {user.fullName}
-                          </p>
-                          <Link
-                            style={{ color: "#fff" }}
-                            to={`/profile/${user.username}`}
-                            className="regular-rank-username"
-                          >
-                            @{user.username}
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="regular-rank-points">
-                        <p className="regular-rank-user-points">
-                          {user.points}
+        <div className="scoreboard-rest-of-ranks">
+          <div className="container">
+            <div className="rest-of-ranks-container">
+              {leaderboardList
+                ?.slice(3, leaderboardList.length)
+                .map((user, idx) => (
+                  <div className="scoreboard-rank">
+                    <div className="regular-rank-userinfo">
+                      <img
+                        src={`${baseURL}/profilePics/${user.photo}`}
+                        alt=""
+                      />
+                      <div className="regular-rank-name-and-user">
+                        <p className="regular-rank-userFullname">
+                          {user.fullName}
                         </p>
-                        <p className="regular-rank-user-rank">{idx + 4}</p>
+                        <Link
+                          style={{ color: "#fff" }}
+                          to={`/profile/${user.username}`}
+                          className="regular-rank-username"
+                        >
+                          @{user.username}
+                        </Link>
                       </div>
                     </div>
-                  ))}
-              </div>
+                    <div className="regular-rank-points">
+                      <p className="regular-rank-user-points">{user.points}</p>
+                      <p className="regular-rank-user-rank">{idx + 4}</p>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
-          {/* end the rest of the ranking */}
-        </section>
-      </PageWrapper>
-    </ProtectedRoute>
+        </div>
+        {/* end the rest of the ranking */}
+      </section>
+    </PageWrapper>
   );
 };
 

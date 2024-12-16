@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/nav/bottom-nav-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,8 @@ import Modal from "../modal/Modal";
 import Button from "../button/Button";
 
 const BottomNavBar = () => {
+  const navigate = useNavigate();
+
   const { data: currentUser } = useGetCurrentUser();
 
   const token = useAuthStore((state) => state.token);
@@ -31,67 +33,73 @@ const BottomNavBar = () => {
   }
 
   return (
-    <nav className="mobile-nav">
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/">
-          <FontAwesomeIcon className="bottomNav-icon" icon={faHouse} />
-        </Link>
-      </div>
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/chat">
-          <FontAwesomeIcon className="bottomNav-icon" icon={faComment} />
-        </Link>
-      </div>
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/questions">
-          <FontAwesomeIcon className="bottomNav-icon" icon={faCircleQuestion} />
-        </Link>
-      </div>
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/announcements">
-          <FontAwesomeIcon className="bottomNav-icon" icon={faBullhorn} />
-        </Link>
-      </div>
-      <div className="bottomNav-icon-wrapper">
-        <Link to="/scoreboard">
-          <FontAwesomeIcon className="bottomNav-icon" icon={faRankingStar} />
-        </Link>
-      </div>
-      <div
-        className="bottomNav-icon-wrapper"
-        style={{ position: "relative", cursor: "pointer" }}
-        onClick={() => setIsDropdownOpen((prev) => !prev)}
-      >
-        <img src={currentUser?.user.photo} alt="" />
+    <>
+      <nav className="mobile-nav">
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faHouse} />
+          </Link>
+        </div>
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/chat">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faComment} />
+          </Link>
+        </div>
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/questions">
+            <FontAwesomeIcon
+              className="bottomNav-icon"
+              icon={faCircleQuestion}
+            />
+          </Link>
+        </div>
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/announcements">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faBullhorn} />
+          </Link>
+        </div>
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/scoreboard">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faRankingStar} />
+          </Link>
+        </div>
+        <div
+          className="bottomNav-icon-wrapper"
+          style={{ position: "relative", cursor: "pointer" }}
+          onClick={() => setIsDropdownOpen((prev) => !prev)}
+        >
+          <img src={currentUser?.user.photo} alt="" />
 
-        <Dropdown isVisible={isDropdownOpen} popUpDirection="up">
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsDropdownOpen(false);
-            }}
-            className="dropdown-button"
-          >
-            <Link
-              style={{ textDecoration: "none", color: "black" }}
-              className="top-nav-link"
-              to={`/profile/${currentUser?.user.username}`}
+          <Dropdown isVisible={isDropdownOpen} popUpDirection="up">
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen(false);
+              }}
+              className="dropdown-button"
             >
-              Profile
-            </Link>
-          </div>
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                className="top-nav-link"
+                to={`/profile/${currentUser?.user.username}`}
+              >
+                Profile
+              </Link>
+            </div>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLogoutModalOpen(true);
-            }}
-            className="dropdown-button"
-          >
-            Logout
-          </button>
-        </Dropdown>
-      </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen(false);
+                setIsLogoutModalOpen(true);
+              }}
+              className="dropdown-button"
+            >
+              Logout
+            </button>
+          </Dropdown>
+        </div>
+      </nav>
 
       <Modal
         isOpen={isLogoutModalOpen}
@@ -108,6 +116,7 @@ const BottomNavBar = () => {
 
             try {
               await mutateAsync(formData);
+              navigate("/login");
               logUserOut();
               setIsLogoutModalOpen(false);
             } catch (error) {
@@ -119,7 +128,7 @@ const BottomNavBar = () => {
           Confirm
         </Button>
       </Modal>
-    </nav>
+    </>
   );
 };
 

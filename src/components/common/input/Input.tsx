@@ -12,6 +12,7 @@ const Input: React.FC<InputProps> = ({
   ...props
 }) => {
   const [hasText, setHasText] = useState(!!value);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (value !== undefined) {
@@ -26,15 +27,24 @@ const Input: React.FC<InputProps> = ({
     if (onChange) onChange(e);
   };
 
+  const handleLabelClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <div className="input-field">
       <input
+        ref={inputRef}
         {...props}
         value={value}
         onChange={handleChange}
         className={`${props.className} ${hasText ? "has-text" : ""}`}
       />
-      <label className={hasText ? "has-text" : ""}>{labelText}</label>
+      <label className={hasText ? "has-text" : ""} onClick={handleLabelClick}>
+        {labelText}
+      </label>
     </div>
   );
 };

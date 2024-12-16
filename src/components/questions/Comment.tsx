@@ -2,16 +2,26 @@ import React, { useState } from "react";
 import { CommentData } from "../../types/Question";
 import { baseURL } from "../../constants/baseURL";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMessage, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faMessage,
+  faPenClip,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import QuestionAttachment from "./QuestionAttachment";
 import Dropdown from "../common/Dropdown/dropdown";
 import QuestionsLikeHandler from "./QuestionsLikeHandler";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import EditCommentForm from "./EditCommentForm";
+import AddReplyForm from "./AddReplyForm";
+import VerifyHandler from "./VerifyHandler";
 
 interface AdditionalProps {
   isReply?: boolean;
   openDeleteComment: () => void;
   setSelectedComment: React.Dispatch<React.SetStateAction<string>>;
+  isVerified?: boolean;
 }
 
 const Comment = ({
@@ -25,8 +35,11 @@ const Comment = ({
   isReply = false,
   openDeleteComment,
   setSelectedComment,
+  isVerified = false,
 }: CommentData & AdditionalProps) => {
   const { id: contentId } = useParams();
+
+  const { data: currentUser } = useGetCurrentUser();
 
   const [showDropDown, setShowDropDown] = useState(false);
 
@@ -36,23 +49,46 @@ const Comment = ({
     setShowDropDown((prev) => !prev);
   };
 
+  // editing handling
+  const [isEditingMode, setIsEditingMode] = useState(false);
+
+  // accessible
+  const [canVerify] = useState(currentUser?.user.username === user.username);
+
   return (
     <>
       <div className="question-comment">
-        <img
-          className="question-comment-profile-pic"
-          src={`${baseURL}/profilePics/${user.photo}`}
-          alt="profileImage"
-        />
+        <Link to={`/profile/${user.username}`}>
+          <img
+            className="question-comment-profile-pic"
+            src={`${baseURL}/profilePics/${user.photo}`}
+            alt="profileImage"
+          />
+        </Link>
         <div className="question-comment-content">
           <div className="comment-time">
             {/* <p style={{ fontSize: "12px" }}>{createdAt.split("T")[0]}</p> */}
-            <p style={{ fontSize: "12px" }}>
-              {createdAt.split("T")[1].split(".")[0]}
-            </p>
+            <p>{createdAt.split("T")[1].split(".")[0]}</p>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="comment-user-fullname">{user.fullName}</div>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <div className="comment-user-fullname">
+                {user.fullName}{" "}
+                {isVerified && (
+                  <FontAwesomeIcon icon={faCheck} style={{ color: "green" }} />
+                )}
+              </div>
+
+              {isReply === false && (
+                <VerifyHandler
+                  isVerified={isVerified}
+                  commentId={id}
+                  // @ts-ignore
+                  questionId={contentId}
+                  accessible={canVerify}
+                />
+              )}
+            </div>
 
             <div
               style={{
@@ -61,16 +97,18 @@ const Comment = ({
               }}
               onClick={handleDropdownClick} // Add this to stop event propagation
             >
-              <button
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  fontSize: "1.5rem",
-                  cursor: "pointer",
-                }}
-              >
-                ...
-              </button>
+              {currentUser?.user.username == user.username && (
+                <button
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    fontSize: "1.5rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  ...
+                </button>
+              )}
               <Dropdown isVisible={showDropDown}>
                 <div>
                   <button
@@ -79,7 +117,7 @@ const Comment = ({
                       justifyContent: "space-between",
                       gap: "1rem",
                     }}
-                    className="dropdown-button"
+                    className="dropdown-button dropdown-delete-btn"
                     onClick={() => {
                       setSelectedComment(id);
                       openDeleteComment();
@@ -88,21 +126,48 @@ const Comment = ({
                     <FontAwesomeIcon icon={faTrash} />
                     <p>Delete</p>
                   </button>
+
+                  <button
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      gap: "1rem",
+                    }}
+                    className="dropdown-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDropDown(false);
+                      setIsEditingMode(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faPenClip} />
+                    <p>Edit</p>
+                  </button>
                 </div>
               </Dropdown>
             </div>
           </div>
-          <div className="comment-text">{content}</div>
+          {isEditingMode ? (
+            <EditCommentForm
+              commentId={id}
+              originalText={content}
+              setIsEditingMode={setIsEditingMode}
+            />
+          ) : (
+            <>
+              <div className="comment-text">{content}</div>
 
-          {attachment && (
-            <div>
-              <QuestionAttachment
-                mimeType={attachment.mimeType}
-                name={attachment.name}
-                size={attachment.size}
-                url={attachment.url}
-              />
-            </div>
+              {attachment && (
+                <div>
+                  <QuestionAttachment
+                    mimeType={attachment.mimeType}
+                    name={attachment.name}
+                    size={attachment.size}
+                    url={attachment.url}
+                  />
+                </div>
+              )}
+            </>
           )}
 
           <div className="comment-info">
@@ -129,17 +194,20 @@ const Comment = ({
 
       <div className="comment-replies-section">
         {replies?.map((reply) => (
-          // @ts-ignore
           <Comment
+            // @ts-ignore
             attachment={reply.attachment}
             content={reply.content}
             createdAt={reply.createdAt}
             stats={reply.stats}
             user={reply.user}
             isReply={true}
+            id={reply.id}
           />
         ))}
       </div>
+
+      {isReply === false && currentUser && <AddReplyForm commentId={id} />}
     </>
   );
 };

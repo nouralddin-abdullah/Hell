@@ -10,10 +10,13 @@ import Modal from "../../components/common/modal/Modal";
 import Button from "../../components/common/button/Button";
 import { useDeleteQuestionsComment } from "../../hooks/questions/useDeleteQuetionsComment";
 import { useState } from "react";
-import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
+import { motion } from "framer-motion";
+import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 
 const ChosenQuestionPage = () => {
   const { id } = useParams();
+
+  const { data: currentUser } = useGetCurrentUser();
 
   const { data: question, isPending } = useGetQuestion(id);
 
@@ -63,32 +66,58 @@ const ChosenQuestionPage = () => {
   }
 
   return (
-    <ProtectedRoute>
-      <PageWrapper>
-        <section className="questions-main">
-          <div className="container">
-            <div className="questions-container">
-              <div className="posted-questions-container">
-                {question ? (
-                  <QuestionContent
-                    attachment={question?.attachment}
-                    content={question?.content}
-                    id={question?.id}
-                    stats={question?.stats}
-                    user={question?.user}
-                    timestamps={question?.timestamps}
-                    // @ts-ignore
-                    verifiedAnswer={question.verifiedAnswer}
-                  />
-                ) : (
-                  ""
-                )}
-                <div className="all-comments-section">
-                  <div className="see-more-comments">See more comments</div>
-                  <div className="question-comments-and-replies">
-                    <div className="comment-section">
-                      {question?.comments.data.map((comment) => (
+    <PageWrapper>
+      <section className="questions-main">
+        <div className="container">
+          <div className="questions-container">
+            <div className="posted-questions-container">
+              {question ? (
+                <QuestionContent
+                  attachment={question?.attachment}
+                  content={question?.content}
+                  id={question?.id}
+                  stats={question?.stats}
+                  user={question?.user}
+                  timestamps={question?.timestamps}
+                  // @ts-ignore
+                  verifiedAnswer={question.verifiedAnswer}
+                />
+              ) : (
+                ""
+              )}
+              <div className="all-comments-section">
+                <div className="see-more-comments">See more comments</div>
+                <div className="question-comments-and-replies">
+                  <div className="comment-section">
+                    {question?.verifiedAnswer && (
+                      <div>
                         <Comment
+                          key={question?.verifiedAnswer?.id}
+                          attachment={question?.verifiedAnswer?.attachment}
+                          content={question?.verifiedAnswer?.content}
+                          createdAt={question?.verifiedAnswer?.createdAt}
+                          stats={question?.verifiedAnswer?.stats}
+                          user={question?.verifiedAnswer?.user}
+                          id={question?.verifiedAnswer?.id}
+                          replies={question?.verifiedAnswer?.replies}
+                          openDeleteComment={() =>
+                            setIsDeleteCommentModalOpen(true)
+                          }
+                          setSelectedComment={setSelectedComment}
+                          isVerified={true}
+                        />
+                      </div>
+                    )}
+
+                    {question?.comments.data.map((comment, idx) => (
+                      <motion.span
+                        transition={{ duration: 0.3, delay: (idx + 1) * 0.3 }}
+                        initial={{ opacity: 0, x: -40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 40 }}
+                      >
+                        <Comment
+                          key={comment.id}
                           attachment={comment.attachment}
                           content={comment.content}
                           createdAt={comment.createdAt}
@@ -100,35 +129,36 @@ const ChosenQuestionPage = () => {
                             setIsDeleteCommentModalOpen(true)
                           }
                           setSelectedComment={setSelectedComment}
+                          isVerified={false}
                         />
-                      ))}
-                    </div>
+                      </motion.span>
+                    ))}
                   </div>
                 </div>
-                <AddCommentForm />
               </div>
+              {currentUser && <AddCommentForm />}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <Modal
-          isOpen={isDeleteCommentModalOpen}
-          onClose={() => setIsDeleteCommentModalOpen(false)}
+      <Modal
+        isOpen={isDeleteCommentModalOpen}
+        onClose={() => setIsDeleteCommentModalOpen(false)}
+      >
+        <h3 style={{ textAlign: "center" }}>
+          Are You Sure You Want To Delete This Comment ?
+        </h3>
+        <Button
+          isLoading={isDeleting}
+          // @ts-ignore
+          onClick={() => handleDeleteComment()}
+          style={{ margin: "3rem auto 0.5rem" }}
         >
-          <h3 style={{ textAlign: "center" }}>
-            Are You Sure You Want To Delete This Comment ?
-          </h3>
-          <Button
-            isLoading={isDeleting}
-            // @ts-ignore
-            onClick={() => handleDeleteComment()}
-            style={{ margin: "3rem auto 0.5rem" }}
-          >
-            Confirm
-          </Button>
-        </Modal>
-      </PageWrapper>
-    </ProtectedRoute>
+          Confirm
+        </Button>
+      </Modal>
+    </PageWrapper>
   );
 };
 

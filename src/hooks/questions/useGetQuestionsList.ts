@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { tokenKey } from "../../constants/tokenKey";
 import { Question } from "../../types/Question";
 
-export const useGetQuestionsList = (sort = "-createdAt") => {
+export const useGetQuestionsList = (sort = "sort=-createdAt") => {
   return useQuery({
     queryKey: ["questions", sort],
     queryFn: async () => {
@@ -14,7 +14,7 @@ export const useGetQuestionsList = (sort = "-createdAt") => {
         throw new Error("No access token found");
       }
 
-      let url = `${baseURL}/api/questions?sort=${sort}`;
+      let url = `${baseURL}/api/questions?${sort}`;
 
       const response = await fetch(url, {
         headers: {

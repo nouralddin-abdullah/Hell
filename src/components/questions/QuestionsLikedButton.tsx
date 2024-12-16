@@ -42,7 +42,7 @@ const QuestionsLikedButton = ({
     <div onClick={() => handleClick()} className="question-likes">
       <FontAwesomeIcon
         className="like-icon"
-        style={{ color: "rgb(254, 176, 197)" }}
+        style={{ color: "red" }}
         icon={faHeart}
       />
       <span className="likes-count">{likesNum}</span>

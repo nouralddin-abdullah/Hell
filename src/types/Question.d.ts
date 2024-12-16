@@ -54,6 +54,7 @@ export interface VerifiedAnswer {
   stats: Stats;
   createdAt: string; // ISO string
   replies: Reply[];
+  attachment: Attachment;
 }
 
 export interface Reply {
@@ -62,7 +63,7 @@ export interface Reply {
   user: User;
   stats: Stats;
   createdAt: string; // ISO string
-  attachment: Attachment | null;
+  attachment?: Attachment | null;
 }
 
 export interface Comments {

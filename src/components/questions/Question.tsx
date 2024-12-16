@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "../common/Dropdown/dropdown";
 import { useState } from "react";
 import LikeHandler from "./QuestionsLikeHandler";
+import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 
 interface QuestionActionProps {
   setSelectedQuestion: (id: string) => void; // Add type for id
@@ -35,6 +36,8 @@ const Question = ({
     setShowDropDown((prev) => !prev);
   };
 
+  const { data: currentUser } = useGetCurrentUser();
+
   return (
     <div
       onClick={() => navigate(`/questions/${id}`)}
@@ -62,16 +65,18 @@ const Question = ({
           }}
           onClick={handleDropdownClick} // Add this to stop event propagation
         >
-          <button
-            style={{
-              background: "transparent",
-              border: "none",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-            }}
-          >
-            ...
-          </button>
+          {currentUser?.user.username === user.username && (
+            <button
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: "1.5rem",
+                cursor: "pointer",
+              }}
+            >
+              ...
+            </button>
+          )}
           <Dropdown isVisible={showDropDown}>
             <div>
               <button
@@ -80,7 +85,7 @@ const Question = ({
                   justifyContent: "space-between",
                   gap: "1rem",
                 }}
-                className="dropdown-button"
+                className="dropdown-button dropdown-delete-btn"
                 onClick={() => {
                   setSelectedQuestion(id);
                   setIsDeleteModalOpen(true);

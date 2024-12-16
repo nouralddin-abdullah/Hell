@@ -19,5 +19,5 @@ export interface User {
     toDoList: [];
     id: string;
   };
-  isFollowed: null;
+  isFollowed: boolean | null;
 }

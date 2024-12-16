@@ -1,9 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFile, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faFile, faEye, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { Attachment } from "../../../types/Question";
 import "./file.css";
-// import { useDownloadMaterialFolders } from "../../../hooks/materials/useDownloadMaterialsFolder";
 
 interface FileAttachmentProps {
   file: Attachment;
@@ -23,19 +22,22 @@ const FileAttachment: React.FC<FileAttachmentProps> = ({ file }) => {
     }
   };
 
-  // const { mutateAsync } = useDownloadMaterialFolders();
-  // const [isDownloading, setIsDownloading] = useState("");
+  // Function to handle file download
+  const handleFileDownload = (url: string, name: string) => {
+    // Construct the full URL for the file
+    const fileUrl = `${url}`;
 
-  // const downloadFolder = async (materialId: string) => {
-  //   try {
-  //     setIsDownloading(materialId);
-  //     await mutateAsync(materialId);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.target = "_blank";
+    link.download = name; // Set the file name
 
-  //   setIsDownloading("");
-  // };
+    // Append to the body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="file-attachment">
@@ -43,7 +45,7 @@ const FileAttachment: React.FC<FileAttachmentProps> = ({ file }) => {
       <FontAwesomeIcon icon={faFile} className="file-icon" />
 
       {/* File Name */}
-      <span className="file-name">{file.name}</span>
+      <span className="file-name questions-file-name">{file.name}</span>
 
       {/* View/Preview Button */}
       <button
@@ -55,13 +57,13 @@ const FileAttachment: React.FC<FileAttachmentProps> = ({ file }) => {
       </button>
 
       {/* Download Button */}
-      {/* <button
-        onClick={() => downloadFolder(file.url)}
+      <button
+        onClick={() => handleFileDownload(file.url, file.name)}
         className="download-button"
         title="Download File"
       >
         <FontAwesomeIcon icon={faDownload} />
-      </button> */}
+      </button>
     </div>
   );
 };

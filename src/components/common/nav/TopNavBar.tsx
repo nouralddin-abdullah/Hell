@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoIcon } from "../../../assets";
 import "../../../styles/nav/top-nav-bar.css";
 import useAuthStore from "../../../store/authTokenStore";
@@ -10,6 +10,8 @@ import Button from "../button/Button";
 import { useLogOut } from "../../../hooks/auth/useLogOut";
 
 const TopNavBar = () => {
+  const navigate = useNavigate();
+
   const { data: user } = useGetCurrentUser();
 
   const token = useAuthStore((state) => state.token);
@@ -107,6 +109,7 @@ const TopNavBar = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
+                    setIsDropdownOpen(false);
                     setIsLogoutModalOpen(true);
                   }}
                   className="dropdown-button"
@@ -134,6 +137,7 @@ const TopNavBar = () => {
 
             try {
               await mutateAsync(formData);
+              navigate("/login");
               logUserOut();
               setIsLogoutModalOpen(false);
             } catch (error) {

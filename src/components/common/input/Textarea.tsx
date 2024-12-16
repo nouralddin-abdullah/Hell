@@ -13,6 +13,7 @@ const Textarea: React.FC<TextareaProps> = ({
   ...props
 }) => {
   const [hasText, setHasText] = useState(!!value);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (value !== undefined) {
@@ -27,15 +28,24 @@ const Textarea: React.FC<TextareaProps> = ({
     if (onChange) onChange(e);
   };
 
+  const handleLabelClick = () => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
   return (
     <div className="textarea-field">
       <textarea
+        ref={textareaRef}
         {...props}
         value={value}
         onChange={handleChange}
         className={`${props.className || ""} ${hasText ? "has-text" : ""}`}
       />
-      <label className={hasText ? "has-text" : ""}>{labelText}</label>
+      <label className={hasText ? "has-text" : ""} onClick={handleLabelClick}>
+        {labelText}
+      </label>
     </div>
   );
 };

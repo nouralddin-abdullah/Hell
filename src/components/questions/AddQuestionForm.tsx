@@ -64,15 +64,19 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
         ></textarea>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <input
-            type="file"
-            id="attachment"
-            onChange={handleFileChange}
-            className="announcement-form__file-input"
-          />
-          <label htmlFor="attachment">
-            <FontAwesomeIcon className="upload-image" icon={faFileImage} />
-          </label>
+          {!attachment && (
+            <>
+              <input
+                type="file"
+                id="attachment"
+                onChange={handleFileChange}
+                className="announcement-form__file-input"
+              />
+              <label htmlFor="attachment">
+                <FontAwesomeIcon className="upload-image" icon={faFileImage} />
+              </label>
+            </>
+          )}
 
           {attachment && (
             <div className="announcement-form__attachment-info">

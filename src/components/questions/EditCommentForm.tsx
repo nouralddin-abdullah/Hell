@@ -1,33 +1,42 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileImage } from "@fortawesome/free-solid-svg-icons";
+import { FormEvent, useState } from "react";
 import Button from "../common/button/Button";
 import { useParams } from "react-router-dom";
-import { useAddQuestionComment } from "../../hooks/questions/useAddQuestionComment";
 import { containsBadWords } from "../../utils/containsBadWords";
 import toast from "react-hot-toast";
+import { useEditQuestionComment } from "../../hooks/questions/useEditQuestionComment";
 
-const AddCommentForm = () => {
-  const { id } = useParams();
-  const { data: currentUser } = useGetCurrentUser();
+interface Props {
+  commentId: string;
+  originalText: string;
+  setIsEditingMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const [text, setText] = useState("");
-  const [attachment, setAttachment] = useState<any>();
+const EditCommentForm = ({
+  commentId,
+  originalText = "",
+  setIsEditingMode,
+}: Props) => {
+  const { id: questionId } = useParams();
+  const [text, setText] = useState(originalText);
+  //   const [attachment, setAttachment] = useState<any>();
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setAttachment(files[0]);
-    }
-  };
+  //   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //     const files = e.target.files;
+  //     if (files && files.length > 0) {
+  //       setAttachment(files[0]);
+  //     }
+  //   };
 
-  const removeAttachment = () => {
-    setAttachment(null);
-  };
+  //   const removeAttachment = () => {
+  //     setAttachment(null);
+  //   };
 
   // @ts-ignore
-  const { mutateAsync, isPending } = useAddQuestionComment(id);
+  const { mutateAsync, isPending } = useEditQuestionComment(
+    // @ts-ignore
+    questionId,
+    commentId
+  );
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,21 +48,24 @@ const AddCommentForm = () => {
 
     const formData = new FormData();
     formData.append("content", text);
-    if (attachment) formData.append("attach_file", attachment);
+    // if (attachment) formData.append("attach_file", attachment);
 
     try {
       await mutateAsync(formData);
 
       setText("");
-      setAttachment(null);
+      setIsEditingMode(false);
+      //   setAttachment(null);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
-    <form onSubmit={handleSubmit} className="post-comment">
-      <img src={currentUser?.user.photo} alt="profileImage" />
+    <form
+      onSubmit={handleSubmit}
+      className="post-comment"
+      style={{ display: "block" }}
+    >
       <div className="textarea-wrapper">
         <textarea
           name="comment"
@@ -63,7 +75,7 @@ const AddCommentForm = () => {
           onChange={(e) => setText(e.target.value)}
         ></textarea>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        {/* <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <input
             type="file"
             id="attachment"
@@ -89,13 +101,22 @@ const AddCommentForm = () => {
               </button>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
-      <Button isLoading={isPending} className="posting-comment-btn">
-        Post
-      </Button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <Button isLoading={isPending} className="posting-comment-btn">
+          Edit
+        </Button>
+        <Button
+          onClick={() => setIsEditingMode(false)}
+          style={{ backgroundColor: "#eee", color: "#000" }}
+          className="posting-comment-btn"
+        >
+          Cancel
+        </Button>
+      </div>
     </form>
   );
 };
 
-export default AddCommentForm;
+export default EditCommentForm;

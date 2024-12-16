@@ -20,6 +20,10 @@
   white-space: nowrap;
 }
 
+.questions-file-name {
+  width: 100px;
+}
+
 .view-button,
 .download-button {
   background: none;

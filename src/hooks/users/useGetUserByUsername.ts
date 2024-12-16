@@ -7,7 +7,7 @@ import { tokenKey } from "../../constants/tokenKey"; // Import the key used to s
 
 export const useGetUserByUsername = (username: string | undefined) => {
   return useQuery({
-    queryKey: [username],
+    queryKey: [username, "user"],
     queryFn: async () => {
       if (!username) return;
 

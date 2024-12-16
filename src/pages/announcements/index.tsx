@@ -22,6 +22,8 @@ const AnnouncementsPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+
   return (
     <ProtectedRoute>
       <PageWrapper>
@@ -70,7 +72,10 @@ const AnnouncementsPage = () => {
                   }}
                   key={announ._id}
                   className={`sect-card`}
-                  onClick={() => setSelectedAnnouncement(announ._id)}
+                  onClick={() => {
+                    setSelectedAnnouncement(announ._id);
+                    setShowAnnouncementModal(true);
+                  }}
                 >
                   <img
                     src={`${baseURL}/profilePics/${announ.announcerId.photo}`}
@@ -84,7 +89,7 @@ const AnnouncementsPage = () => {
               ))}
             </div>
 
-            <div className="sect-announce">
+            <div className="sect-announce hide-on-small">
               {selectedAnnouncement && (
                 <AnnouncementDetails
                   courseId="general"
@@ -101,6 +106,25 @@ const AnnouncementsPage = () => {
             onClose={() => setIsModalOpen(false)}
           />
         </Modal>
+
+        <div className="show-on-small">
+          <Modal
+            isOpen={showAnnouncementModal}
+            onClose={() => setShowAnnouncementModal(false)}
+          >
+            <div
+              className="sect-announce"
+              style={{ maxHeight: "80%", overflowY: "scroll" }}
+            >
+              {selectedAnnouncement && (
+                <AnnouncementDetails
+                  courseId="general"
+                  announcementId={selectedAnnouncement}
+                />
+              )}
+            </div>
+          </Modal>
+        </div>
       </PageWrapper>
     </ProtectedRoute>
   );

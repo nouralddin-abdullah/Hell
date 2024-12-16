@@ -132,3 +132,24 @@ li {
     width: 90%;
   }
 }
+
+/* Utility class to hide an element on small screens */
+.hide-on-small {
+  display: block !important;
+}
+
+@media (max-width: 767px) {
+  .hide-on-small {
+    display: none !important;
+  }
+}
+
+.show-on-small {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .show-on-small {
+    display: block !important;
+  }
+}
