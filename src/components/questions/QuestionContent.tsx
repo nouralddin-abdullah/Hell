@@ -74,13 +74,12 @@ const QuestionContent = ({
             }}
           >
             <div className="question-publisher-fullname">{user.fullName}</div>
-            {user.role === "admin" ||
-              (user.role === "group-leader" && (
-                <img
-                  src={verifyImage}
-                  style={{ width: "20px", height: "20px" }}
-                />
-              ))}
+            {(user.role === "admin" || user.role === "group-leader") && (
+              <img
+                src={verifyImage}
+                style={{ width: "20px", height: "20px" }}
+              />
+            )}
           </div>
         </Link>
 

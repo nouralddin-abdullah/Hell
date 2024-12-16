@@ -111,13 +111,13 @@ const ProfilePage = () => {
                       }}
                     >
                       <p className="full-name">{user?.user.fullName}</p>
-                      {user?.user.role === "admin" ||
-                        (user?.user.role === "group-leader" && (
-                          <img
-                            src={verifyImage}
-                            style={{ width: "20px", height: "20px" }}
-                          />
-                        ))}
+                      {(user?.user.role === "admin" ||
+                        user?.user.role === "group-leader") && (
+                        <img
+                          src={verifyImage}
+                          style={{ width: "20px", height: "20px" }}
+                        />
+                      )}
                     </div>
                     <p className="user-name">@{user?.user.username}</p>
                   </div>
