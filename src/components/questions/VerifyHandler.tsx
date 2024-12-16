@@ -17,7 +17,10 @@ const VerifyHandler = ({
 }: Props) => {
   const { data: currentUser } = useGetCurrentUser();
 
-  if (currentUser?.user.role === "student" && accessible === false) {
+  if (
+    (currentUser?.user.role === "student" && accessible === false) ||
+    !currentUser
+  ) {
     return null;
   }
 

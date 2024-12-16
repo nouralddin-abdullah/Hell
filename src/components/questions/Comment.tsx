@@ -95,7 +95,7 @@ const Comment = ({
                   commentId={id}
                   // @ts-ignore
                   questionId={contentId}
-                  accessible={canVerify}
+                  accessible={canVerify || false}
                 />
               )}
             </div>
