@@ -105,6 +105,7 @@ const ChosenQuestionPage = () => {
                           }
                           setSelectedComment={setSelectedComment}
                           isVerified={true}
+                          asker={question.user.username}
                         />
                       </div>
                     )}
@@ -130,6 +131,7 @@ const ChosenQuestionPage = () => {
                           }
                           setSelectedComment={setSelectedComment}
                           isVerified={false}
+                          asker={question.user.username}
                         />
                       </motion.span>
                     ))}

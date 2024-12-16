@@ -1,4 +1,11 @@
+@media (max-width: 767px) {
+  .profile-main {
+    padding-bottom: 60px;
+  }
+}
+
 /* start personal info */
+
 .personal-info {
   background-color: var(--secondary-light);
 }
@@ -82,7 +89,7 @@
   }
 }
 
-.personal-info .main-info .profile-followers-and-following>div {
+.personal-info .main-info .profile-followers-and-following > div {
   text-align: center;
   color: #9d9c9c;
   cursor: pointer;
@@ -92,16 +99,16 @@
 }
 
 @media (max-width: 991px) {
-  .personal-info .main-info .profile-followers-and-following>div {
+  .personal-info .main-info .profile-followers-and-following > div {
     font-size: 14px;
   }
 }
 
-.personal-info .main-info .profile-followers-and-following>div p:first-child {
+.personal-info .main-info .profile-followers-and-following > div p:first-child {
   font-weight: bold;
 }
 
-.personal-info .main-info .profile-followers-and-following>div p:last-child {
+.personal-info .main-info .profile-followers-and-following > div p:last-child {
   font-weight: 500;
 }
 
@@ -141,13 +148,17 @@
   }
 }
 
-.personal-info-container .profile-description-and-badges .profile-group-and-description {
+.personal-info-container
+  .profile-description-and-badges
+  .profile-group-and-description {
   padding-left: 8px;
   width: 250px;
 }
 
 @media (max-width: 991px) {
-  .personal-info-container .profile-description-and-badges .profile-group-and-description {
+  .personal-info-container
+    .profile-description-and-badges
+    .profile-group-and-description {
     padding-left: 0;
   }
 }
@@ -159,18 +170,24 @@
 }
 
 @media (max-width: 991px) {
-  .profile-description-and-badges .profile-group-and-description .profile-group {
+  .profile-description-and-badges
+    .profile-group-and-description
+    .profile-group {
     font-size: 15px;
   }
 }
 
-.profile-description-and-badges .profile-group-and-description .profile-description {
+.profile-description-and-badges
+  .profile-group-and-description
+  .profile-description {
   color: #9d9c9c;
   font-size: 17px;
 }
 
 @media (max-width: 991px) {
-  .profile-description-and-badges .profile-group-and-description .profile-description {
+  .profile-description-and-badges
+    .profile-group-and-description
+    .profile-description {
     font-size: 16px;
   }
 }
@@ -221,7 +238,6 @@
 }
 
 @media (max-width: 991px) {
-
   .profile-description-and-badges .profile-badges .profile-badge .badge-name1,
   .profile-description-and-badges .profile-badges .profile-badge .badge-name2 {
     display: none;

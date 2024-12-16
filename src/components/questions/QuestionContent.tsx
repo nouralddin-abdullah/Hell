@@ -17,6 +17,7 @@ import Button from "../common/button/Button";
 import QuestionsLikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditQuestionForm from "./EditQuestionForm";
+import { verifyImage } from "../../assets";
 
 const QuestionContent = ({
   content,
@@ -65,7 +66,22 @@ const QuestionContent = ({
           className="question-publisher"
         >
           <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" />
-          <div className="question-publisher-fullname">{user.fullName}</div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              gap: "0.5rem",
+            }}
+          >
+            <div className="question-publisher-fullname">{user.fullName}</div>
+            {user.role === "admin" ||
+              (user.role === "group-leader" && (
+                <img
+                  src={verifyImage}
+                  style={{ width: "20px", height: "20px" }}
+                />
+              ))}
+          </div>
         </Link>
 
         <div

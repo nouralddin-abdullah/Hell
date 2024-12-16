@@ -8,6 +8,7 @@ import Dropdown from "../common/Dropdown/dropdown";
 import { useState } from "react";
 import LikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import { verifyImage } from "../../assets";
 
 interface QuestionActionProps {
   setSelectedQuestion: (id: string) => void; // Add type for id
@@ -56,6 +57,9 @@ const Question = ({
         <div className="question-publisher">
           <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" />
           <div className="question-publisher-fullname">{user.fullName}</div>
+          {user.role === "admin" && (
+            <img src={verifyImage} style={{ width: "20px", height: "20px" }} />
+          )}
         </div>
 
         <div

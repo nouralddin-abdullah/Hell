@@ -16,12 +16,14 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditCommentForm from "./EditCommentForm";
 import AddReplyForm from "./AddReplyForm";
 import VerifyHandler from "./VerifyHandler";
+import { verifyImage } from "../../assets";
 
 interface AdditionalProps {
   isReply?: boolean;
   openDeleteComment: () => void;
   setSelectedComment: React.Dispatch<React.SetStateAction<string>>;
   isVerified?: boolean;
+  asker: string;
 }
 
 const Comment = ({
@@ -36,6 +38,7 @@ const Comment = ({
   openDeleteComment,
   setSelectedComment,
   isVerified = false,
+  asker = "",
 }: CommentData & AdditionalProps) => {
   const { id: contentId } = useParams();
 
@@ -53,7 +56,7 @@ const Comment = ({
   const [isEditingMode, setIsEditingMode] = useState(false);
 
   // accessible
-  const [canVerify] = useState(currentUser?.user.username === user.username);
+  const [canVerify] = useState(currentUser?.user.username === asker);
 
   return (
     <>
@@ -74,6 +77,13 @@ const Comment = ({
             <div style={{ display: "flex", gap: "1rem" }}>
               <div className="comment-user-fullname">
                 {user.fullName}{" "}
+                {user.role === "admin" ||
+                  (user.role === "group-leader" && (
+                    <img
+                      src={verifyImage}
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  ))}{" "}
                 {isVerified && (
                   <FontAwesomeIcon icon={faCheck} style={{ color: "green" }} />
                 )}

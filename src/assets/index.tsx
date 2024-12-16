@@ -12,3 +12,4 @@ export { default as backIcon } from "./back-arrow.svg";
 export { default as noMaterialsIcon } from "./no-materials-icon.svg";
 export { default as imageIcon } from "./image-icon.svg";
 export { default as scoreboardCrown } from "./crown.png";
+export { default as verifyImage } from "./verify.png";

@@ -1,4 +1,4 @@
-import { anonymousUser } from "../../assets";
+import { anonymousUser, verifyImage } from "../../assets";
 import { profileBadge1 } from "../../assets";
 import { profileBadge2 } from "../../assets";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
@@ -103,7 +103,22 @@ const ProfilePage = () => {
                 <div className="main-info">
                   <div className="profile-image-and-name">
                     <img src={user?.user.photo || anonymousUser} alt="" />
-                    <p className="full-name">{user?.user.fullName}</p>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-end",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <p className="full-name">{user?.user.fullName}</p>
+                      {user?.user.role === "admin" ||
+                        (user?.user.role === "group-leader" && (
+                          <img
+                            src={verifyImage}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                        ))}
+                    </div>
                     <p className="user-name">@{user?.user.username}</p>
                   </div>
                   <div className="profile-stats-edit-profile-container">

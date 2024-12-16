@@ -2,6 +2,7 @@ interface User {
   username: string;
   fullName: string;
   photo: string;
+  role: "student" | "admin" | "doctor" | "group-leader";
 }
 
 interface Stats {

@@ -96,10 +96,10 @@ const TopNavBar = () => {
                     e.stopPropagation();
                     setIsDropdownOpen(false);
                   }}
-                  className="dropdown-button"
+                  // className="dropdown-button"
                 >
                   <Link
-                    className="top-nav-link"
+                    className="top-nav-link dropdown-button"
                     to={`/profile/${user?.user.username}`}
                   >
                     Profile

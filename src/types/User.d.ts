@@ -6,7 +6,7 @@ export interface User {
     email: string;
     photo: string;
     caption: string;
-    role: "student" | "doctor" | "admin";
+    role: "student" | "doctor" | "admin" | "group-leader";
     group: "A" | "B" | "C" | "D";
     badges: [];
     recentNotes: [];

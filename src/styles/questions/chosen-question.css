@@ -77,6 +77,12 @@
   flex-direction: column;
   gap: 15px;
   width: 100%;
+  max-width: 100%;
+}
+
+.comment-section .question-comment .question-comment-content .comment-text {
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 767px) {

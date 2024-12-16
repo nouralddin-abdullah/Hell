@@ -1,6 +1,6 @@
 import "../../styles/note/style.css";
 import { useGetPost } from "../../hooks/posts/useGetPost";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
 
@@ -16,11 +16,13 @@ const NotePage = () => {
           <header className="note-header">
             <div className="header-content">
               {post?.userId.photo && (
-                <img
-                  src={post.userId.photo}
-                  alt="Profile"
-                  className="profile-image"
-                />
+                <Link to={`/profile/${post.userId.username}`}>
+                  <img
+                    src={post.userId.photo}
+                    alt="Profile"
+                    className="profile-image"
+                  />
+                </Link>
               )}
 
               {post?.title && (
