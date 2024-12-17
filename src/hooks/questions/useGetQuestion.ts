@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
-// import Cookies from "js-cookie";
-// import { tokenKey } from "../../constants/tokenKey";
+import Cookies from "js-cookie";
+import { tokenKey } from "../../constants/tokenKey";
 import { ChosenQuestion } from "../../types/Question";
 
 export const useGetQuestion = (questionId: string | undefined) => {
@@ -12,19 +12,16 @@ export const useGetQuestion = (questionId: string | undefined) => {
         throw new Error("Question ID is required");
       }
 
-      // const accessToken = Cookies.get(tokenKey);
+      const accessToken = Cookies.get(tokenKey);
+      const url = `${baseURL}/api/questions/${questionId}`;    
+      const headers: HeadersInit = {};
 
-      // if (!accessToken) {
-      //   throw new Error("No access token found");
-      // }
+      if (accessToken) {
+        headers.Authorization = `Bearer ${accessToken}`;
+      }
 
-      const url = `${baseURL}/api/questions/${questionId}`;
-      const response = await fetch(url, {
-        // headers: {
-        //   Authorization: `Bearer ${accessToken}`,
-        // },
-      });
-
+      const response = await fetch(url, { headers });
+      
       if (!response.ok) {
         const errorDetails = await response.json();
         throw new Error(
