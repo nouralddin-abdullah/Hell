@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAddLike } from "../../hooks/questions/useAddLike";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useLikeComment } from "../../hooks/questions/useLikeComment";
+import toast from "react-hot-toast";
 
 interface Props {
   contentId: string;
@@ -32,6 +33,7 @@ const QuestionsLikeButton = ({
       } else {
         await addLike(contentId);
       }
+      toast.success("You earned 1 point!")
     } catch (error) {
       setLiked(false);
       setLikesNum(likesNum - 1);

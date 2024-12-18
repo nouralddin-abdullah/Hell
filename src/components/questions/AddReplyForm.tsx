@@ -50,6 +50,7 @@ const AddReplyForm = ({ commentId }: Props) => {
 
       setText("");
       setAttachment(null);
+      toast.success("You earned 1 point!");
     } catch (error) {
       console.error(error);
     }

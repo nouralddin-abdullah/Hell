@@ -41,6 +41,7 @@ export const useDeleteQuestion = () => {
       // Invalidate and refetch the questions query
       queryClient.invalidateQueries({ queryKey: ["questions"] });
       toast.success("Question Deleted Successfully");
+      toast.success("You lost 5 points");
     },
     onError: (error: Error) => {
       const errorMessage = error.message || "An unexpected error occurred";

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useRemoveLike } from "../../hooks/questions/useRemoveLike";
 import { useUnLikeComment } from "../../hooks/questions/useUnLikeComment";
-
+import toast from "react-hot-toast";
 interface Props {
   contentId: string;
   commentId: string;
@@ -32,6 +32,7 @@ const QuestionsLikedButton = ({
       } else {
         await removeLike(contentId);
       }
+      toast.success("You lost 1 point!");
     } catch (error) {
       setLiked(true);
       setLikesNum(likesNum + 1);

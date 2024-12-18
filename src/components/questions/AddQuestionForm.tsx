@@ -45,6 +45,7 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
 
       setText("");
       setAttachment(null);
+      toast.success("You earned 5 point!");
     } catch (error) {
       console.error(error);
     }
