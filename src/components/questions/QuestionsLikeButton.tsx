@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAddLike } from "../../hooks/questions/useAddLike";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useLikeComment } from "../../hooks/questions/useLikeComment";
-import toast from "react-hot-toast";
 
 interface Props {
   contentId: string;
