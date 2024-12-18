@@ -68,7 +68,7 @@ const NotePage = () => {
           <main className="note-content">
             {post?.contentBlocks.map((content) =>
               content.type === "text" ? (
-                <p>{content.content}</p>
+                <p dir="rtl">{content.content}</p>
               ) : (
                 <div className="image-section">
                   <img

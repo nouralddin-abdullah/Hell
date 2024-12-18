@@ -61,6 +61,17 @@ const SignUpFormComponent = () => {
       handleErrorsChange("username", "");
     }
 
+    // Username validation: only letters, numbers, and hyphens allowed (no spaces)
+    if (!/^[a-zA-Z0-9-]+$/.test(formFields.username)) {
+      handleErrorsChange(
+        "username",
+        "Username can only contain letters, numbers, and hyphens (-), no spaces."
+      );
+      isValid = false;
+    } else {
+      handleErrorsChange("username", "");
+    }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formFields.email)) {

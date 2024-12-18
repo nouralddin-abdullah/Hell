@@ -147,7 +147,9 @@ const QuestionContent = ({
         />
       ) : (
         <>
-          <div className="question-content">{content}</div>
+          <div className="question-content" dir="rtl">
+            {content}
+          </div>
           {attachment && (
             <QuestionAttachment
               url={attachment.url}

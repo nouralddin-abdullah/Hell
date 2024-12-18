@@ -17,7 +17,8 @@ const useAuthStore = create<AuthStore>((set) => ({
 
   // Function to create/set the token
   setToken: (value: string) => {
-    Cookies.set(tokenKey, value); // Set the token in cookies
+    // Set the token in cookies with 30-day expiration
+    Cookies.set(tokenKey, value, { expires: 30 });
     set({ token: value }); // Update the state
   },
 
@@ -30,7 +31,8 @@ const useAuthStore = create<AuthStore>((set) => ({
 
   // Function to update the token
   updateToken: (newToken: string) => {
-    Cookies.set(tokenKey, newToken);
+    // Update the token with 30-day expiration
+    Cookies.set(tokenKey, newToken, { expires: 30 });
     set({ token: newToken });
   },
 

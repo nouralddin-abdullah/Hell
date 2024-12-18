@@ -55,6 +55,7 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
       <img src={currentUser?.user.photo} alt={currentUser?.user.fullName} />
       <div className="textarea-wrapper">
         <textarea
+          dir="rtl"
           name="comment"
           id="comment"
           placeholder="Add a question"

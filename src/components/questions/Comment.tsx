@@ -165,7 +165,9 @@ const Comment = ({
             />
           ) : (
             <>
-              <div className="comment-text">{content}</div>
+              <div className="comment-text" dir="rtl">
+                {content}
+              </div>
 
               {attachment && (
                 <div>

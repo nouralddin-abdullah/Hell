@@ -56,6 +56,7 @@ const AddCommentForm = () => {
       <img src={currentUser?.user.photo} alt="profileImage" />
       <div className="textarea-wrapper">
         <textarea
+          dir="rtl"
           name="comment"
           id="comment"
           placeholder="Add a comment"

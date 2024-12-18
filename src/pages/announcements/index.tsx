@@ -28,7 +28,7 @@ const AnnouncementsPage = () => {
     <ProtectedRoute>
       <PageWrapper>
         <div className="announcements">
-          {currentUser?.user.role === "admin" && (
+          {currentUser?.user.role !== "student" && (
             <div
               style={{
                 display: "flex",
