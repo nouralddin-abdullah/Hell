@@ -17,9 +17,7 @@ export const useRemoveLike = () => {
         },
       });
     },
-    onSuccess: () => {
-      toast.success("You lost 1 point!");
-    },
+    onSuccess: () => {},
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred.";
