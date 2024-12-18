@@ -20,7 +20,9 @@ export const useLikeComment = (commentId: string) => {
         }
       );
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      toast.success("You earned 1 point!");
+    },
     onError: (error: any) => {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred.";
