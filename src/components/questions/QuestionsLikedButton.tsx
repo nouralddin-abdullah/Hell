@@ -32,7 +32,9 @@ const QuestionsLikedButton = ({
       } else {
         await removeLike(contentId);
       }
-      toast.success("You lost 1 point!");
+      if (isComment) {
+        toast.success("You Lost 1 point!");
+      }
     } catch (error) {
       setLiked(true);
       setLikesNum(likesNum + 1);

@@ -33,7 +33,9 @@ const QuestionsLikeButton = ({
       } else {
         await addLike(contentId);
       }
-      toast.success("You earned 1 point!")
+      if (isComment) {
+        toast.success("You earned 1 point!");
+      }
     } catch (error) {
       setLiked(false);
       setLikesNum(likesNum - 1);
