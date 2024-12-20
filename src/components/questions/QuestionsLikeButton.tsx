@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAddLike } from "../../hooks/questions/useAddLike";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useLikeComment } from "../../hooks/questions/useLikeComment";
+import useAuthStore from "../../store/authTokenStore";
+import useJoinUsStore from "../../store/joinModaStore";
 
 interface Props {
   contentId: string;
@@ -20,10 +22,18 @@ const QuestionsLikeButton = ({
   isComment = false,
   commentId = "",
 }: Props) => {
+  const token = useAuthStore((state) => state.token);
+  const openJoinUsPopup = useJoinUsStore((state) => state.changeOpenState);
+
   const { mutateAsync: addLike } = useAddLike();
   const { mutateAsync: likeComment } = useLikeComment(commentId);
 
   const handleClick = async () => {
+    if (!token) {
+      openJoinUsPopup(true);
+      return;
+    }
+
     try {
       setLiked(true);
       setLikesNum(likesNum + 1);

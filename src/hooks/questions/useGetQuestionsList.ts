@@ -1,20 +1,39 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
 import Cookies from "js-cookie";
 import { tokenKey } from "../../constants/tokenKey";
 import { Question } from "../../types/Question";
 
+interface QuestionsResponse {
+  status: string;
+  results: number;
+  pagination: {
+    currentPage: number;
+    pages: number;
+  };
+  data: {
+    questions: Question[];
+  };
+}
+
+interface PageData {
+  questions: Question[];
+  currentPage: number;
+  hasNextPage: boolean;
+  totalPages: number;
+}
+
 export const useGetQuestionsList = (sort = "sort=-createdAt") => {
-  return useQuery({
+  return useInfiniteQuery<PageData, Error>({
     queryKey: ["questions", sort],
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       const accessToken = Cookies.get(tokenKey);
 
       if (!accessToken) {
         throw new Error("No access token found");
       }
 
-      let url = `${baseURL}/api/questions?${sort}`;
+      let url = `${baseURL}/api/questions?${sort}&page=${pageParam}`;
 
       const response = await fetch(url, {
         headers: {
@@ -26,8 +45,17 @@ export const useGetQuestionsList = (sort = "sort=-createdAt") => {
         throw new Error("Failed to fetch questions");
       }
 
-      const data = await response.json();
-      return data.data.questions as Question[];
+      const data = (await response.json()) as QuestionsResponse;
+
+      return {
+        questions: data.data.questions,
+        currentPage: data.pagination.currentPage,
+        hasNextPage: data.pagination.currentPage < data.pagination.pages,
+        totalPages: data.pagination.pages,
+      };
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined,
   });
 };

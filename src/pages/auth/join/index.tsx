@@ -1,9 +1,11 @@
 import { meating, women } from "../../../assets";
 import "../../../styles/auth/join.css";
 import logo from "../../../assets/logo.png";
-
+import { Link } from "react-router-dom";
+import useJoinUsStore from "../../../store/joinModaStore";
 
 const JoinUsPage = () => {
+  const openJoinUsPopup = useJoinUsStore((state) => state.changeOpenState);
 
   return (
     <div className="join-body">
@@ -13,19 +15,27 @@ const JoinUsPage = () => {
             Join <img src={logo} alt="BIShell Logo" className="join-logo" /> as
           </h1>
           <div className="join-design">
-            <div className="join-card student-card">
+            <Link
+              onClick={() => openJoinUsPopup(false)}
+              to={"/sign-up"}
+              className="join-card student-card"
+            >
               <div className="join-image-container join-image-student">
                 <img src={women} alt="Student" className="join-studend-img" />
               </div>
               <p>Student</p>
-            </div>
+            </Link>
 
-            <div className="join-card doctor-card">
+            <Link
+              onClick={() => openJoinUsPopup(false)}
+              to={"/sign-up"}
+              className="join-card doctor-card"
+            >
               <div className="join-image-container join-image-doctor">
                 <img src={meating} alt="Doctor" className="join-doctor-img" />
               </div>
               <p>Doctor</p>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

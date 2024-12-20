@@ -17,17 +17,17 @@ const AddReplyForm = ({ commentId }: Props) => {
   const { data: currentUser } = useGetCurrentUser();
 
   const [text, setText] = useState("");
-  const [attachment, setAttachment] = useState<any>();
+  const [attachmentReply, setAttachmentReply] = useState<any>();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      setAttachment(files[0]);
+      setAttachmentReply(files[0]);
     }
   };
 
-  const removeAttachment = () => {
-    setAttachment(null);
+  const removeAttachmentReply = () => {
+    setAttachmentReply(null);
   };
 
   // @ts-ignore
@@ -43,13 +43,13 @@ const AddReplyForm = ({ commentId }: Props) => {
 
     const formData = new FormData();
     formData.append("content", text);
-    if (attachment) formData.append("attach_file", attachment);
+    if (attachmentReply) formData.append("attach_file", attachmentReply);
 
     try {
       await mutateAsync(formData);
 
       setText("");
-      setAttachment(null);
+      setAttachmentReply(null);
       toast.success("You earned 1 point!");
     } catch (error) {
       console.error(error);
@@ -74,22 +74,22 @@ const AddReplyForm = ({ commentId }: Props) => {
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <input
             type="file"
-            id="attachment"
+            id="attachmentReply"
             onChange={handleFileChange}
             className="announcement-form__file-input"
           />
-          {!attachment && (
-            <label htmlFor="attachment">
+          {!attachmentReply && (
+            <label htmlFor="attachmentReply">
               <FontAwesomeIcon className="upload-image" icon={faFileImage} />
             </label>
           )}
 
-          {attachment && (
+          {attachmentReply && (
             <div className="announcement-form__attachment-info">
-              <span>{attachment.name}</span>
+              <span>{attachmentReply.name}</span>
               <button
                 type="button"
-                onClick={removeAttachment}
+                onClick={removeAttachmentReply}
                 className="announcement-form__remove-attachment"
                 style={{ background: "none", border: "none" }}
               >

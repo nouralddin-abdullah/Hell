@@ -26,7 +26,7 @@
 
 .container .scoreboard-topThree-container > div {
   width: 200px;
-  background-color: var(--secondary);
+  background-color: var(--primary-bold);
   text-align: center;
   position: relative;
   height: 210px;
@@ -126,7 +126,7 @@
   height: 300px;
   border-top-left-radius: 45px;
   border-top-right-radius: 45px;
-  background-color: var(--primary);
+  background-color: var(--primary-extra-bold);
 }
 
 @media (max-width: 767px) {
@@ -359,7 +359,7 @@
 
 @media (max-width: 991px) {
   .scoreboard-rest-of-ranks {
-    background-color: var(--secondary);
+    background-color: var(--primary);
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
   }
@@ -370,7 +370,7 @@
   padding: 10px 30px;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
-  background-color: var(--secondary);
+  background-color: var(--primary);
 }
 
 @media (max-width: 991px) {

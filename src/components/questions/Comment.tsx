@@ -17,6 +17,7 @@ import EditCommentForm from "./EditCommentForm";
 import AddReplyForm from "./AddReplyForm";
 import VerifyHandler from "./VerifyHandler";
 import { verifyImage } from "../../assets";
+import LinkifyText from "../common/LinkifyText/LinkifyText";
 
 interface AdditionalProps {
   isReply?: boolean;
@@ -107,7 +108,8 @@ const Comment = ({
               }}
               onClick={handleDropdownClick} // Add this to stop event propagation
             >
-              {currentUser?.user.username == user.username && (
+              {(currentUser?.user.username == user.username ||
+                currentUser?.user.role === "admin") && (
                 <button
                   style={{
                     background: "transparent",
@@ -166,7 +168,7 @@ const Comment = ({
           ) : (
             <>
               <div className="comment-text" dir="rtl">
-                {content}
+                <LinkifyText text={content} />
               </div>
 
               {attachment && (

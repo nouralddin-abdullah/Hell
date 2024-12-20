@@ -18,6 +18,7 @@ import QuestionsLikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditQuestionForm from "./EditQuestionForm";
 import { verifyImage } from "../../assets";
+import LinkifyText from "../common/LinkifyText/LinkifyText";
 
 const QuestionContent = ({
   content,
@@ -148,7 +149,7 @@ const QuestionContent = ({
       ) : (
         <>
           <div className="question-content" dir="rtl">
-            {content}
+            <LinkifyText text={content} />
           </div>
           {attachment && (
             <QuestionAttachment

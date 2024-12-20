@@ -3,26 +3,42 @@ import Question from "../../components/questions/Question";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { useGetQuestionsList } from "../../hooks/questions/useGetQuestionsList";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import QuestionsListSkeletons from "../../components/questions/QuestionsListSkeletons";
 import Modal from "../../components/common/modal/Modal";
 import AddQuestionForm from "../../components/questions/AddQuestionForm";
 import Button from "../../components/common/button/Button";
 import { useDeleteQuestion } from "../../hooks/questions/useDeleteQuestion";
 import toast from "react-hot-toast";
+import { useInView } from "react-intersection-observer";
 
 const QuestionsPage = () => {
   const [sort, setSort] = useState("-createdAt");
   const [answered, setAnswered] = useState("");
-
   const [params, setParams] = useState("sort=-createdAt");
+  const { ref, inView } = useInView({
+    threshold: 0.5, // Trigger when element is 50% visible
+  });
 
   useEffect(() => {
     setParams(`sort=${sort}${answered && `&answered=${answered}`}`);
   }, [sort, answered]);
 
   const { data: currentUser } = useGetCurrentUser();
-  const { data: questions, isPending } = useGetQuestionsList(params);
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    isError,
+  } = useGetQuestionsList(params);
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,12 +57,13 @@ const QuestionsPage = () => {
       console.error(error);
     }
   };
+
   return (
     <PageWrapper>
       <section className="questions-main">
         <div className="container">
           <div className="questions-container">
-            {/* asking questions start  */}
+            {/* Ask question section */}
             {currentUser && (
               <div
                 className="ask-question-container"
@@ -56,10 +73,9 @@ const QuestionsPage = () => {
                 <div>Ask a question...</div>
               </div>
             )}
-            {/* asking questions end  */}
 
-            {/* posted questions start  */}
             <div className="posted-questions-container">
+              {/* Sorting/filtering section */}
               <div className="questions-select">
                 <div>Recent Posts</div>
                 <div className="sorting-filtering">
@@ -82,24 +98,34 @@ const QuestionsPage = () => {
                 </div>
               </div>
 
-              {/* handle loading */}
+              {/* Loading state */}
               {isPending && <QuestionsListSkeletons />}
 
-              {/* posted questions start  */}
-              {questions?.map((question) => (
-                <Question
-                  attachment={question.attachment}
-                  content={question.content}
-                  stats={question.stats}
-                  timestamps={question.timestamps}
-                  user={question.user}
-                  verifiedAnswer={question.verifiedAnswer}
-                  key={question.id}
-                  id={question.id}
-                  setIsDeleteModalOpen={setIsDeleteModalOpen}
-                  setSelectedQuestion={setSelectedQuestion}
-                />
+              {/* Error state */}
+              {isError && (
+                <div className="text-center text-red-500">
+                  Error loading questions. Please try again.
+                </div>
+              )}
+
+              {/* Questions list */}
+              {data?.pages.map((page, i) => (
+                <React.Fragment key={i}>
+                  {page.questions.map((question) => (
+                    <Question
+                      key={question.id}
+                      {...question}
+                      setIsDeleteModalOpen={setIsDeleteModalOpen}
+                      setSelectedQuestion={setSelectedQuestion}
+                    />
+                  ))}
+                </React.Fragment>
               ))}
+
+              {/* Infinite scroll trigger */}
+              <div ref={ref} style={{ height: "20px", margin: "20px 0" }}>
+                {isFetchingNextPage && <QuestionsListSkeletons />}
+              </div>
             </div>
           </div>
         </div>
