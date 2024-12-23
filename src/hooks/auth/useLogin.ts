@@ -35,7 +35,7 @@ export const useLogin = () => {
     },
     onSuccess: () => {
       // Navigate to home on successful login
-      navigate("/", { replace: true });
+      navigate("/home", { replace: true });
     },
     onError: (error: any) => {
       const errorMessage =

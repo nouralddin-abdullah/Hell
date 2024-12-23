@@ -28,7 +28,7 @@ export const useSignUp = () => {
       return data.data;
     },
     onSuccess: () => {
-      navigate("/", { replace: true });
+      navigate("/home", { replace: true });
     },
     onError: (error: any) => {
       const errorMessage =

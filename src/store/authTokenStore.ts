@@ -5,41 +5,62 @@ import { tokenKey } from "../constants/tokenKey";
 // Define the shape of our store
 interface AuthStore {
   token: string | null;
+  fcmToken: string | null;
   setToken: (value: string) => void;
   getToken: () => string | null;
   updateToken: (newToken: string) => void;
   deleteToken: () => void;
+  setFCMToken: (token: string | null) => void;
+  getFCMToken: () => string | null;
 }
 
-const useAuthStore = create<AuthStore>((set) => ({
-  // State to hold the token
-  token: Cookies.get(tokenKey) || null,
+const FCM_TOKEN_KEY = "fcm_token";
 
-  // Function to create/set the token
+const useAuthStore = create<AuthStore>((set) => ({
+  // State to hold the tokens
+  token: Cookies.get(tokenKey) || null,
+  fcmToken: localStorage.getItem(FCM_TOKEN_KEY) || null,
+
+  // Function to create/set the auth token
   setToken: (value: string) => {
-    // Set the token in cookies with 30-day expiration
     Cookies.set(tokenKey, value, { expires: 30 });
-    set({ token: value }); // Update the state
+    set({ token: value });
   },
 
-  // Function to get/read the token
+  // Function to get/read the auth token
   getToken: () => {
     const token = Cookies.get(tokenKey) || null;
-    set({ token }); // Sync state with the cookie
+    set({ token });
     return token;
   },
 
-  // Function to update the token
+  // Function to update the auth token
   updateToken: (newToken: string) => {
-    // Update the token with 30-day expiration
     Cookies.set(tokenKey, newToken, { expires: 30 });
     set({ token: newToken });
   },
 
-  // Function to delete the token
+  // Function to delete both tokens
   deleteToken: () => {
-    Cookies.remove(tokenKey); // Remove the token from cookies
-    set({ token: null }); // Reset the state
+    Cookies.remove(tokenKey);
+    localStorage.removeItem(FCM_TOKEN_KEY);
+    set({ token: null, fcmToken: null });
+  },
+
+  // FCM Token management
+  setFCMToken: (token: string | null) => {
+    if (token) {
+      localStorage.setItem(FCM_TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(FCM_TOKEN_KEY);
+    }
+    set({ fcmToken: token });
+  },
+
+  getFCMToken: () => {
+    const fcmToken = localStorage.getItem(FCM_TOKEN_KEY);
+    set({ fcmToken });
+    return fcmToken;
   },
 }));
 

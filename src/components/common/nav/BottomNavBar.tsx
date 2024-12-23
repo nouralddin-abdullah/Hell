@@ -36,7 +36,7 @@ const BottomNavBar = () => {
     <>
       <nav className="mobile-nav">
         <div className="bottomNav-icon-wrapper">
-          <Link to="/">
+          <Link to="/home">
             <FontAwesomeIcon className="bottomNav-icon" icon={faHouse} />
           </Link>
         </div>

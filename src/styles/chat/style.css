@@ -1,0 +1,163 @@
+/* Chat.css */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  max-width: 800px;
+  margin: 0 auto 6rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.message-wrapper {
+  display: flex;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.message {
+  position: relative;
+  width: 80%;
+  padding: 1rem;
+  /* border: 1px solid var(--primary);
+  background-color: var(--secondary); */
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message-header {
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.username {
+  font-weight: 500;
+  color: #111827;
+  text-decoration: none;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.message-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.message-wrapper:hover .message-actions {
+  opacity: 1;
+}
+
+.action-button {
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #f3f4f6;
+}
+
+.reply-button {
+  border: none;
+  background: transparent;
+  color: #3b82f6;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.reply-button:hover {
+  color: #2563eb;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  color: #6b7280;
+}
+
+.message-content {
+  position: relative;
+  width: 80%;
+  padding: 1rem;
+  border: 1px solid var(--secondary);
+  border-radius: 0 2rem 0rem 2rem;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: #6b7280;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.message-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.message-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.send-button {
+  padding: 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-button:hover {
+  background-color: #2563eb;
+}
+
+.send-button .icon {
+  color: white;
+}
+
+.selected-reply-container {
+  position: relative;
+  width: 60%;
+  padding: 0.5rem;
+  border: 1px solid var(--primary-bold);
+  background-color: var(--primary-extra-bold);
+  color: #fff;
+  border-radius: 0rem 2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.content-reply-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
