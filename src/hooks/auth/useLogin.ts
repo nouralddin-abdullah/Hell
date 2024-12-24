@@ -5,11 +5,6 @@ import { User } from "../../types/User";
 import toast from "react-hot-toast";
 import useAuthStore from "../../store/authTokenStore";
 
-// interface LoginForm {
-//   identifier: string;
-//   password: string;
-// }
-
 export const useLogin = () => {
   const navigate = useNavigate();
   const { setToken } = useAuthStore();
@@ -24,12 +19,13 @@ export const useLogin = () => {
         body: formData,
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
+        // Handle the error format from your API
+        throw new Error(data.message || "Login failed");
       }
 
-      const data = await response.json();
       handleCreateToken(data.token);
       return data.data as User;
     },
@@ -37,11 +33,9 @@ export const useLogin = () => {
       // Navigate to home on successful login
       navigate("/home", { replace: true });
     },
-    onError: (error: any) => {
-      const errorMessage =
-        error.response?.data?.message || "An unexpected error occurred.";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
+    onError: (error: Error) => {
+      // Display the error message from the API
+      toast.error(error.message);
     },
   });
 };
