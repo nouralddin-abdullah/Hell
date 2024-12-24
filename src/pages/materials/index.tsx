@@ -148,14 +148,7 @@ const MaterialsPage = () => {
               <div
                 style={{ display: "flex", gap: "1rem", alignItems: "center" }}
               >
-                <FileComponent
-                  title={material.name}
-                  type={
-                    material.name.split(".")[
-                      material.name.split(".").length - 1
-                    ]
-                  }
-                />
+                <FileComponent title={material.name} />
                 <a
                   href={`${baseURL}/api/materials/download/${material._id}`}
                   target="_blank"
