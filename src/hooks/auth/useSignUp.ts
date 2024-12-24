@@ -18,23 +18,22 @@ export const useSignUp = () => {
         body: formData,
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Sign-up failed");
+        // Handle the error format from your API
+        throw new Error(data.message || "Sign-up failed");
       }
 
-      const data = await response.json();
       handleCreateToken(data.token);
       return data.data;
     },
     onSuccess: () => {
       navigate("/home", { replace: true });
     },
-    onError: (error: any) => {
-      const errorMessage =
-        error.response?.data?.message || "An unexpected error occurred.";
-      toast.error(errorMessage);
-      throw new Error(errorMessage);
+    onError: (error: Error) => {
+      // Display the error message from the API
+      toast.error(error.message);
     },
   });
 };
