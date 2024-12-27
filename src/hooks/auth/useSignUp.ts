@@ -29,7 +29,7 @@ export const useSignUp = () => {
       return data.data;
     },
     onSuccess: () => {
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     },
     onError: (error: Error) => {
       // Display the error message from the API

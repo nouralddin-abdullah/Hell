@@ -48,3 +48,15 @@
   min-height: 120px; /* Adjust as needed */
   padding: 12px 20px;
 }
+
+.toggle-password {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  /* margin: 0.5rem 0; */
+  color: var(--primary);
+  width: fit-content;
+  text-align: left;
+  transform: translateY(-1.5rem);
+  cursor: pointer;
+}

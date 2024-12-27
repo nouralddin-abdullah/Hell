@@ -4,7 +4,7 @@ import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import Button from "../common/button/Button";
 import { useAddQuestion } from "../../hooks/questions/useAddQuestion";
-import { containsBadWords } from "../../utils/containsBadWords";
+// import { containsBadWords } from "../../utils/containsBadWords";
 import toast from "react-hot-toast";
 
 const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
@@ -30,10 +30,10 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (containsBadWords(text) === true) {
-      toast.error("عيب كدة يسطا");
-      return;
-    }
+    // if (containsBadWords(text) === true) {
+    //   toast.error("عيب كدة يسطا");
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append("content", text);

@@ -30,7 +30,7 @@ const TopNavBar = () => {
   return (
     <nav className="nav">
       <div className="nav-container">
-        <Link to={"/home"} className="logo">
+        <Link to={"/"} className="logo">
           <img src={logoIcon} alt="" />
           <p>BIShell</p>
         </Link>
@@ -38,7 +38,7 @@ const TopNavBar = () => {
           <div className="large-nav">
             <ul>
               <li>
-                <Link className="top-nav-link" to="/home">
+                <Link className="top-nav-link" to="/">
                   Home
                 </Link>
               </li>

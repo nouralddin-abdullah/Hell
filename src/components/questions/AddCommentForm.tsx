@@ -5,7 +5,7 @@ import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import Button from "../common/button/Button";
 import { useParams } from "react-router-dom";
 import { useAddQuestionComment } from "../../hooks/questions/useAddQuestionComment";
-import { containsBadWords } from "../../utils/containsBadWords";
+// import { containsBadWords } from "../../utils/containsBadWords";
 import toast from "react-hot-toast";
 
 const AddCommentForm = () => {
@@ -32,10 +32,10 @@ const AddCommentForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (containsBadWords(text) === true) {
-      toast.error("عيب كدة يسطا");
-      return;
-    }
+    // if (containsBadWords(text) === true) {
+    //   toast.error("عيب كدة يسطا");
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append("content", text);

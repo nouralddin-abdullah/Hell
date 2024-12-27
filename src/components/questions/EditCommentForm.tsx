@@ -1,8 +1,8 @@
 import { FormEvent, useState } from "react";
 import Button from "../common/button/Button";
 import { useParams } from "react-router-dom";
-import { containsBadWords } from "../../utils/containsBadWords";
-import toast from "react-hot-toast";
+// import { containsBadWords } from "../../utils/containsBadWords";
+// import toast from "react-hot-toast";
 import { useEditQuestionComment } from "../../hooks/questions/useEditQuestionComment";
 
 interface Props {
@@ -41,10 +41,10 @@ const EditCommentForm = ({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (containsBadWords(text) === true) {
-      toast.error("عيب كدة يسطا");
-      return;
-    }
+    // if (containsBadWords(text) === true) {
+    //   toast.error("عيب كدة يسطا");
+    //   return;
+    // }
 
     const formData = new FormData();
     formData.append("content", text);

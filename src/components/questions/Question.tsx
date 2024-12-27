@@ -102,7 +102,9 @@ const Question = ({
           </Dropdown>
         </div>
       </div>
-      <div className="question-content">{content}</div>
+      <div className="question-content" style={{ overflow: "hidden" }}>
+        {content}
+      </div>
       <div className="question-info">
         <div className="question-date">{timestamps.formatted}</div>
         <div className="question-likes-and-comments">

@@ -31,7 +31,7 @@ export const useLogin = () => {
     },
     onSuccess: () => {
       // Navigate to home on successful login
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     },
     onError: (error: Error) => {
       // Display the error message from the API
