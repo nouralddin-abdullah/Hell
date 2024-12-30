@@ -102,7 +102,26 @@ const ProfilePage = () => {
               <div className="personal-info-container">
                 <div className="main-info">
                   <div className="profile-image-and-name">
-                    <img src={user?.user.photo || anonymousUser} alt="" />
+                    <div className="profile-frame-container">
+                      {user?.user.userFrame && (
+                        <img
+                          src={`https://cdn.discordapp.com/avatar-decoration-presets/${user.user.userFrame}?size=240&passthrough=true`}
+                          alt="user frame"
+                          className="frame"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      )}
+                      <img
+                        src={user?.user.photo || anonymousUser}
+                        alt="user photo"
+                        className="profile-photo"
+                        onError={(e) => {
+                          e.currentTarget.src = anonymousUser;
+                        }}
+                      />
+                    </div>
                     <div
                       style={{
                         display: "flex",

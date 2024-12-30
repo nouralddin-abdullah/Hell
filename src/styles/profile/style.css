@@ -4,8 +4,6 @@
   }
 }
 
-/* start personal info */
-
 .personal-info {
   background-color: var(--secondary-light);
 }
@@ -30,6 +28,20 @@
   .personal-info .main-info .profile-image-and-name img {
     width: 100px;
   }
+}
+
+.profile-frame-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-frame-container .frame {
+  position: absolute;
+  width: 100%;
+  transform: scale(1.2);
+  transform-origin: center;
+  z-index: 2;
+  border-radius: 0 !important;
 }
 
 .personal-info .main-info .profile-image-and-name p {
@@ -309,6 +321,7 @@
 }
 
 /* end profile courses  */
+
 /* start profile posts  */
 
 .profile-posts .profile-posts-container {

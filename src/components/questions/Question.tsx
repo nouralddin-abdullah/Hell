@@ -55,7 +55,23 @@ const Question = ({
       )}
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div className="question-publisher">
-          <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" />
+          <div className="profile-frame-container">
+            {user.userFrame && (
+              <img
+                src={`https://cdn.discordapp.com/avatar-decoration-presets/${user.userFrame}?size=240&passthrough=true`}
+                alt="user frame"
+                className="frame"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            )}
+            <img
+              src={`${baseURL}/profilePics/${user.photo}`}
+              alt="image"
+              className="profile-photo"
+            />
+          </div>
           <div className="question-publisher-fullname">{user.fullName}</div>
           {user.role === "admin" && (
             <img src={verifyImage} style={{ width: "20px", height: "20px" }} />

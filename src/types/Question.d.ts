@@ -1,6 +1,7 @@
 interface User {
   username: string;
   fullName: string;
+  userFrame?: string;
   photo: string;
   role: "student" | "admin" | "doctor" | "group-leader";
 }

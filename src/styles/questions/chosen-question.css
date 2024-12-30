@@ -55,18 +55,22 @@
   }
 }
 
-.comment-section .question-comment-profile-pic {
+
+.question-comment .profile-frame-container .profile-photo {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  z-index: 1;
 }
 
 @media (max-width: 767px) {
-  .comment-section .question-comment-profile-pic {
+  .question-comment .profile-frame-container .frame,
+  .question-comment .profile-frame-container .profile-photo {
     width: 30px;
     height: 30px;
   }
 }
+
 
 .comment-section .question-comment .question-comment-content {
   position: relative;

@@ -62,13 +62,25 @@ const Comment = ({
   return (
     <>
       <div className="question-comment">
-        <Link to={`/profile/${user.username}`}>
-          <img
-            className="question-comment-profile-pic"
-            src={`${baseURL}/profilePics/${user.photo}`}
-            alt="profileImage"
-          />
-        </Link>
+  <Link to={`/profile/${user.username}`}>
+    <div className="profile-frame-container">
+      {user.userFrame && (
+        <img
+          src={`https://cdn.discordapp.com/avatar-decoration-presets/${user.userFrame}?size=240&passthrough=true`}
+          alt="user frame"
+          className="frame"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+      )}
+      <img
+        className="profile-photo"
+        src={`${baseURL}/profilePics/${user.photo}`}
+        alt="profileImage"
+      />
+    </div>
+  </Link>
         <div className="question-comment-content">
           <div className="comment-time">
             {/* <p style={{ fontSize: "12px" }}>{createdAt.split("T")[0]}</p> */}

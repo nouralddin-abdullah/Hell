@@ -18,6 +18,7 @@ export interface User {
     __v: 0;
     toDoList: [];
     id: string;
+    userFrame: string;
   };
   isFollowed: boolean | null;
 }

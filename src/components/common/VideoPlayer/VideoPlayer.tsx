@@ -71,7 +71,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
 
   return (
     <div className="video-player">
-      <video ref={videoRef} src={videoUrl} width="100%" controls></video>
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        width="100%"
+        controls
+        controlsList="nodownload"
+      ></video>
       {/* <div className="controls">
         <button onClick={togglePlayPause}>
           {isPlaying ? "Pause" : "Play"}

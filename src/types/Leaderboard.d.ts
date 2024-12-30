@@ -2,6 +2,7 @@ export interface Leaderboard {
   _id: string;
   username: string;
   fullName: string;
+  userFrame: string;
   email: string;
   photo: string;
   role: "student" | "admin";
