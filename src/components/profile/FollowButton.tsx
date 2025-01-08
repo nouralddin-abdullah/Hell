@@ -23,7 +23,10 @@ const FollowButton = ({ setIsFollowed, userToFollowId }: Props) => {
   };
 
   return (
-    <button onClick={() => handleClick()} className="edit-profile">
+    <button
+      onClick={() => handleClick()}
+      className="edit-profile follow-following-btn"
+    >
       Follow
     </button>
   );

@@ -60,8 +60,8 @@ const LoginFormComponent = () => {
     if (validateFields() === false) return;
 
     const formData = new FormData();
-    formData.append("identifier", formFields.identifier);
-    formData.append("password", formFields.password);
+    formData.append("identifier", formFields.identifier.trim());
+    formData.append("password", formFields.password.trim());
 
     await mutateAsync(formData);
   };

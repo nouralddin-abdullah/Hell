@@ -5,6 +5,7 @@ export interface User {
     fullName: string;
     email: string;
     photo: string;
+    userFrame: string;
     caption: string;
     role: "student" | "doctor" | "admin" | "group-leader";
     group: "A" | "B" | "C" | "D";
@@ -18,7 +19,6 @@ export interface User {
     __v: 0;
     toDoList: [];
     id: string;
-    userFrame: string;
   };
   isFollowed: boolean | null;
 }

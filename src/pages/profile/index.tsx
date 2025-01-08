@@ -20,6 +20,9 @@ import EditProfileForm from "../../components/profile/EditProfileForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { TailSpin } from "react-loader-spinner";
 import FollowHandler from "../../components/profile/FollowHandler";
+import Avatar from "../../components/common/avatar/Avatar";
+import FollowersList from "../../components/profile/FollowersList";
+import FollowingList from "../../components/profile/FollowingList";
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -65,6 +68,10 @@ const ProfilePage = () => {
 
   const [isEditingMode, setIsEditingMode] = useState(false);
 
+  // followers and following
+  const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
+  const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
+
   if (currentUserLoading || profileUserLoading) {
     return (
       <div
@@ -102,26 +109,12 @@ const ProfilePage = () => {
               <div className="personal-info-container">
                 <div className="main-info">
                   <div className="profile-image-and-name">
-                    <div className="profile-frame-container">
-                      {user?.user.userFrame && (
-                        <img
-                          src={`https://cdn.discordapp.com/avatar-decoration-presets/${user.user.userFrame}?size=240&passthrough=true`}
-                          alt="user frame"
-                          className="frame"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      )}
-                      <img
-                        src={user?.user.photo || anonymousUser}
-                        alt="user photo"
-                        className="profile-photo"
-                        onError={(e) => {
-                          e.currentTarget.src = anonymousUser;
-                        }}
-                      />
-                    </div>
+                    {/* <img src={user?.user.photo || anonymousUser} alt="" /> */}
+                    <Avatar
+                      photo={user?.user.photo || anonymousUser}
+                      userFrame={user?.user.userFrame || "null"}
+                      animated
+                    />
                     <div
                       style={{
                         display: "flex",
@@ -154,12 +147,18 @@ const ProfilePage = () => {
                         <p>Points</p>
                       </div>
 
-                      <div className="followers">
+                      <div
+                        className="followers"
+                        onClick={() => setIsFollowersModalOpen(true)}
+                      >
                         <p>{user?.user.followers.length}</p>
                         <p>Followers</p>
                       </div>
 
-                      <div className="following">
+                      <div
+                        className="following"
+                        onClick={() => setIsFollowingModalOpen(true)}
+                      >
                         <p>{user?.user.following.length}</p>
                         <p>Following</p>
                       </div>
@@ -297,6 +296,28 @@ const ProfilePage = () => {
       {/* modal for editig profile data */}
       <Modal isOpen={isEditingMode} onClose={() => setIsEditingMode(false)}>
         <EditProfileForm setIsEditingMode={setIsEditingMode} />
+      </Modal>
+
+      {/* modal for followers */}
+      <Modal
+        isOpen={isFollowersModalOpen}
+        onClose={() => setIsFollowersModalOpen(false)}
+      >
+        <FollowersList
+          username={user?.user.username}
+          onClose={() => setIsFollowersModalOpen(false)}
+        />
+      </Modal>
+
+      {/* modal for following */}
+      <Modal
+        isOpen={isFollowingModalOpen}
+        onClose={() => setIsFollowingModalOpen(false)}
+      >
+        <FollowingList
+          username={user?.user.username}
+          onClose={() => setIsFollowingModalOpen(false)}
+        />
       </Modal>
     </ProtectedRoute>
   );
