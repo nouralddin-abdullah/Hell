@@ -16,7 +16,13 @@ const Avatar = ({
       <img src={photo} className={className} />
       {userFrame !== null && userFrame !== "null" && (
         <img
-          style={{ position: "absolute", top: 0, left: 0, borderRadius: "0" }}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            borderRadius: "0",
+            transform: "scale(1.2)",
+          }}
           src={`https://cdn.discordapp.com/avatar-decoration-presets/${userFrame}?size=240&passthrough=${animated}`}
           className={className}
         />

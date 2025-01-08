@@ -79,7 +79,7 @@ const Comment = ({
         <div className="question-comment-content">
           <div className="comment-time">
             {/* <p style={{ fontSize: "12px" }}>{createdAt.split("T")[0]}</p> */}
-            <p>{createdAt.split("T")[1].split(".")[0]}</p>
+            <p>{createdAt.split(",")[1].split(".")[0].trim()}</p>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "flex", gap: "1rem" }}>
@@ -192,7 +192,7 @@ const Comment = ({
           )}
 
           <div className="comment-info">
-            <div className="comment-date">{createdAt.split("T")[0]}</div>
+            <div className="comment-date">{createdAt.split(",")[0]}</div>
             <div className="comment-likes-and-comments">
               <QuestionsLikeHandler
                 // @ts-ignore
