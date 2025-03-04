@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/nav/bottom-nav-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,7 @@ import { useLogOut } from "../../../hooks/auth/useLogOut";
 import Dropdown from "../Dropdown/dropdown";
 import Modal from "../modal/Modal";
 import Button from "../button/Button";
+import { useGetUnreadNotifications } from "../../../hooks/notifications/useGetUnreadNotifications";
 
 const BottomNavBar = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const BottomNavBar = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const { mutateAsync, isPending } = useLogOut();
+
+  const { data: unreadNotifications } = useGetUnreadNotifications();
 
   if (!token) {
     return null;
@@ -63,6 +66,41 @@ const BottomNavBar = () => {
             <FontAwesomeIcon className="bottomNav-icon" icon={faRankingStar} />
           </Link>
         </div>
+
+        <div>
+          <Link
+            className="top-nav-link"
+            style={{ position: "relative" }}
+            to={`/notifications`}
+          >
+            <FontAwesomeIcon
+              className="bottomNav-icon"
+              icon={faBell}
+              size="xl"
+            />
+            {unreadNotifications && unreadNotifications?.total > 0 && (
+              <p
+                style={{
+                  position: "absolute",
+                  bottom: "70%",
+                  left: "100%",
+                  width: "18px",
+                  height: "18px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "50%",
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                }}
+              >
+                {unreadNotifications.total < 100
+                  ? unreadNotifications.total
+                  : "99+"}
+              </p>
+            )}
+          </Link>
+        </div>
         <div
           className="bottomNav-icon-wrapper"
           style={{ position: "relative", cursor: "pointer" }}
@@ -84,6 +122,22 @@ const BottomNavBar = () => {
                 to={`/profile/${currentUser?.user.username}`}
               >
                 Profile
+              </Link>
+            </div>
+
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen(false);
+              }}
+              // className="dropdown-button"
+            >
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                className="top-nav-link dropdown-button"
+                to={`/settings`}
+              >
+                Settings
               </Link>
             </div>
 

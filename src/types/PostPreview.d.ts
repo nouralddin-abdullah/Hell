@@ -27,7 +27,7 @@ export interface Course {
 export interface Post {
   _id: string;
   userId: PostUser;
-  courseId?: Course;
+  courseId?: string;
   title: string;
   contentBlocks: ContentBlock[];
   likes: string[];

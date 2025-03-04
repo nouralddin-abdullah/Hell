@@ -38,6 +38,7 @@
   padding-right: 30px !important;
   padding-left: 30px !important;
   border-radius: 1rem;
+  position: relative;
 }
 
 .home .container > div > p:first-of-type {
@@ -130,6 +131,7 @@
 .home .schedule {
   overflow-x: scroll;
   border-radius: 1rem;
+  position: relative;
 }
 
 .home .schedule ul {

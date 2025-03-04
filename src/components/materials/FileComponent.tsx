@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { docIcon, pdfIcon, pptIcon, xlsIcon } from "../../assets";
+import { docIcon, pdfIcon, pptIcon, txtIcon, xlsIcon } from "../../assets";
 
 interface Props {
   title: string;
@@ -21,6 +21,9 @@ const FileComponent = ({ title, type }: Props) => {
     }
     if (type === "xlsx") {
       setIcon(xlsIcon);
+    }
+    if (type === "txt") {
+      setIcon(txtIcon);
     }
   }, [type]);
 

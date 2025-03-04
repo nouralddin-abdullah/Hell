@@ -28,9 +28,22 @@ export const useUpdateUserData = () => {
       const data = await response.json();
       return data.data;
     },
-    onSuccess: () => {
-      // Invalidate and refetch the user query
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+    onSuccess: (data) => {
+      // Update the user query cache directly instead of refetching
+      queryClient.setQueryData(["user"], (oldData: any) => {
+        if (!oldData) return { status: "success", data };
+
+        // Preserve the structure of the response
+        return {
+          ...oldData,
+          status: "success",
+          data: {
+            ...oldData.data,
+            user: data.user,
+          },
+        };
+      });
+
       toast.success("Your Data is Updated Successfully");
     },
     onError: (error: any) => {

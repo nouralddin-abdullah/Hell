@@ -206,6 +206,7 @@
 .posted-question .question-content {
   margin: 10px 0;
   font-size: 22px;
+  line-break: anywhere;
 }
 
 @media (max-width: 767px) {
@@ -264,12 +265,13 @@
 
 /* dropdown start */
 .dropdown-button {
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   border: none;
   border-radius: 1rem;
   transition: all 200ms;
   background-color: transparent;
+  width: fit-content;
 }
 
 @media (max-width: 767px) {

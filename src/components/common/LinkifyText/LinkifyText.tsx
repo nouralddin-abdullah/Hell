@@ -30,13 +30,7 @@ const LinkifyText = ({ text }: { text: string }) => {
     <span className="linkify-text">
       {parts.map((part, i) =>
         part.type === "link" ? (
-          <a
-            key={i}
-            href={part.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-800 underline"
-          >
+          <a key={i} href={part.href} target="_blank" rel="noopener noreferrer">
             {part.content}
           </a>
         ) : (

@@ -7,7 +7,8 @@ import Button from "../common/button/Button";
 import { useCreateNote } from "../../hooks/notes/useCreateNote";
 import { Post } from "../../types/PostPreview";
 import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
-import Textarea from "../common/input/Textarea";
+// import Textarea from "../common/input/Textarea";
+import ReactQuill from "react-quill";
 
 interface Props {
   setPostsList: React.Dispatch<React.SetStateAction<Post[]>>;
@@ -197,13 +198,12 @@ const AddNoteForm = ({ setPostsList, onClose }: Props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <div style={{ width: "85%" }} key={idx}>
-                  <Textarea
-                    labelText="Content"
+                <div style={{ width: "85%", margin: "0 auto" }} key={idx}>
+                  <ReactQuill
+                    // labelText="Content"
                     value={contentItem.content}
-                    onChange={(e) =>
-                      handleContentChange(idx, e.target.value, "text")
-                    }
+                    onChange={(e) => handleContentChange(idx, e, "text")}
+                    theme="snow"
                   />
 
                   <input
@@ -217,7 +217,7 @@ const AddNoteForm = ({ setPostsList, onClose }: Props) => {
                   <button
                     type="button"
                     style={{
-                      transform: "translateY(-1rem)",
+                      // transform: "translateY(-1rem)",
                       cursor: "pointer",
                     }}
                     onClick={() => triggerFileInput(idx)}

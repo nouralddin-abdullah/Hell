@@ -63,7 +63,7 @@ const ReusableChat: React.FC = () => {
     setNewMessage("");
 
     // Initialize socket connection
-    socketRef.current = io("https://apis.bishell.online", {
+    socketRef.current = io("https://api.bishell.online", {
       query: { course: `${courseName ? courseName : "general"}` },
       auth: {
         token: userToken,

@@ -5,6 +5,7 @@ import { useGetGroupSchedule } from "../../hooks/schedule/useGetGroupSchedule";
 import TableSkeleton from "./TableSkeleton";
 import { Schedule } from "../../types/Schedule";
 import { useGetUpcomingSection } from "../../hooks/schedule/useGetUpcomingSection";
+import { zeena } from "../../assets";
 
 const ScheduleContainer = () => {
   const { data: user } = useGetCurrentUser();
@@ -70,6 +71,7 @@ const ScheduleContainer = () => {
             isSelected={selectedGroup === group}
             // @ts-ignore
             onClick={() => setSelectedGroup(group)}
+            style={{ position: "relative", zIndex: "10" }}
           >
             {group}
           </ChipButton>
@@ -133,6 +135,30 @@ const ScheduleContainer = () => {
       ) : (
         <TableSkeleton />
       )}
+
+      <img
+        style={{
+          position: "absolute",
+          top: "0",
+          right: "5%",
+          width: "40%",
+          zIndex: "2",
+        }}
+        src={zeena}
+        alt=""
+      />
+
+      <img
+        style={{
+          position: "absolute",
+          top: "0",
+          right: "45%",
+          width: "40%",
+          zIndex: "2",
+        }}
+        src={zeena}
+        alt=""
+      />
     </div>
   );
 };

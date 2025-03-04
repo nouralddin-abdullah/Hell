@@ -24,6 +24,11 @@ import { getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { messaging } from "./firebase";
 import { updateDeviceToken } from "../src/hooks/notifications/updateDeviceToken";
+import RamadanModal from "./components/common/ramadan/RamadanModal";
+import NotificationPage from "./pages/notifications";
+import SettingsPage from "./pages/settings";
+import "react-quill/dist/quill.snow.css";
+import "react-toggle/style.css"; // for ES6 modules
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -197,11 +202,15 @@ function App() {
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/questions/:id" element={<ChosenQuestionPage />} />
         <Route path="/scoreboard" element={<ScoreboardPage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
 
       {!tokenAvailable && <JoinUsPopup />}
 
       <BottomNavBar />
+
+      <RamadanModal />
     </>
   );
 }

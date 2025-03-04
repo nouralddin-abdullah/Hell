@@ -5,20 +5,21 @@ export interface User {
     fullName: string;
     email: string;
     photo: string;
+    userFrame: string;
     caption: string;
-    role: "student" | "doctor" | "admin" | "group-leader";
+    role: "student" | "instructor" | "admin" | "group-leader";
     group: "A" | "B" | "C" | "D";
     badges: [];
     recentNotes: [];
     points: number;
     rank: number;
-    followers: [User];
-    following: [User];
+    followers: [string];
+    following: [string];
     showToDo: boolean;
     __v: 0;
     toDoList: [];
     id: string;
-    userFrame: string;
+    isPrivate: boolean;
   };
   isFollowed: boolean | null;
 }

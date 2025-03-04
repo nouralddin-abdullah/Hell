@@ -1,0 +1,125 @@
+/* Notifications container */
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Loading, error, and empty states */
+.loading-message,
+.error-message,
+.empty-message {
+  padding: 16px;
+  text-align: center;
+}
+
+.error-message {
+  color: #e53e3e;
+}
+
+/* Notification item */
+.notification-item {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.notification-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Notification content layout */
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* User avatar */
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Notification details */
+.notification-details {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: #000;
+}
+
+.notification-message {
+  color: #4a5568;
+  margin: 0 0 8px 0;
+}
+
+/* Meta information row */
+.notification-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.notification-time {
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+/* Unread indicator dot */
+.unread-indicator {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #3182ce;
+  border-radius: 50%;
+}
+
+/* Loader section */
+.loader-container {
+  padding: 16px 0;
+  text-align: center;
+}
+
+.loading-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e2e8f0;
+  border-top-color: #3182ce;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.scroll-message {
+  color: #718096;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .grid-on-small-screen {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+  }
+}

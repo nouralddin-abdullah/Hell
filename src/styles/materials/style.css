@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 40px;
   padding-top: 5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 8rem;
   position: relative;
 }
 

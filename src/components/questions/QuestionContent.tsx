@@ -19,6 +19,7 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditQuestionForm from "./EditQuestionForm";
 import { verifyImage } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
+import Avatar from "../common/avatar/Avatar";
 
 const QuestionContent = ({
   content,
@@ -66,25 +67,18 @@ const QuestionContent = ({
           style={{ textDecoration: "none", color: "black" }}
           className="question-publisher"
         >
-          <div className="profile-frame-container">
-            {user.userFrame && (
-              <img
-                src={`https://cdn.discordapp.com/avatar-decoration-presets/${user.userFrame}?size=240&passthrough=true`}
-                alt="user frame"
-                className="frame"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                }}
-              />
-            )}
-            <img
-              src={`${baseURL}/profilePics/${user.photo}`}
-              alt="image"
-              className="profile-photo"
-            />
-          </div>
+          {/* <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" /> */}
+          <Avatar
+            photo={`${baseURL}/profilePics/${user.photo}`}
+            userFrame={user.userFrame}
+            animated
+          />
           <div
-            style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              gap: "0.5rem",
+            }}
           >
             <div className="question-publisher-fullname">{user.fullName}</div>
             {(user.role === "admin" || user.role === "group-leader") && (

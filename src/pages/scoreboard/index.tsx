@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { baseURL } from "../../constants/baseURL";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
 import { TailSpin } from "react-loader-spinner";
+import Avatar from "../../components/common/avatar/Avatar";
 
 const ScoreboardPage = () => {
   const { data: leaderboardList, isPending } = useGetLeaderboard();
@@ -156,9 +157,14 @@ const ScoreboardPage = () => {
                 .map((user, idx) => (
                   <div className="scoreboard-rank">
                     <div className="regular-rank-userinfo">
-                      <img
+                      {/* <img
                         src={`${baseURL}/profilePics/${user.photo}`}
                         alt=""
+                      /> */}
+                      <Avatar
+                        photo={`${baseURL}/profilePics/${user.photo}`}
+                        userFrame={user.userFrame || "null"}
+                        animated
                       />
                       <div className="regular-rank-name-and-user">
                         <p className="regular-rank-userFullname">

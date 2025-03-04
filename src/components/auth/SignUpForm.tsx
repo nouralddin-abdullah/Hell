@@ -74,7 +74,7 @@ const SignUpFormComponent = () => {
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formFields.email)) {
+    if (!emailRegex.test(formFields.email.trim())) {
       handleErrorsChange("email", "Please enter a valid email address");
       isValid = false;
     } else {
@@ -117,11 +117,11 @@ const SignUpFormComponent = () => {
 
     const formData = new FormData();
 
-    formData.append("fullName", formFields.fullName);
-    formData.append("username", formFields.username);
-    formData.append("email", formFields.email);
-    formData.append("password", formFields.password);
-    formData.append("passwordConfirm", formFields.passwordConfirm);
+    formData.append("fullName", formFields.fullName.trim());
+    formData.append("username", formFields.username.trim());
+    formData.append("email", formFields.email.trim());
+    formData.append("password", formFields.password.trim());
+    formData.append("passwordConfirm", formFields.passwordConfirm.trim());
     formData.append("group", formFields.group);
     if (formFields.photo) formData.append("photo", formFields.photo);
 

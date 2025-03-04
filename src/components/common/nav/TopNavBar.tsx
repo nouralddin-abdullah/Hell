@@ -8,6 +8,9 @@ import { useState } from "react";
 import Modal from "../modal/Modal";
 import Button from "../button/Button";
 import { useLogOut } from "../../../hooks/auth/useLogOut";
+import { useGetUnreadNotifications } from "../../../hooks/notifications/useGetUnreadNotifications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 const TopNavBar = () => {
   const navigate = useNavigate();
@@ -22,6 +25,8 @@ const TopNavBar = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const { mutateAsync, isPending } = useLogOut();
+
+  const { data: unreadNotifications } = useGetUnreadNotifications();
 
   if (!token) {
     return null;
@@ -42,43 +47,64 @@ const TopNavBar = () => {
                   Home
                 </Link>
               </li>
+
               <li>
                 <Link className="top-nav-link" to="/chat">
                   Chat
                 </Link>
               </li>
+
               <li>
                 <Link className="top-nav-link" to="/questions">
                   Questions
                 </Link>
               </li>
+
               <li>
                 <Link className="top-nav-link" to="/announcements">
                   Announcements
                 </Link>
               </li>
-              {/* <li>
-                <Link
-                  className="top-nav-link"
-                  to={`/profile/${user?.user.username}`}
-                >
-                  Profile
-                </Link>
-              </li> */}
+
               <li>
                 <Link className="top-nav-link" to={`/scoreboard`}>
                   Scoreboard
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  className="top-nav-link"
+                  style={{ position: "relative" }}
+                  to={`/notifications`}
+                >
+                  <FontAwesomeIcon icon={faBell} size="xl" />
+                  {unreadNotifications && unreadNotifications?.total > 0 && (
+                    <p
+                      style={{
+                        position: "absolute",
+                        bottom: "25%",
+                        right: "15%",
+                        background: "var(--primary)",
+                        width: "20px",
+                        height: "20px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        color: "white",
+                        borderRadius: "50%",
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {unreadNotifications.total < 100
+                        ? unreadNotifications.total
+                        : "99+"}
+                    </p>
+                  )}
+                </Link>
+              </li>
             </ul>
-            {/* <Button
-              style={{
-                padding: "10px 20px",
-              }}
-              onClick={() => navigate("/scoreboard")}
-            >
-              Scoreboard
-            </Button> */}
 
             <div
               style={{ position: "relative", cursor: "pointer" }}
@@ -96,7 +122,7 @@ const TopNavBar = () => {
                     e.stopPropagation();
                     setIsDropdownOpen(false);
                   }}
-                  // className="dropdown-button"
+                  className="dropdown-button"
                 >
                   <Link
                     className="top-nav-link dropdown-button"
@@ -106,16 +132,33 @@ const TopNavBar = () => {
                   </Link>
                 </div>
 
-                <button
+                <div
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsDropdownOpen(false);
-                    setIsLogoutModalOpen(true);
                   }}
                   className="dropdown-button"
                 >
-                  Logout
-                </button>
+                  <Link
+                    className="top-nav-link dropdown-button"
+                    to={`/settings`}
+                  >
+                    Settings
+                  </Link>
+                </div>
+
+                <div className="dropdown-button">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsDropdownOpen(false);
+                      setIsLogoutModalOpen(true);
+                    }}
+                    className="top-nav-link dropdown-button"
+                  >
+                    Logout
+                  </button>
+                </div>
               </Dropdown>
             </div>
           </div>

@@ -1,0 +1,94 @@
+/* FollowersList.css and FollowingList.css */
+.followers-container,
+.following-container {
+  width: 100%;
+  min-width: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.followers-title,
+.following-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+}
+
+.followers-list,
+.following-list {
+  max-height: 400px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.follower-item,
+.following-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  width: 100%;
+}
+
+.follower-item:hover,
+.following-item:hover {
+  background-color: #f9fafb;
+}
+
+.follower-avatar,
+.following-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.follower-info,
+.following-info {
+  flex: 1;
+}
+
+.follower-username,
+.following-username {
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.followers-loading,
+.following-loading,
+.load-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+.followers-error,
+.following-error {
+  color: #ef4444;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .follower-username,
+  .following-username {
+    font-size: 0.6rem;
+  }
+
+  .follower-item,
+  .following-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -14,6 +14,7 @@ const Dropdown: React.FC<Props> = ({
 }) => {
   const styles: CSSProperties = {
     zIndex: "200",
+    maxWidth: "250px",
     ...(popUpDirection === "down" ? { top: "100%" } : { bottom: "100%" }),
   };
 

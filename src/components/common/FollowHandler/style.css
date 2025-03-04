@@ -1,0 +1,25 @@
+.follow-following-btn {
+  padding: 8px 20px;
+  height: fit-content;
+  border-radius: 24px;
+  outline: none;
+  border: none;
+  background-color: #c1c1c1;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 22px;
+  position: relative;
+}
+
+.follow-following-btn:hover {
+  background-color: var(--primary);
+  transition: 0.2s;
+}
+
+@media (max-width: 767px) {
+  .follow-following-btn {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}

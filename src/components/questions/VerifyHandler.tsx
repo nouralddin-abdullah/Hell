@@ -18,7 +18,7 @@ const VerifyHandler = ({
   const { data: currentUser } = useGetCurrentUser();
 
   if (
-    currentUser?.user.role === "student" ||
+    (currentUser?.user.role === "student" && accessible === false) ||
     (currentUser?.user.role === "admin" && accessible === false) ||
     !currentUser
   ) {

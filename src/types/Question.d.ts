@@ -1,9 +1,9 @@
 interface User {
   username: string;
   fullName: string;
-  userFrame?: string;
+  userFrame: string;
   photo: string;
-  role: "student" | "admin" | "doctor" | "group-leader";
+  role: "student" | "admin" | "instructor" | "group-leader";
 }
 
 interface Stats {

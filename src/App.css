@@ -26,10 +26,10 @@ body {
   overflow-x: hidden;
   font-family: "Manrope", sans-serif;
 }
-
+/* 
 li {
   list-style: none;
-}
+} */
 
 .btn {
   color: white;
@@ -152,4 +152,76 @@ li {
   .show-on-small {
     display: block !important;
   }
+}
+
+/* to display the new content */
+.html-content {
+  width: 100%;
+}
+
+.html-content h1,
+.html-content h2,
+.html-content h3,
+.html-content h4,
+.html-content h5,
+.html-content h6 {
+  margin: 1rem 0;
+}
+
+.html-content p {
+  margin-bottom: 1rem;
+}
+
+.html-content ul,
+.html-content ol {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.notification-count {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  background: var(--primary);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Add these styles to your style.css file */
+
+.blurred-image {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.disabled-stat {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Prevent image selection and saving */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  /* user-drag: none; */
+  user-select: none;
+}
+
+/* Style for private account message */
+.private-account-message {
+  text-align: center;
+  padding: 2rem;
+  margin: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }

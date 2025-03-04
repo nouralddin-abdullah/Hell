@@ -11,11 +11,14 @@ import PageWrapper from "../../components/common/page wrapper/PageWrapper";
 import { noMaterialsIcon } from "../../assets";
 import { useDownloadMaterialFolders } from "../../hooks/materials/useDownloadMaterialsFolder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { TailSpin } from "react-loader-spinner";
 import AddMaterialForm from "../../components/materials/AddMaterialForm";
 import Modal from "../../components/common/modal/Modal";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import DeleteMaterialButton from "../../components/materials/DeleteMaterialButton";
+import { MaterialType } from "../../types/Material";
+import Button from "../../components/common/button/Button";
 
 const MaterialsPage = () => {
   const { id } = useParams();
@@ -54,6 +57,11 @@ const MaterialsPage = () => {
   };
 
   const [showUploadModal, setShowUploadModal] = useState(false);
+
+  // delete modal states
+  const [selectedMaterial, setSelectedMaterial] =
+    useState<null | MaterialType>();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   return (
     <PageWrapper>
@@ -143,6 +151,18 @@ const MaterialsPage = () => {
                     <FontAwesomeIcon icon={faDownload} />
                   )}
                 </button>
+
+                {currentUser?.user.role !== "student" && (
+                  <button
+                    className="download-material-button"
+                    onClick={() => {
+                      setSelectedMaterial(material);
+                      setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                )}
               </div>
             ) : (
               <div
@@ -178,11 +198,53 @@ const MaterialsPage = () => {
                     <FontAwesomeIcon icon={faDownload} />
                   )}
                 </a>
+
+                {currentUser?.user.role !== "student" && (
+                  <button
+                    className="download-material-button"
+                    onClick={() => {
+                      setSelectedMaterial(material);
+                      setIsDeleteModalOpen(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                )}
               </div>
             )
           )
         )}
       </div>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      >
+        <h3 style={{ textAlign: "center" }}>
+          Are You Sure You Want To Delete ({selectedMaterial?.name}) ?
+        </h3>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            margin: "1rem",
+          }}
+        >
+          <Button
+            style={{ background: "gray" }}
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            Cancel
+          </Button>
+          <DeleteMaterialButton
+            closeModal={() => setIsDeleteModalOpen(false)}
+            // @ts-ignore
+            materialId={selectedMaterial?._id}
+          />
+        </div>
+      </Modal>
     </PageWrapper>
   );
 };

@@ -2,9 +2,9 @@ export interface Leaderboard {
   _id: string;
   username: string;
   fullName: string;
-  userFrame: string;
   email: string;
   photo: string;
+  userFrame: string;
   role: "student" | "admin";
   group: "A" | "B" | "C" | "D";
   badges: any[];
