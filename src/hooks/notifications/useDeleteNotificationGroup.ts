@@ -2,26 +2,25 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
 import useAuthStore from "../../store/authTokenStore";
 
-interface MarkAsReadResponse {
+interface DeleteNotificationsResponse {
   status: string;
+  message: string;
   data: {
-    notification: {
-      id: string;
-      isRead: boolean;
-    };
+    deletedCount: number;
+    remainingCounts: Record<string, number>;
   };
 }
 
-export const useMarkNotificationGroupRead = () => {
+export const useDeleteNotificationGroup = () => {
   const queryClient = useQueryClient();
   const token = useAuthStore((state) => state.token);
 
-  return useMutation<MarkAsReadResponse, Error, string>({
+  return useMutation<DeleteNotificationsResponse, Error, string>({
     mutationFn: async (group: string) => {
       const response = await fetch(
-        `${baseURL}/api/notifications/mark-all-read?group=${group}`,
+        `${baseURL}/api/notifications/delete-group?group=${group}`,
         {
-          method: "PATCH",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -32,15 +31,15 @@ export const useMarkNotificationGroupRead = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.message || "Failed to mark notification as read"
+          errorData.message || "Failed to delete notifications"
         );
       }
 
       return await response.json();
     },
 
-    onSuccess: async (_, group) => {
-      // update after successful request
+    onSuccess: async (_data, group) => {
+      // update count
       queryClient.setQueryData(["unread-notifications"], (oldData: any) => {
         if (!oldData) return oldData;
         
@@ -51,11 +50,12 @@ export const useMarkNotificationGroupRead = () => {
           total: oldData.total - groupCount,
           groups: {
             ...oldData.groups,
-            [group]: 0 // set group count to 0
+            [group]: 0 // count 0
           }
         };
       });
       
+      // fresh data
       await queryClient.invalidateQueries({
         queryKey: ["notifications"],
       });
@@ -63,20 +63,6 @@ export const useMarkNotificationGroupRead = () => {
       await queryClient.invalidateQueries({
         queryKey: ["unread-notifications"],
       });
-    },
-
-    onError: (_, __, context: any) => {
-      // restore if mutation failds to update
-      if (context?.previousQueries) {
-        context.previousQueries.forEach(([queryKey, queryData]: [any, any]) => {
-          queryClient.setQueryData(queryKey, queryData);
-        });
-      }
-      
-      // restore unread data
-      if (context?.previousUnreadData) {
-        queryClient.setQueryData(["unread-notifications"], context.previousUnreadData);
-      }
     },
   });
 };

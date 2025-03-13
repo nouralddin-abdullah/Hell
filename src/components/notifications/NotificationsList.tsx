@@ -5,6 +5,7 @@ import { useMarkNotificationRead } from "../../hooks/notifications/useMarkNotifi
 import { Link } from "react-router-dom";
 import Button from "../common/button/Button";
 import { useMarkNotificationGroupRead } from "../../hooks/notifications/useMarkNotificationGroupRead";
+import { useDeleteNotificationGroup } from "../../hooks/notifications/useDeleteNotificationGroup";
 
 interface Props {
   group: "social" | "questions" | "comments" | "announcements" | "materials";
@@ -39,6 +40,9 @@ const NotificationsList = ({ group }: Props) => {
 
   const { mutateAsync: markAllRead, isPending } =
     useMarkNotificationGroupRead();
+
+  const { mutateAsync: deleteAllNotifications, isPending: isDeleting } =
+    useDeleteNotificationGroup();
 
   const { mutate: markAsRead } = useMarkNotificationRead();
 
@@ -75,6 +79,14 @@ const NotificationsList = ({ group }: Props) => {
           style={{ padding: "8px" }}
         >
           Read All
+        </Button>
+
+        <Button 
+          onClick={async () => await deleteAllNotifications(group)}
+          isLoading={isDeleting}
+          style={{ padding: "8px", backgroundColor: "var(--danger, #dc3545)", color: "white" }}
+        >
+          Delete All
         </Button>
       </div>
 
