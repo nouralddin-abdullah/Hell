@@ -36,6 +36,7 @@ const NotificationsList = ({ group }: Props) => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useGetNotifications(group, status);
 
   const { mutateAsync: markAllRead, isPending } =
@@ -51,6 +52,11 @@ const NotificationsList = ({ group }: Props) => {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  // Refetch notifications when group changes
+  useEffect(() => {
+    refetch();
+  }, [group, refetch]);
 
   // Handler for when user clicks on a notification
   const handleNotificationClick = (notificationId: string, isRead: boolean) => {

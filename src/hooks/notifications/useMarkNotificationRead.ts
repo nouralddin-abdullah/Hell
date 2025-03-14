@@ -73,6 +73,18 @@ export const useMarkNotificationRead = () => {
         }
       );
 
+      // Also update unread counts
+      queryClient.setQueryData(["unread-notifications"], (oldData: any) => {
+        if (!oldData) return oldData;
+        
+        return {
+          ...oldData,
+          total: Math.max(0, oldData.total - 1),
+          // Note: We can't accurately update the group counts without knowing which group the notification belongs to
+          // This will be fixed by the next refetch
+        };
+      });
+
       // Return context with the previous state
       return { previousQueries };
     },
@@ -89,6 +101,7 @@ export const useMarkNotificationRead = () => {
     onSettled: () => {
       // Invalidate all notification queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications"] });
     },
   });
 };

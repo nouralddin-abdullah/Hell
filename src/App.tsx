@@ -29,6 +29,9 @@ import NotificationPage from "./pages/notifications";
 import SettingsPage from "./pages/settings";
 import "react-quill/dist/quill.snow.css";
 import "react-toggle/style.css"; // for ES6 modules
+import { io } from "socket.io-client";
+import { useQueryClient } from "@tanstack/react-query";
+import { baseURL } from "./constants/baseURL";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -44,7 +47,75 @@ function urlBase64ToUint8Array(base64String: string) {
 function App() {
   const tokenAvailable = useAuthStore((state) => state.token);
 
+
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  // Socket.IO connection for notifications
+  useEffect(() => {
+    if (!tokenAvailable) return;
+    
+    // Create notification socket connection
+    const notificationSocket = io(`${baseURL}/notifications`, {
+      auth: { token: tokenAvailable },
+      transports: ["websocket"],
+      reconnection: true,
+    });
+    
+    // Connection event handling
+    notificationSocket.on("connect", () => {
+      console.log("Connected to notification system");
+    });
+    
+    notificationSocket.on("connect_error", (error) => {
+      console.error("Notification connection error:", error.message);
+    });
+    
+    // Handle new notifications
+    notificationSocket.on("new_notification", ({ notification }) => {
+      console.log("New notification received:", notification);
+      
+      // Update notification counts in query cache
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      
+      // Show toast notification
+      toast(
+        (t) => (
+          <div
+            onClick={() => {
+              if (notification.link) {
+                navigate(notification.link);
+              }
+              toast.dismiss(t.id);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <h4>{notification.title || "New Notification"}</h4>
+            <p>{notification.message || "You have a new notification"}</p>
+          </div>
+        ),
+        {
+          duration: 5000,
+          position: "top-right",
+          style: {
+            background: "#333",
+            color: "#fff",
+            padding: "16px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            fontSize: "14px",
+            maxWidth: "350px",
+          },
+          icon: "👋",
+        }
+      );
+    });
+    
+    return () => {
+      notificationSocket.disconnect();
+    };
+  }, [tokenAvailable, queryClient, navigate]);
 
   useEffect(() => {
     const registerServiceWorker = async () => {
