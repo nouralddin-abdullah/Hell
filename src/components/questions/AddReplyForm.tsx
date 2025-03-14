@@ -74,12 +74,12 @@ const AddReplyForm = ({ commentId }: Props) => {
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <input
             type="file"
-            id="attachmentReply"
+            id={`attachmentReply-${commentId}`}
             onChange={handleFileChange}
             className="announcement-form__file-input"
           />
           {!attachmentReply && (
-            <label htmlFor="attachmentReply">
+            <label htmlFor={`attachmentReply-${commentId}`}>
               <FontAwesomeIcon className="upload-image" icon={faFileImage} />
             </label>
           )}
