@@ -212,40 +212,7 @@ function App() {
   useEffect(() => {
     onMessage(messaging, (payload) => {
       console.log("Message received:", payload);
-
-      const data = payload.data;
-
-      // Show toast notification
-      toast(
-        (t) => (
-          <div
-            onClick={() => {
-              if (data?.link) {
-                navigate(data.link);
-              }
-              toast.dismiss(t.id);
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <h4>{data?.title || "New Notification"}</h4>
-            <p>{data?.body || "You have a new message"}</p>
-          </div>
-        ),
-        {
-          duration: 5000,
-          position: "top-right",
-          style: {
-            background: "#333",
-            color: "#fff",
-            padding: "16px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            fontSize: "14px",
-            maxWidth: "350px",
-          },
-          icon: "👋",
-        }
-      );
+      // FCM message logging only, toast notification removed
     });
   }, [navigate]);
 
