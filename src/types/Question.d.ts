@@ -4,6 +4,13 @@ interface User {
   userFrame: string;
   photo: string;
   role: "student" | "admin" | "instructor" | "group-leader";
+  badges?: Badge[];
+}
+
+interface Badge {
+  _id: string;
+  name: string;
+  icon: string;
 }
 
 interface Stats {

@@ -44,7 +44,7 @@ const NotificationButton = ({
       position: "relative",
       padding: "1rem",
       cursor: "pointer",
-      color: isSelected ? "var(--primary)" : "black", // Add border if selected
+      color: isSelected ? "var(--primary)" : "var(--text-primary)", // Add border if selected
     }}
     onClick={onClick}
   >

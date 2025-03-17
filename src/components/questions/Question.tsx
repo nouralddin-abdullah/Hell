@@ -10,6 +10,7 @@ import LikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { verifyImage } from "../../assets";
 import Avatar from "../common/avatar/Avatar";
+import BadgeIcon from "../common/badge/BadgeIcon";
 
 interface QuestionActionProps {
   setSelectedQuestion: (id: string) => void; // Add type for id
@@ -61,10 +62,15 @@ const Question = ({
             photo={`${baseURL}/profilePics/${user.photo}`}
             userFrame={user.userFrame}
           />
-          <div className="question-publisher-fullname">{user.fullName}</div>
-          {user.role === "admin" && (
-            <img src={verifyImage} style={{ width: "20px", height: "20px" }} />
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div className="question-publisher-fullname">{user.fullName}</div>
+            {user.role === "admin" && (
+              <img src={verifyImage} style={{ width: "20px", height: "20px" }} />
+            )}
+            {user.badges && user.badges.length > 0 && (
+              <BadgeIcon badge={user.badges[0]} size={25} />
+            )}
+          </div>
         </div>
 
         <div

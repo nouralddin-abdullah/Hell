@@ -28,7 +28,7 @@
 }
 
 .notification-item:hover {
-  background-color: #f8f9fa;
+  background-color: var(--secondary-light);
 }
 
 /* Notification content layout */
@@ -54,11 +54,11 @@
 .notification-title {
   font-weight: 500;
   margin: 0 0 4px 0;
-  color: #000;
+  color: var(--text-primary);
 }
 
 .notification-message {
-  color: #4a5568;
+  color: var(--text-secondary);
   margin: 0 0 8px 0;
 }
 

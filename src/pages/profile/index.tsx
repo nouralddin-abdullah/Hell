@@ -282,7 +282,7 @@ const ProfilePage = () => {
                 margin: "2rem",
                 border: "1px solid #ddd",
                 borderRadius: "8px",
-                backgroundColor: "#f9f9f9",
+                backgroundColor: "var(--background)",
               }}
             >
               <h3>This Account is Private</h3>

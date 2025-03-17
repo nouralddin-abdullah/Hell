@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { io, Socket } from "socket.io-client";
-import { Send, Trash2, Edit2 } from "lucide-react";
+import { Send, Trash2, Edit2, X } from "lucide-react";
 import "../../styles/chat/style.css";
 import useAuthStore from "../../store/authTokenStore";
 import { Link, useParams } from "react-router-dom";
@@ -40,22 +40,19 @@ interface UpdatePayload {
 
 const ReusableChat: React.FC = () => {
   const { courseName } = useParams() || "general";
-
   const { data: currentUser } = useGetCurrentUser();
-
   const userToken = useAuthStore((state) => state.token);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
-
   const [editingMessage, setEditingMessage] = useState<Message | null>(null);
   const [newEditingMessage, setNewEditingMessage] = useState("");
-
   const [selectedMsgForReply, setSelectedMsgForReply] =
     useState<Message | null>();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setSelectedMsgForReply(null);
@@ -73,17 +70,14 @@ const ReusableChat: React.FC = () => {
     // Set up event listeners
     socketRef.current.on("load", (loadedMessages: Message[]) => {
       setMessages((prevState) => [...loadedMessages, ...prevState]);
-      console.log(loadedMessages);
-      console.log("Socket Connected");
+      console.log("Socket Connected, messages loaded");
     });
 
     socketRef.current.on("receivedMessage", (message: Message) => {
       setMessages((prev) => [...prev, message]);
-      console.log(message);
     });
 
     socketRef.current.on("deletedMessage", (message: Message) => {
-      console.log(message);
       setMessages((prev) =>
         prev.map((msg) =>
           msg._id === message._id
@@ -94,18 +88,17 @@ const ReusableChat: React.FC = () => {
     });
 
     socketRef.current.on("updatedMessage", (updatedMsg: Message) => {
-      console.log(updatedMsg);
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
           msg._id === updatedMsg._id
-            ? { ...msg, content: updatedMsg.content } // Use newEditingMessage here
+            ? { ...msg, content: updatedMsg.content }
             : msg
         )
       );
     });
 
     socketRef.current.on("error", (errorMsg: string) => {
-      console.log(errorMsg);
+      console.error("Socket error:", errorMsg);
     });
 
     // Load initial messages
@@ -114,11 +107,18 @@ const ReusableChat: React.FC = () => {
     return () => {
       socketRef.current?.disconnect();
     };
-  }, [courseName]);
+  }, [courseName, userToken]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Focus on input when reply is selected
+  useEffect(() => {
+    if (selectedMsgForReply) {
+      messageInputRef.current?.focus();
+    }
+  }, [selectedMsgForReply]);
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -138,7 +138,6 @@ const ReusableChat: React.FC = () => {
       socketRef.current?.emit("sendMessage", newMessage);
       setNewMessage("");
     }
-    // setNewEditingMessage("");
   };
 
   const startReply = (message: Message) => {
@@ -168,30 +167,33 @@ const ReusableChat: React.FC = () => {
     }
   };
 
+  const isSelfMessage = (message: Message) => {
+    return message.sender?.username === currentUser?.user.username;
+  };
+
   return (
     <>
-      <h1
-        style={{ textAlign: "center", margin: "1rem", color: "var(--primary)" }}
-      >
-        Beta Version
-      </h1>
-
       <div className="chat-container">
         <div className="messages-container">
           {messages.map((message) => (
             <div
               key={message.id}
-              className="message-wrapper"
-              draggable={!message.deletedAt} // Make draggable only if not deleted
+              className={`message-wrapper ${
+                isSelfMessage(message) ? "self-message" : ""
+              }`}
+              draggable={!message.deletedAt}
               onDragStart={(e) =>
                 e.dataTransfer.setData("messageId", message._id)
               }
               onDrop={(e) => {
                 e.preventDefault();
                 const draggedMessageId = e.dataTransfer.getData("messageId");
-                startReply(
-                  messages.find((msg) => msg._id === draggedMessageId)!
+                const draggedMessage = messages.find(
+                  (msg) => msg._id === draggedMessageId
                 );
+                if (draggedMessage) {
+                  startReply(draggedMessage);
+                }
               }}
               onDragOver={(e) => e.preventDefault()}
             >
@@ -202,72 +204,56 @@ const ReusableChat: React.FC = () => {
                     className="username"
                   >
                     <img
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                      }}
                       src={`${baseURL}/profilePics/${message.sender?.photo}`}
-                      alt={message.sender?.username}
+                      alt={message.sender?.username || "User"}
                     />
                     {message.sender?.username === currentUser?.user.username
-                      ? "(You)"
+                      ? `${message.sender?.username} (You)`
                       : message.sender?.username || "User"}
                   </Link>
-                  <div className="message-actions">
-                    <button
-                      style={{
-                        display: `${
-                          currentUser?.user.username !==
-                            message.sender?.username || message.deletedAt
-                            ? "none"
-                            : ""
-                        }`,
-                      }}
-                      type="button"
-                      onClick={() => startEdit(message)}
-                      className="action-button"
-                    >
-                      <Edit2 className="icon" />
-                    </button>
 
-                    <button
-                      style={{
-                        display: `${
-                          currentUser?.user.username !==
-                            message.sender?.username || message.deletedAt
-                            ? "none"
-                            : ""
-                        }`,
-                      }}
-                      type="button"
-                      onClick={() => handleDelete(message._id)}
-                      className="action-button"
-                    >
-                      <Trash2 className="icon" />
-                    </button>
-                  </div>
+                  {!message.deletedAt && isSelfMessage(message) && (
+                    <div className="message-actions">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(message)}
+                        className="action-button"
+                        aria-label="Edit message"
+                      >
+                        <Edit2 className="icon" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(message._id)}
+                        className="action-button"
+                        aria-label="Delete message"
+                      >
+                        <Trash2 className="icon" />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="content-reply-container">
                   {message.replyTo && (
                     <div className="selected-reply-container">
-                      <p style={{ fontSize: "12px" }}>
-                        {message.replyTo.sender.username}
-                      </p>
+                      <p>{message.replyTo.sender.username}</p>
                       <p>{message.replyTo.content}</p>
                     </div>
                   )}
 
                   <div className="message-content">
                     {message.deletedAt ? (
-                      <span>Deleted Message</span>
+                      <span className="deleted-message">
+                        This message was deleted
+                      </span>
                     ) : editingMessage?._id === message._id ? (
                       <form
                         onSubmit={(e) => {
                           e.preventDefault();
                           handleSendMessage(e);
                         }}
+                        className="edit-form"
                       >
                         <input
                           type="text"
@@ -275,14 +261,17 @@ const ReusableChat: React.FC = () => {
                           onChange={(e) => setNewEditingMessage(e.target.value)}
                           placeholder="Edit message..."
                           className="message-input"
+                          autoFocus
                           required
                         />
-
-                        <div>
-                          <button type="submit">Edit</button>
+                        <div className="edit-actions">
+                          <button type="submit" className="edit-button">
+                            Save
+                          </button>
                           <button
                             type="button"
                             onClick={() => setEditingMessage(null)}
+                            className="cancel-button"
                           >
                             Cancel
                           </button>
@@ -295,7 +284,10 @@ const ReusableChat: React.FC = () => {
                 </div>
 
                 <span className="timestamp">
-                  {new Date(message.createdAt).toLocaleTimeString()}
+                  {new Date(message.createdAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
               </div>
             </div>
@@ -306,20 +298,15 @@ const ReusableChat: React.FC = () => {
         <div>
           {selectedMsgForReply && (
             <div className="selected-reply-container">
-              <span
+              <button
                 onClick={() => setSelectedMsgForReply(null)}
-                style={{
-                  position: "absolute",
-                  top: "-20%",
-                  left: "0",
-                  cursor: "pointer",
-                  color: "red",
-                  fontWeight: "bold",
-                }}
+                className="close-reply"
+                aria-label="Cancel reply"
               >
-                x
-              </span>
-              {selectedMsgForReply.content}
+                <X size={14} />
+              </button>
+              <p>{selectedMsgForReply.sender?.username}</p>
+              <p>{selectedMsgForReply.content}</p>
             </div>
           )}
           <form onSubmit={handleSendMessage} className="message-form">
@@ -327,10 +314,15 @@ const ReusableChat: React.FC = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder={"Type a message..."}
+              placeholder="Type a message..."
               className="message-input"
+              ref={messageInputRef}
             />
-            <button type="submit" className="send-button">
+            <button
+              type="submit"
+              className="send-button"
+              aria-label="Send message"
+            >
               <Send className="icon" />
             </button>
           </form>

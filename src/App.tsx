@@ -29,6 +29,8 @@ import NotificationPage from "./pages/notifications";
 import SettingsPage from "./pages/settings";
 import "react-quill/dist/quill.snow.css";
 import "react-toggle/style.css"; // for ES6 modules
+import useThemeStore from "./store/darkModeStore";
+import ForgotPasswordPage from "./pages/auth/forgot-password";
 import { io } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { baseURL } from "./constants/baseURL";
@@ -46,8 +48,7 @@ function urlBase64ToUint8Array(base64String: string) {
 
 function App() {
   const tokenAvailable = useAuthStore((state) => state.token);
-
-
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -211,10 +212,17 @@ function App() {
 
   useEffect(() => {
     onMessage(messaging, (payload) => {
-      console.log("Message received:", payload);
-      // FCM message logging only, toast notification removed
+      console.log("Message received:", payload);      
     });
   }, [navigate]);
+
+  // dark mode integration
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDarkMode ? "dark" : "light"
+    );
+  }, [isDarkMode]);
 
   return (
     <>
@@ -227,6 +235,7 @@ function App() {
         <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/join-us" element={<JoinUsPage />} />
         <Route path="/materials/:id" element={<MaterialsPage />} />
         <Route path="/note/:username/:id" element={<NotePage />} />

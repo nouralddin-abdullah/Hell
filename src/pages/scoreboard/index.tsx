@@ -54,7 +54,7 @@ const ScoreboardPage = () => {
 
   return (
     <PageWrapper>
-      <section className="scoreboard-main">
+      <section className="scoreboard-main bg-scoreboard">
         {/* start top three ranking */}
         <div className="scoreboard-top-three">
           <div className="container">

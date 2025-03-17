@@ -1,27 +1,48 @@
 const LinkifyText = ({ text }: { text: string }) => {
-  // Regular expression to match URLs
+  // Regular expression to match URLs and @mentions
   const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
+  const mentionRegex = /@([\w-]+)/g;
 
-  // Split text into an array of strings and URLs
+  // Split text into an array of strings, URLs, and mentions
   const parts = [];
   let lastIndex = 0;
+
+  // Combined regex that matches both URLs and mentions
+  const combinedRegex = new RegExp(
+    `${urlRegex.source}|${mentionRegex.source}`,
+    "g"
+  );
   let match;
 
-  while ((match = urlRegex.exec(text)) !== null) {
-    // Add text before the URL
+  while ((match = combinedRegex.exec(text)) !== null) {
+    // Add text before the match
     if (match.index > lastIndex) {
       parts.push({ type: "text", content: text.slice(lastIndex, match.index) });
     }
 
-    // Add the URL
-    const url = match[0];
-    const href = url.startsWith("www.") ? `https://${url}` : url;
-    parts.push({ type: "link", content: url, href });
+    // Check if it's a URL or a mention
+    const matchedText = match[0];
 
-    lastIndex = match.index + url.length;
+    if (matchedText.startsWith("@")) {
+      // It's a mention
+      const username = matchedText.substring(1); // Remove the @ symbol
+      parts.push({
+        type: "mention",
+        content: matchedText,
+        href: `/profile/${username}`,
+      });
+    } else {
+      // It's a URL
+      const href = matchedText.startsWith("www.")
+        ? `https://${matchedText}`
+        : matchedText;
+      parts.push({ type: "link", content: matchedText, href });
+    }
+
+    lastIndex = match.index + matchedText.length;
   }
 
-  // Add remaining text after the last URL
+  // Add remaining text after the last match
   if (lastIndex < text.length) {
     parts.push({ type: "text", content: text.slice(lastIndex) });
   }
@@ -31,6 +52,10 @@ const LinkifyText = ({ text }: { text: string }) => {
       {parts.map((part, i) =>
         part.type === "link" ? (
           <a key={i} href={part.href} target="_blank" rel="noopener noreferrer">
+            {part.content}
+          </a>
+        ) : part.type === "mention" ? (
+          <a key={i} href={part.href} className="mention-link">
             {part.content}
           </a>
         ) : (

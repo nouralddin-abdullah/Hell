@@ -1,5 +1,5 @@
 .note-body {
-  background-color: #f5f5f5;
+  background-color: var(--base);
   font-family: "Manrope", sans-serif;
   margin: 0;
   padding: 0;
@@ -7,11 +7,14 @@
 }
 
 .note-header {
-  background-color: #7987ff;
-  color: white;
+  background-color: var(--primary);
+  color: #fff;
   padding: 40px 20px;
   position: relative;
   margin-bottom: 30px;
+}
+[data-theme="dark"] .note-header {
+  background-color: var(--secondary-light);
 }
 
 .profile-image {
@@ -53,7 +56,7 @@
 }
 
 .tab {
-  background-color: white;
+  background-color: var(--background);
   color: #7987ff;
   border: none;
   border-radius: 20px;
@@ -70,14 +73,14 @@
 .tab:hover,
 .tab:focus {
   background-color: #4a6bd6;
-  color: white;
+  color: var(--background);
 }
 
 .note-content {
   padding: 20px;
   width: 70%;
   margin: 40px auto;
-  background-color: white;
+  background-color: var(--background);
   border-radius: 10px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
   font-size: 1.4rem;

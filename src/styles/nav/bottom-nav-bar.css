@@ -4,7 +4,7 @@
   bottom: 1rem;
   left: 50%;
   transform: translate(-50%);
-  background-color: #fff;
+  background-color: var(--background);
   border-radius: 2rem;
   padding: 10px 0;
   width: 95vw;

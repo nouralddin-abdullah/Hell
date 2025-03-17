@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background-color: var(--primary-extra-bold);
+  background-color: var(--primary);
   color: #fff;
 }
 
@@ -43,26 +43,39 @@
 
 /* Menu button styling */
 .settings-menu-button {
-  background-color: #fff;
+  background-color: var(--background);
+  color: var(--text-primary);
   padding: 1rem;
   border-radius: 0 1rem 1rem 0;
-  border: none;
+  border: 1px solid white;
   outline: none;
   transition: all 300ms;
   cursor: pointer;
   width: 100%;
   text-align: left;
+  font-weight: bold;
+}
+
+[data-theme="dark"] .settings-menu-button {
+  background-color: var(--base);
+  color: white;
+  border: 1px solid var(--base);
 }
 
 .settings-menu-button:hover {
-  background-color: var(--base);
-  color: #000;
+  background-color: #bbb;
 }
 
+[data-theme="dark"] .settings-menu-button:hover {
+  border: 1px solid white;
+  color: black;
+}
+
+[data-theme="dark"] .settings-menu-button-selected,
 .settings-menu-button-selected {
-  background-color: var(--primary-extra-bold);
-  color: #fff;
-  border: 1px solid #fff;
+  background-color: #ccc;
+  color: black;
+  border: 1px solid #ccc;
 }
 
 /* Media queries for responsive design */
@@ -112,4 +125,16 @@
   .settings-content-container {
     padding: 0.5rem;
   }
+}
+
+.dark-mode-settings
+  .dark-mode-toggle.react-toggle--checked
+  .react-toggle-track {
+  background-color: var(--primary);
+}
+
+.dark-mode-settings
+  .dark-mode-toggle.react-toggle--checked
+  .react-toggle-track:hover {
+  background-color: var(--secondary-light);
 }

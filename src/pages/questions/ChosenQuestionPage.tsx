@@ -11,6 +11,7 @@ import { useDeleteQuestionsComment } from "../../hooks/questions/useDeleteQuetio
 import { useState } from "react";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import CommentSection from "../../components/questions/CommentSection";
+import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 
 const ChosenQuestionPage = () => {
   const { id } = useParams();
@@ -67,59 +68,64 @@ const ChosenQuestionPage = () => {
   const question = data?.pages[0]?.data.question;
 
   return (
-    <PageWrapper>
-      <section className="questions-main">
-        <div className="container">
-          <div className="questions-container">
-            <div className="posted-questions-container">
-              {question && (
-                <QuestionContent
-                  attachment={question?.attachment}
-                  content={question?.content}
-                  id={question?.id}
-                  stats={question?.stats}
-                  user={question?.user}
-                  timestamps={question?.timestamps}
-                  // @ts-ignore
-                  verifiedAnswer={question.verifiedAnswer}
-                />
-              )}
-              <div className="all-comments-section">
-                {/* <div className="see-more-comments">See more comments</div> */}
+    <ProtectedRoute>
+      <PageWrapper>
+        <section className="questions-main">
+          <div className="container">
+            <div className="questions-container">
+              <div className="posted-questions-container">
                 {question && (
-                  <CommentSection
-                    question={question}
-                    setIsDeleteCommentModalOpen={setIsDeleteCommentModalOpen}
-                    setSelectedComment={setSelectedComment}
-                    fetchNextPage={fetchNextPage}
-                    hasNextPage={hasNextPage}
-                    isFetchingNextPage={isFetchingNextPage}
-                    data={data}
+                  <QuestionContent
+                    attachment={question?.attachment}
+                    content={question?.content}
+                    id={question?.id}
+                    stats={question?.stats}
+                    user={question?.user}
+                    timestamps={question?.timestamps}
+                    // @ts-ignore
+                    verifiedAnswer={question.verifiedAnswer}
                   />
                 )}
+
+                {}
+                {currentUser && <AddCommentForm />}
+
+                <div className="all-comments-section">
+                  {question && (
+                    <CommentSection
+                      question={question}
+                      setIsDeleteCommentModalOpen={setIsDeleteCommentModalOpen}
+                      setSelectedComment={setSelectedComment}
+                      fetchNextPage={fetchNextPage}
+                      hasNextPage={hasNextPage}
+                      isFetchingNextPage={isFetchingNextPage}
+                      data={data}
+                    />
+                  )}
+                </div>
+                {}
               </div>
-              {currentUser && <AddCommentForm />}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Modal
-        isOpen={isDeleteCommentModalOpen}
-        onClose={() => setIsDeleteCommentModalOpen(false)}
-      >
-        <h3 style={{ textAlign: "center" }}>
-          Are You Sure You Want To Delete This Comment?
-        </h3>
-        <Button
-          isLoading={isDeleting}
-          onClick={handleDeleteComment}
-          style={{ margin: "2rem auto 0.5rem" }}
+        <Modal
+          isOpen={isDeleteCommentModalOpen}
+          onClose={() => setIsDeleteCommentModalOpen(false)}
         >
-          Confirm
-        </Button>
-      </Modal>
-    </PageWrapper>
+          <h3 style={{ textAlign: "center" }}>
+            Are You Sure You Want To Delete This Comment?
+          </h3>
+          <Button
+            isLoading={isDeleting}
+            onClick={handleDeleteComment}
+            style={{ margin: "2rem auto 0.5rem" }}
+          >
+            Confirm
+          </Button>
+        </Modal>
+      </PageWrapper>
+    </ProtectedRoute>
   );
 };
 

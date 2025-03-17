@@ -36,7 +36,7 @@ const AnnouncementsPage = () => {
                 alignItems: "center",
                 // gap: "1rem",
                 width: "250px",
-                background: "#fff",
+                background: "var(--background)",
                 borderRadius: "1rem",
                 margin: "1rem auto 3rem",
               }}

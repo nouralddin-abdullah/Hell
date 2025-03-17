@@ -1,5 +1,7 @@
+import ThemeToggle from "../common/ThemeToggle/ThemeToggle";
+
 const PreferenceSettings = () => {
-  return <div>Dark mode is coming soon, stay tuned!!</div>;
+  return <ThemeToggle />;
 };
 
 export default PreferenceSettings;

@@ -1,7 +1,7 @@
 .home {
   padding-top: 60px;
   padding-bottom: 60px;
-  background-color: #eff0f3;
+  background-color: var(--base);
 }
 
 @media (max-width: 767px) {
@@ -27,7 +27,7 @@
 }
 
 .home .container > div {
-  background-color: white;
+  background-color: var(--background);
   box-shadow: 0px 3px 3px silver;
   padding: 15px 0px 40px;
   overflow: hidden;
@@ -51,12 +51,17 @@
 
 .home .container > div .sub-card {
   background: var(--secondary-color);
+  border: 1px solid #ddd;
   position: relative;
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
   border-radius: 10px;
   line-height: 1.6;
+}
+
+[data-theme="dark"] .home .container > div .sub-card {
+  background-color: var(--card-bg-color);
 }
 
 .home .container > div .sub-card .bold {
@@ -72,7 +77,7 @@
 
 .sub-card {
   position: relative;
-  border: 1px solid #ddd;
+  border: 1px solid var(--secondary-background);
   border-radius: 8px;
   padding: 8px;
   margin-bottom: 16px;
@@ -117,7 +122,7 @@
 
 .sub-card .subject-link {
   text-decoration: none;
-  color: black;
+  color: var(--text-primary);
   padding: 1rem;
   transition: all 200ms;
   width: 100%;
@@ -148,14 +153,14 @@
   width: 44px;
   height: 30px;
   border-radius: 30px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary-background);
   transition: all 0.1s;
   cursor: pointer;
 }
 
 .home .schedule ul li:hover {
-  border: solid 2px black;
-  color: white;
+  border: solid 2px var(--text-primary);
+  color: var(--border-color);
   background-color: var(--primary);
 }
 
@@ -163,7 +168,7 @@
   border-radius: 10px;
   margin-top: 20px;
   padding: 10px 25px;
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-background);
   margin-left: var(--main-margin);
   margin-right: var(--main-margin);
 }
@@ -225,13 +230,13 @@
 .schedule table tr:not(:only-of-type):hover,
 .upcoming {
   background-color: var(--primary);
-  color: white;
+  color: var(--background);
 }
 
 @media (max-width: 767px) {
   .schedule table tr:not(:only-of-type):hover {
-    background-color: white;
-    color: black;
+    background-color: var(--background);
+    color: var(--text-primary);
   }
 }
 /* End Home */

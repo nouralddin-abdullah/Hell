@@ -32,3 +32,7 @@ export { default as aboElEla } from "./abo-elela.jpg";
 export { default as zeena } from "./zeena.png";
 export { default as fwanees } from "./fwanees.png";
 export { default as lamp } from "./lamp.png";
+export { default as mightyBadge } from "./mighty-badge.png";
+export { default as goldBadge } from "./gold-badge.png";
+export { default as silverBadge } from "./silver-badge.png";
+export { default as bronzeBadge } from "./bronze-badge.png";

@@ -20,6 +20,7 @@ import EditQuestionForm from "./EditQuestionForm";
 import { verifyImage } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
+import BadgeIcon from "../common/badge/BadgeIcon";
 
 const QuestionContent = ({
   content,
@@ -76,7 +77,7 @@ const QuestionContent = ({
           <div
             style={{
               display: "flex",
-              alignItems: "flex-end",
+              alignItems: "center", // Changed from flex-end to center for better vertical alignment
               gap: "0.5rem",
             }}
           >
@@ -86,6 +87,9 @@ const QuestionContent = ({
                 src={verifyImage}
                 style={{ width: "20px", height: "20px" }}
               />
+            )}
+            {user.badges && user.badges.length > 0 && (
+              <BadgeIcon badge={user.badges[0]} size={30} />
             )}
           </div>
         </Link>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../common/input/Input";
 import Button from "../common/button/Button";
 import { useLogin } from "../../hooks/auth/useLogin";
+import { Link } from "react-router-dom";
 
 const LoginFormComponent = () => {
   const { mutateAsync, isPending } = useLogin();
@@ -93,6 +94,7 @@ const LoginFormComponent = () => {
             {fieldsErrors.password}
           </p>
         )}
+        <Link to="/forgot-password">Forgot Password? Click Here</Link>
       </div>
 
       <Button

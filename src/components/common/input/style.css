@@ -28,7 +28,7 @@
   padding-inline-end: 5px;
   transition: 0.4s;
   cursor: default;
-  color: black;
+  color: var(--text-primary);
 }
 
 .input-field input,
@@ -42,6 +42,7 @@
   outline: none;
   font-weight: 600;
   resize: none; /* Prevents resizing if unnecessary */
+  color: var(--text-primary);
 }
 
 .textarea-field textarea {

@@ -1,5 +1,41 @@
-.scoreboard-main {
+/* Option 1: Increase specificity by adding more selectors */
+html[data-theme="light"] .bg-scoreboard {
+  background-color: var(--secondary-light) !important;
+}
+
+html[data-theme="dark"] .bg-scoreboard {
+  background-color: var(--background) !important;
+}
+
+/* Option 2: Use a direct approach with standard colors as fallback */
+.bg-scoreboard {
+  background-color: #eef2ff; /* Same as var(--secondary-light) but hardcoded as fallback */
+}
+
+[data-theme="dark"] .bg-scoreboard {
+  background-color: #1f2937; /* Same as dark mode var(--background) but hardcoded as fallback */
+}
+
+/* Option 3: Target the specific elements more directly */
+body[data-theme="light"] .scoreboard-main,
+body[data-theme="light"] .container .scoreboard-topThree-container,
+body[data-theme="light"] .scoreboard-rest-of-ranks {
   background-color: var(--secondary-light);
+}
+
+body[data-theme="dark"] .scoreboard-main,
+body[data-theme="dark"] .container .scoreboard-topThree-container,
+body[data-theme="dark"] .scoreboard-rest-of-ranks {
+  background-color: var(--background);
+}
+
+/* Option 4: Try a different approach using body class */
+body.light-theme .bg-scoreboard {
+  background-color: var(--secondary-light);
+}
+
+body.dark-theme .bg-scoreboard {
+  background-color: var(--background);
 }
 
 @media (max-width: 767px) {
@@ -31,6 +67,11 @@
   position: relative;
   height: 210px;
   padding-top: 60px;
+}
+
+/* Dark mode specific styling for top three containers */
+[data-theme="dark"] .container .scoreboard-topThree-container > div {
+  background-color: #2d3748;
 }
 
 @media (max-width: 767px) {
@@ -127,6 +168,14 @@
   border-top-left-radius: 45px;
   border-top-right-radius: 45px;
   background-color: var(--primary-extra-bold);
+}
+
+/* Dark mode specific styling for rank 1 */
+[data-theme="dark"]
+  .container
+  .scoreboard-topThree-container
+  .user-rank1-container {
+  background-color: #1a202c;
 }
 
 @media (max-width: 767px) {
@@ -363,6 +412,10 @@
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
   }
+
+  [data-theme="dark"] .scoreboard-rest-of-ranks {
+    background-color: #3730a3;
+  }
 }
 
 .scoreboard-rest-of-ranks .rest-of-ranks-container {
@@ -371,6 +424,10 @@
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
   background-color: var(--primary);
+}
+
+[data-theme="dark"] .scoreboard-rest-of-ranks .rest-of-ranks-container {
+  background-color: #3730a3;
 }
 
 @media (max-width: 991px) {
@@ -391,6 +448,12 @@
 
 .scoreboard-rest-of-ranks .scoreboard-rank:not(:last-child) {
   border-bottom: 2px solid #eee;
+}
+
+[data-theme="dark"]
+  .scoreboard-rest-of-ranks
+  .scoreboard-rank:not(:last-child) {
+  border-bottom: 2px solid #4b5563;
 }
 
 .scoreboard-rest-of-ranks .scoreboard-rank .regular-rank-userinfo {
@@ -459,6 +522,20 @@
   .scoreboard-rest-of-ranks .scoreboard-rank .regular-rank-points {
     font-size: 20px;
   }
+}
+
+/* Add a subtle box shadow to the ranks in dark mode for better depth */
+[data-theme="dark"] .scoreboard-rest-of-ranks .scoreboard-rank {
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); */
+  margin-bottom: 2px;
+}
+
+/* Add a subtle glow to the first rank in dark mode */
+[data-theme="dark"]
+  .container
+  .scoreboard-topThree-container
+  .user-rank1-container {
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
 /* regular rank styles end */

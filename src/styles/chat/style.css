@@ -1,51 +1,91 @@
-/* Chat.css */
+/* Modern Chat Styling - Using Existing Variables */
+
 .chat-container {
   display: flex;
   flex-direction: column;
   height: 85vh;
-  max-width: 800px;
-  margin: 0 auto 6rem;
-  padding: 1rem;
-  background-color: #f9fafb;
+  max-width: 900px;
+  margin: 1rem auto 6rem;
+  padding: 1.5rem;
+  background-color: var(--card-background);
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
 }
 
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--secondary-background);
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: var(--secondary-background);
+  border-radius: 0.375rem;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 0.375rem;
 }
 
 .message-wrapper {
   display: flex;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
 }
 
 .message {
   position: relative;
-  width: 80%;
-  padding: 1rem;
-  /* border: 1px solid var(--primary);
-  background-color: var(--secondary); */
-  border-radius: 2rem;
+  width: 85%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .message-header {
   display: flex;
-  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: red; */
+}
+
+.self-message .message-header .username {
+  justify-content: flex-end;
 }
 
 .username {
-  font-weight: 500;
-  color: #111827;
+  font-weight: 600;
+  color: var(--text-primary);
   text-decoration: none;
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: center;
-  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.username img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.username img:hover {
+  transform: scale(1.05);
 }
 
 .message-actions {
@@ -53,7 +93,7 @@
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s ease;
 }
 
 .message-wrapper:hover .message-actions {
@@ -61,103 +101,226 @@
 }
 
 .action-button {
-  padding: 0.25rem;
+  padding: 0.35rem;
   border: none;
-  background: transparent;
-  border-radius: 0.25rem;
+  background: var(--secondary-background);
+  border-radius: 0.375rem;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .action-button:hover {
-  background-color: #f3f4f6;
+  background-color: var(--border-color);
+  transform: translateY(-1px);
 }
 
-.reply-button {
-  border: none;
-  background: transparent;
-  color: #3b82f6;
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.reply-button:hover {
-  color: #2563eb;
-}
-
-.icon {
+.action-button .icon {
   width: 1rem;
   height: 1rem;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
-.message-content {
-  position: relative;
-  width: 80%;
-  padding: 1rem;
-  border: 1px solid var(--secondary);
-  border-radius: 0 2rem 0rem 2rem;
-}
-
-.timestamp {
-  font-size: 0.75rem;
-  color: #6b7280;
-  display: block;
-  margin-top: 0.5rem;
-}
-
-.message-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.message-input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-}
-
-.message-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-
-.send-button {
-  padding: 0.5rem;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.send-button:hover {
-  background-color: #2563eb;
-}
-
-.send-button .icon {
-  color: white;
-}
-
-.selected-reply-container {
-  position: relative;
-  width: 60%;
-  padding: 0.5rem;
-  border: 1px solid var(--primary-bold);
-  background-color: var(--primary-extra-bold);
-  color: #fff;
-  border-radius: 0rem 2rem 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.action-button:hover .icon {
+  color: var(--primary);
 }
 
 .content-reply-container {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.message-content {
+  position: relative;
+  width: fit-content;
+  max-width: 85%;
+  padding: 1rem 1.25rem;
+  background-color: var(--secondary-background);
+  border-radius: 1.25rem 1.25rem 1.25rem 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  line-height: 1.5;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  word-wrap: break-word;
+}
+
+/* For the user's own messages */
+.message-wrapper.self-message {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.message-wrapper.self-message .message {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.message-wrapper.self-message .message-content {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 1.25rem 1.25rem 0 1.25rem;
+}
+
+.message-wrapper.self-message .content-reply-container {
+  align-items: flex-end;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  align-self: flex-start;
+}
+
+.self-message .timestamp {
+  align-self: flex-end;
+}
+
+.selected-reply-container {
+  position: relative;
+  width: fit-content;
+  max-width: 60%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--secondary-light);
+  border-left: 3px solid var(--primary);
+  color: var(--text-primary);
+  border-radius: 0.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+}
+
+.selected-reply-container p:first-child {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.message-form {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--secondary-background);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.message-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.send-button {
+  padding: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: var(--primary-bold);
+  transform: translateY(-2px);
+}
+
+.send-button .icon {
+  color: white;
+}
+
+/* Edit form styling */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button,
+.cancel-button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-button {
+  background-color: var(--primary);
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-bold);
+}
+
+.cancel-button {
+  background-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.cancel-button:hover {
+  background-color: var(--highlight);
+}
+
+/* Close reply button */
+.close-reply {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.close-reply:hover {
+  background-color: var(--primary-bold);
+  transform: scale(1.1);
+}
+
+/* Deleted message styling */
+.deleted-message {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* Dark mode compatible hover states */
+[data-theme="dark"] .action-button:hover {
+  background-color: var(--secondary-light);
+}
+
+[data-theme="dark"] .message-wrapper.self-message .message-content {
+  background-color: var(--primary-bold);
 }

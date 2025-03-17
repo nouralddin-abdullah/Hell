@@ -1,18 +1,63 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
+/* Add these to your App.css file */
 :root {
+  --background: #fff;
+  --secondary-background: #fafafa;
   --primary: #6366f1;
   --primary-bold: #4338ca;
   --primary-extra-bold: #1e1b4b;
   --secondary: #a5b4fc;
   --secondary-light: #eef2ff;
-  --base: #d9d9d9;
+  --base: #eff0f3;
   --highlight: #777777;
   --main-padding-top: 20px;
   --main-padding-bottom: 20px;
   --main-margin: 30px;
   --secondary-color: #f8f9fe;
+  --card-bg-color: #eff2fc;
+
+  /* Add these new variables */
+  --background: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #555555;
+  --card-background: #ffffff;
+  --border-color: #e5e7eb;
 }
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --background: #121212;
+  --secondary-background: #1e1e1e;
+  --primary: #818cf8;
+  --primary-bold: #6366f1;
+  --primary-extra-bold: #4f46e5;
+  --secondary: #c7d2fe;
+  --secondary-light: #312e81;
+  --base: #3a4149;
+  --highlight: #9ca3af;
+  --card-bg-color: #1c1f2b;
+
+  /* Add these new variables */
+  --background: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --card-background: #111827;
+  --border-color: #374151;
+}
+
+/* Apply the variables to your elements */
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: "Manrope", sans-serif;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Add more style overrides as needed */
 
 * {
   padding: 0;
@@ -20,12 +65,6 @@
   box-sizing: border-box;
 }
 
-body {
-  width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: "Manrope", sans-serif;
-}
 /* 
 li {
   list-style: none;
@@ -53,7 +92,8 @@ li {
 }
 
 .chip-btn {
-  background-color: #f2f2f2;
+  background-color: var(--base);
+  color: var(--text-primary);
   font-size: 18px;
   font-weight: 500;
   padding: 8px 24px;
@@ -106,6 +146,11 @@ li {
   padding-right: 15px; */
   margin-left: auto;
   margin-right: auto;
+}
+
+.error-msg {
+  font-size: 12px;
+  color: red;
 }
 
 @media (max-width: 767px) {
@@ -221,7 +266,11 @@ img {
   text-align: center;
   padding: 2rem;
   margin: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-background);
+  color: var(--text-primary);
+}
+
+.mention-link {
+  color: var(--primary);
 }

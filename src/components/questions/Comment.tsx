@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { CommentData } from "../../types/Question";
 import { baseURL } from "../../constants/baseURL";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +19,7 @@ import VerifyHandler from "./VerifyHandler";
 import { verifyImage } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
+import BadgeIcon from "../common/badge/BadgeIcon";
 
 interface AdditionalProps {
   isReply?: boolean;
@@ -43,10 +44,22 @@ const Comment = ({
   asker = "",
 }: CommentData & AdditionalProps) => {
   const { id: contentId } = useParams();
-
   const { data: currentUser } = useGetCurrentUser();
-
   const [showDropDown, setShowDropDown] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
+  const replyInputRef = useRef<any>(null);
+  
+  useEffect(() => {
+    if (showReplyForm && replyInputRef.current) {
+      setTimeout(() => {
+        replyInputRef.current.focus();
+      }, 100);
+    }
+  }, [showReplyForm]);
+
+  const handleReplySubmitted = () => {
+    setShowReplyForm(false);
+  };
 
   // Prevent navigation when interacting with dropdown
   const handleDropdownClick = (e: React.MouseEvent) => {
@@ -83,15 +96,17 @@ const Comment = ({
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "flex", gap: "1rem" }}>
-              <div className="comment-user-fullname">
+              <div className="comment-user-fullname" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 {user.fullName}{" "}
-                {user.role === "admin" ||
-                  (user.role === "group-leader" && (
-                    <img
-                      src={verifyImage}
-                      style={{ width: "20px", height: "20px" }}
-                    />
-                  ))}{" "}
+                {(user.role === "admin" || user.role === "group-leader") && (
+                  <img
+                    src={verifyImage}
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                )}{" "}
+                {user.badges && user.badges.length > 0 && (
+                  <BadgeIcon badge={user.badges[0]} size={25} />
+                )}{" "}
                 {isVerified && (
                   <FontAwesomeIcon icon={faCheck} style={{ color: "green" }} />
                 )}
@@ -203,7 +218,14 @@ const Comment = ({
                 commentId={id}
               />
               {!isReply && (
-                <div className="comment-replies">
+                <div 
+                  className="comment-replies"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowReplyForm(!showReplyForm);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
                   <FontAwesomeIcon className="comment-icon" icon={faMessage} />
                   <span>{replies.length}</span>
                 </div>
@@ -230,7 +252,14 @@ const Comment = ({
         ))}
       </div>
 
-      {isReply === false && currentUser && <AddReplyForm commentId={id} />}
+      {}
+      {isReply === false && currentUser && showReplyForm && (
+        <AddReplyForm 
+          commentId={id}
+          onReplySubmitted={handleReplySubmitted} 
+          inputRef={replyInputRef}
+        />
+      )}
     </>
   );
 };

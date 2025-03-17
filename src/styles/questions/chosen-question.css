@@ -70,7 +70,7 @@
 
 .comment-section .question-comment .question-comment-content {
   position: relative;
-  background-color: #eff2fc;
+  background-color: var(--card-bg-color);
   border-radius: 10px;
   padding: 10px 20px;
   display: flex;
@@ -205,6 +205,8 @@
   gap: 15px;
   margin: 15px auto;
   width: 100%;
+  padding: 1rem 0;
+  /* overflow: hidden; */
 }
 
 @media (max-width: 767px) {
@@ -225,15 +227,30 @@
 }
 
 .post-comment .textarea-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* Add this to your CSS file */
+.post-comment .textarea-wrapper .mentions-input {
   width: 100%;
   position: relative;
 }
 
-@media (max-width: 767px) {
+/* Ensure the container doesn't clip the suggestions dropdown */
+.post-comment .textarea-wrapper {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* @media (max-width: 767px) {
   .post-comment .textarea-wrapper {
     height: 35px;
   }
-}
+} */
 
 .post-comment .textarea-wrapper textarea {
   resize: none;
@@ -264,7 +281,7 @@
   right: 25px;
   transform: translateY(-62%);
   font-size: 25px;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
   cursor: pointer;
 }
 

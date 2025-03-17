@@ -8,7 +8,7 @@ export default function LoginPage() {
     <main className="form-bg sign-up-page">
       <section className="sign-up-container">
         <img src={logoIcon} alt="logo" />
-        <p>Join Us</p>
+        <p style={{ color: "#000" }}>Login</p>
         <LoginFormComponent />
         <Link to="/sign-up" style={{ margin: "1rem" }}>
           Don't have an account? Sign up.

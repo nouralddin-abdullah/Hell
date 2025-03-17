@@ -2,6 +2,7 @@ import Toggle from "react-toggle";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { useState, useEffect } from "react";
 import { useUpdateUserData } from "../../hooks/users/useUpdateUserData";
+import PasswordChangeForm from "../auth/PasswordChangeForm";
 
 const PrivacyContent = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -47,6 +48,14 @@ const PrivacyContent = () => {
         </div>
 
         <Toggle checked={isUserPrivate} onChange={toggleUserPrivacy} />
+      </div>
+
+      <div style={{ marginTop: "2rem", width: "60%" }}>
+        <div className="privacy-text">
+          <h3 style={{ marginBottom: "1rem" }}>Change Password</h3>
+        </div>
+
+        <PasswordChangeForm />
       </div>
     </div>
   );

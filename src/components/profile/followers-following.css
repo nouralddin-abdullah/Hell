@@ -3,7 +3,7 @@
 .following-container {
   width: 100%;
   min-width: 100%;
-  background: white;
+  background: var(--background);
   display: flex;
   flex-direction: column;
 }
@@ -38,7 +38,7 @@
 
 .follower-item:hover,
 .following-item:hover {
-  background-color: #f9fafb;
+  background-color: var(--base);
 }
 
 .follower-avatar,
@@ -58,7 +58,7 @@
 .follower-username,
 .following-username {
   font-weight: 500;
-  color: #111827;
+  color: var(--text-primary);
   margin: 0;
 }
 
