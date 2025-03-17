@@ -8,5 +8,8 @@ export default defineConfig({
       "Service-Worker-Allowed": "/",
     },
   },
+  preview: {
+    allowedHosts: ["bishell.online"],
+  },
   publicDir: "public",
 });
