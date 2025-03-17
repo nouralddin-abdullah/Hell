@@ -174,11 +174,11 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
             <>
               <input
                 type="file"
-                id="attachment"
+                id={`attachmentReply-${commentId}`}
                 onChange={handleFileChange}
                 className="announcement-form__file-input"
               />
-              <label htmlFor="attachment">
+              <label htmlFor={`attachmentReply-${commentId}`}>
                 <FontAwesomeIcon className="upload-image" icon={faFileImage} />
               </label>
             </>
