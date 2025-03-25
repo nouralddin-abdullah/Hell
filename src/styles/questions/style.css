@@ -221,7 +221,7 @@
 .posted-question .question-content {
   margin: 10px 0;
   font-size: 22px;
-  line-break: anywhere;
+  /* line-break: anywhere; */
 }
 
 @media (max-width: 767px) {

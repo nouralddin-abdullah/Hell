@@ -25,3 +25,4 @@ export { default as mightyBadge } from "./mighty-badge.png";
 export { default as goldBadge } from "./gold-badge.png";
 export { default as silverBadge } from "./silver-badge.png";
 export { default as bronzeBadge } from "./bronze-badge.png";
+export { default as storeCoins } from "./coins.png";

@@ -55,6 +55,12 @@ const TopNavBar = () => {
               </li>
 
               <li>
+                <Link className="top-nav-link" to="/store">
+                  Store
+                </Link>
+              </li>
+
+              <li>
                 <Link className="top-nav-link" to="/questions">
                   Questions
                 </Link>

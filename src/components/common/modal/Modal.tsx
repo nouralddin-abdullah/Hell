@@ -1,13 +1,24 @@
 import React, { ReactNode, MouseEvent, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import "./style.css";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  className?: string;
+  usePortal?: boolean; // New prop to control portal usage
+  zIndex?: number; // Allow customizing z-index for stacking
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  className = "",
+  usePortal = true, // Default to using portal
+  zIndex = 10000, // Default z-index from your original CSS
+}) => {
   const [shouldRender, setShouldRender] = useState(isOpen);
   const [animate, setAnimate] = useState(false);
 
@@ -31,10 +42,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   if (!shouldRender) return null;
 
-  return (
+  const modalContent = (
     <div
-      className={`modal-overlay ${animate ? "show" : "hide"}`}
+      className={`modal-overlay ${animate ? "show" : "hide"} ${className}`}
       onClick={handleBackgroundClick}
+      style={{ zIndex }}
     >
       <div
         className={`modal-content ${animate ? "show" : "hide"}`}
@@ -47,6 +59,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       </div>
     </div>
   );
+
+  // If usePortal is true, render the modal at the document root level
+  // Otherwise, render it inline (which is useful for the outermost modal)
+  return usePortal ? createPortal(modalContent, document.body) : modalContent;
 };
 
 export default Modal;

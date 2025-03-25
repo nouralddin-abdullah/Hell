@@ -6,6 +6,7 @@ import useAuthStore from "../../store/authTokenStore";
 import { Link, useParams } from "react-router-dom";
 import { baseURL } from "../../constants/baseURL";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
+import LinkifyText from "../common/LinkifyText/LinkifyText";
 
 interface Message {
   id: string;
@@ -182,9 +183,10 @@ const ReusableChat: React.FC = () => {
                 isSelfMessage(message) ? "self-message" : ""
               }`}
               draggable={!message.deletedAt}
-              onDragStart={(e) =>
-                e.dataTransfer.setData("messageId", message._id)
-              }
+              onDragStart={(e) => {
+                if (message.deletedAt) return;
+                e.dataTransfer.setData("messageId", message._id);
+              }}
               onDrop={(e) => {
                 e.preventDefault();
                 const draggedMessageId = e.dataTransfer.getData("messageId");
@@ -278,7 +280,7 @@ const ReusableChat: React.FC = () => {
                         </div>
                       </form>
                     ) : (
-                      message.content
+                      <LinkifyText text={message.content} />
                     )}
                   </div>
                 </div>

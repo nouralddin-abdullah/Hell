@@ -86,9 +86,9 @@
     font-size: 0.6rem;
   }
 
-  /* .follower-item,
+  .follower-item,
   .following-item {
     flex-direction: column;
     align-items: flex-start;
-  } */
+  }
 }

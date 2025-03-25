@@ -11,6 +11,7 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { verifyImage } from "../../assets";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
+import LinkifyText from "../common/LinkifyText/LinkifyText";
 
 interface QuestionActionProps {
   setSelectedQuestion: (id: string) => void; // Add type for id
@@ -65,7 +66,10 @@ const Question = ({
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <div className="question-publisher-fullname">{user.fullName}</div>
             {user.role === "admin" && (
-              <img src={verifyImage} style={{ width: "20px", height: "20px" }} />
+              <img
+                src={verifyImage}
+                style={{ width: "20px", height: "20px" }}
+              />
             )}
             {user.badges && user.badges.length > 0 && (
               <BadgeIcon badge={user.badges[0]} size={25} />
@@ -114,7 +118,7 @@ const Question = ({
         </div>
       </div>
       <div className="question-content" style={{ overflow: "hidden" }}>
-        {content}
+        <LinkifyText text={content} />
       </div>
       <div className="question-info">
         <div className="question-date">{timestamps.formatted}</div>

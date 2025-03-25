@@ -16,7 +16,7 @@ const randomFacts = [
   "While being liked by users, BISHell is still disliked by some organizers in the BIS management department (no one cares cry more).",
   "BISHell actually supports notification you just have to enable it from the browser settings unless you use safari",
   "Youssef Qadry's Dumbbell bench press PR is 35KG each.",
-  "Despite being from a university located at ismailia, onlytwo out of six members are from ismailia.",
+  "Despite being from a university located at ismailia, only two out of six members are from ismailia.",
   "It is expected to have the chance to get instructors to use BISHell in the future.",
   "We almost gave up on BISHell to build a website that lets students share who they have a crush on (Hassany's GF said no).",
   "BISHell might be stressful at times, but your support keeps us working with the biggest smile.",
@@ -31,7 +31,9 @@ const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
   onClose,
   progress,
 }) => {
-  const [currentFactIndex, setCurrentFactIndex] = useState(0);
+  const [currentFactIndex, setCurrentFactIndex] = useState(
+    Math.floor(Math.random() * randomFacts.length)
+  );
 
   useEffect(() => {
     if (!isOpen) return;

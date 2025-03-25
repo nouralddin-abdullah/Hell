@@ -33,11 +33,13 @@ const NotificationButton = ({
   count,
   onClick,
   isSelected,
+  group,
 }: {
   icon: any;
   count?: number;
   onClick: () => void;
   isSelected: boolean;
+  group: string;
 }) => (
   <div
     style={{
@@ -45,10 +47,22 @@ const NotificationButton = ({
       padding: "1rem",
       cursor: "pointer",
       color: isSelected ? "var(--primary)" : "var(--text-primary)", // Add border if selected
+      display: "flex",
+      flexDirection: "column",
+      gap: "0.5rem",
     }}
     onClick={onClick}
   >
     <FontAwesomeIcon icon={icon} className="bottomNav-icon" />
+    <p
+      className="hide-on-small"
+      style={{
+        fontSize: "12px",
+        textAlign: "center",
+      }}
+    >
+      {group}
+    </p>
     <p className="notification-count">{count}</p>
   </div>
 );
@@ -74,6 +88,7 @@ const NotificationPage = () => {
                   count={unreadNotifications?.groups?.[btnGroup]}
                   onClick={() => setGroup(btnGroup)}
                   isSelected={group === btnGroup} // Check if the button is selected
+                  group={btnGroup}
                 />
               ))}
             </div>

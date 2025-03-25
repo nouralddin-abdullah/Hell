@@ -5,7 +5,6 @@ import {
   faMessage,
   faPenClip,
   faTrash,
-  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import QuestionAttachment from "./QuestionAttachment";
 import Dropdown from "../common/Dropdown/dropdown";
@@ -22,7 +21,6 @@ import { verifyImage } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
-import ViewersList from "./ViewersList";
 
 const QuestionContent = ({
   content,
@@ -39,7 +37,6 @@ const QuestionContent = ({
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-  const [showViewersModal, setShowViewersModal] = useState(false);
 
   // Prevent navigation when interacting with dropdown
   const handleDropdownClick = (e: React.MouseEvent) => {
@@ -71,6 +68,7 @@ const QuestionContent = ({
           style={{ textDecoration: "none", color: "black" }}
           className="question-publisher"
         >
+          {/* <img src={`${baseURL}/profilePics/${user.photo}`} alt="image" /> */}
           <Avatar
             photo={`${baseURL}/profilePics/${user.photo}`}
             userFrame={user.userFrame}
@@ -160,7 +158,7 @@ const QuestionContent = ({
         />
       ) : (
         <>
-          <div className="question-content" dir="rtl">
+          <div className="question-content">
             <LinkifyText text={content} />
           </div>
           {attachment && (
@@ -188,20 +186,6 @@ const QuestionContent = ({
             <FontAwesomeIcon className="comment-icon" icon={faMessage} />
             <span className="comments-count">{stats.commentsCount}</span>
           </div>
-
-          {stats.totalViews !== undefined && (
-            <div 
-              className="question-views" 
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowViewersModal(true);
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <FontAwesomeIcon className="view-icon" icon={faEye} style={{ color: "#ccc" }} />
-              <span className="views-count">{stats.totalViews}</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -220,13 +204,6 @@ const QuestionContent = ({
         >
           Confirm
         </Button>
-      </Modal>
-
-      <Modal
-        isOpen={showViewersModal}
-        onClose={() => setShowViewersModal(false)}
-      >
-        <ViewersList questionId={id} onClose={() => setShowViewersModal(false)} />
       </Modal>
     </div>
   );

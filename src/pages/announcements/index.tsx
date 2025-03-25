@@ -111,6 +111,7 @@ const AnnouncementsPage = () => {
           <Modal
             isOpen={showAnnouncementModal}
             onClose={() => setShowAnnouncementModal(false)}
+            className="show-on-small"
           >
             <div
               className="sect-announce"

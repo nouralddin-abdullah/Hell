@@ -14,6 +14,7 @@ import Dropdown from "../Dropdown/dropdown";
 import Modal from "../modal/Modal";
 import Button from "../button/Button";
 import { useGetUnreadNotifications } from "../../../hooks/notifications/useGetUnreadNotifications";
+import { faStore } from "@fortawesome/free-solid-svg-icons";
 
 const BottomNavBar = () => {
   const navigate = useNavigate();
@@ -49,6 +50,11 @@ const BottomNavBar = () => {
           </Link>
         </div>
         <div className="bottomNav-icon-wrapper">
+          <Link to="/store">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faStore} />
+          </Link>
+        </div>
+        <div className="bottomNav-icon-wrapper">
           <Link to="/questions">
             <FontAwesomeIcon
               className="bottomNav-icon"
@@ -67,12 +73,8 @@ const BottomNavBar = () => {
           </Link>
         </div>
 
-        <div>
-          <Link
-            className="top-nav-link"
-            style={{ position: "relative" }}
-            to={`/notifications`}
-          >
+        <div className="bottomNav-icon-wrapper">
+          <Link to="/notifications" style={{ position: "relative" }}>
             <FontAwesomeIcon
               className="bottomNav-icon"
               icon={faBell}
@@ -82,10 +84,12 @@ const BottomNavBar = () => {
               <p
                 style={{
                   position: "absolute",
-                  bottom: "70%",
-                  left: "100%",
+                  top: "-10px",
+                  right: "-10px",
                   width: "18px",
                   height: "18px",
+                  backgroundColor: "red",
+                  color: "white",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -93,6 +97,7 @@ const BottomNavBar = () => {
                   fontSize: "10px",
                   fontWeight: "bold",
                 }}
+                className="notification-badge"
               >
                 {unreadNotifications.total < 100
                   ? unreadNotifications.total
@@ -101,6 +106,7 @@ const BottomNavBar = () => {
             )}
           </Link>
         </div>
+
         <div
           className="bottomNav-icon-wrapper"
           style={{ position: "relative", cursor: "pointer" }}

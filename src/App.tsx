@@ -31,6 +31,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-toggle/style.css"; // for ES6 modules
 import useThemeStore from "./store/darkModeStore";
 import ForgotPasswordPage from "./pages/auth/forgot-password";
+import StorePage from "./pages/store"
 import { io } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { baseURL } from "./constants/baseURL";
@@ -251,6 +252,7 @@ function App() {
         <Route path="/scoreboard" element={<ScoreboardPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/store" element={<StorePage />} />
       </Routes>
 
       {!tokenAvailable && <JoinUsPopup />}

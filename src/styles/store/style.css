@@ -1,0 +1,339 @@
+.store-main {
+  background-color: var(--base);
+  padding: 25px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.store-container {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .store-container {
+    margin-bottom: 50px;
+  }
+}
+
+/* starting nav */
+.store-container .store-nav {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 60px;
+}
+
+@media (max-width: 991px) {
+  .store-container .store-nav {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.store-container .store-nav > div:not(:last-child) {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.store-nav .coins-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background-color: var(--background);
+  padding: 5px 15px;
+  border-radius: 34px;
+}
+
+.store-nav .coins-container img {
+  width: 50px;
+}
+
+@media (max-width: 991px) {
+  .store-nav .coins-container img {
+    width: 25px;
+  }
+}
+
+.store-nav .coins-container p {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+@media (max-width: 991px) {
+  .store-nav .coins-container p {
+    font-weight: 500;
+    font-size: 12px;
+  }
+}
+
+.store-nav .active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.store-nav > :nth-child(2):not(.active),
+.store-nav > :nth-child(3):not(.active) {
+  background-color: var(--background);
+}
+
+.store-nav > :nth-child(2):not(.active):hover,
+.store-nav > :nth-child(3):not(.active):hover {
+  background-color: #ccc;
+  transition: 0.3s;
+}
+
+[data-theme="dark"] .store-nav > :nth-child(2):not(.active):hover,
+[data-theme="dark"] .store-nav > :nth-child(3):not(.active):hover {
+  color: black;
+}
+
+.store-nav .store-tab,
+.store-nav .inventory-tab {
+  padding: 10px 15px;
+  border-radius: 34px;
+  width: 25%;
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+@media (max-width: 991px) {
+  .store-nav .store-tab,
+  .store-nav .inventory-tab {
+    font-size: 12px;
+    width: fit-content;
+    flex-grow: 1;
+  }
+}
+
+.store-filtering {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 20%;
+}
+
+@media (max-width: 667px) {
+  .store-filtering {
+    width: 50%;
+  }
+}
+
+.store-filtering-dropdown {
+  background-color: var(--background);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 5px;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+[data-theme="dark"] .store-filtering-dropdown {
+  color: white;
+}
+/* ending nav */
+
+/* starting frames section */
+
+.store-main .frames-container {
+  background-color: var(--background);
+  width: 100%;
+  padding: 25px 40px;
+  border-radius: 15px;
+  margin-top: 50px;
+}
+
+.frames-container .store-frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.frames-container .frame-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 35px 0;
+  gap: 15px;
+  border-radius: 15px;
+  position: relative;
+}
+
+[data-theme="dark"] .frames-container .frame-card {
+  background-color: #2d3748;
+}
+
+.frames-container .frame-card img {
+  width: 140px;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.frames-container .frame-card .frame-name,
+.frames-container .frame-card .frame-price {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Update frame card button styles */
+.frames-container .frame-card button {
+  background-color: var(--primary);
+  color: white;
+  width: 60%;
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  font-weight: bold;
+  position: relative;
+}
+
+.frames-container .not-enough-coins .preview-button {
+  background-color: var(--primary) !important;
+  color: white !important;
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
+/* Only gray out the Buy Now button when can't afford */
+.frames-container .not-enough-coins button[disabled] {
+  background-color: #ccc;
+  color: black;
+  cursor: not-allowed;
+}
+
+/* Keep Preview button styled normally even in not-enough-coins state */
+.frames-container .not-enough-coins button:not([disabled]) {
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+}
+
+/* .frames-container .not-enough-coins::after {
+  content: "Not enough coins";
+  position: absolute;
+  color: red;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15px;
+} */
+
+/* Frame card button states */
+.frames-container .frame-card button.equipped {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: default !important;
+  opacity: 1;
+}
+
+.frames-container .frame-card button.equip-button {
+  background-color: var(--success, #28a745) !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+.frames-container .frame-card button.equip-button:hover {
+  background-color: var(--success-dark, #218838) !important;
+  transition: background-color 0.2s ease;
+}
+
+/* ending frames section */
+
+/* starting pagination section */
+.store-container .page-pagination {
+  width: fit-content;
+  margin: 40px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.store-container .page-pagination a {
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+}
+
+@media (max-width: 991px) {
+  .store-container .page-pagination a {
+    padding: 3px 9px;
+  }
+}
+
+.store-container .page-pagination a.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.store-container .page-pagination a:not(.active) {
+  background-color: #eee;
+  color: black;
+}
+
+.store-container .page-pagination a:not(.active):hover {
+  background-color: #bbb;
+  transition: 0.3s;
+}
+
+[data-theme="dark"] .store-container .page-pagination a:not(.active):hover {
+  background-color: #909090;
+}
+
+.previousPageArrow,
+.nextPageArrow {
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 10px;
+  padding: 0 5px;
+}
+
+@media (max-width: 991px) {
+  .previousPageArrow,
+  .nextPageArrow {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ending pagination section */
+
+/* Preview Modal Styling */
+.frame-preview-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-avatar-image {
+  width: 140px !important;
+  height: 140px !important;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.image-and-frame img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+}

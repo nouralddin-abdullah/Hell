@@ -1,6 +1,7 @@
 import { useGetAnnouncementDetails } from "../../hooks/announcements/useGetAnnouncementDetails";
 import { baseURL } from "../../constants/baseURL";
 import { TailSpin } from "react-loader-spinner";
+import LinkifyText from "../common/LinkifyText/LinkifyText";
 
 const AnnouncementDetails = ({
   courseId,
@@ -59,7 +60,9 @@ const AnnouncementDetails = ({
         </div>
       </div>
       <div className="the-announce">
-        <p style={{ whiteSpace: "pre-wrap" }}>{announcement?.body}</p>
+        <p style={{ whiteSpace: "pre-wrap" }}>
+          <LinkifyText text={announcement?.body || ""} />
+        </p>
       </div>
 
       {/* Attachments Section */}

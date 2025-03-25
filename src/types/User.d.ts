@@ -20,6 +20,12 @@ export interface User {
     toDoList: [];
     id: string;
     isPrivate: boolean;
+    stats?: {
+      coins: number;
+      questionCount: number;
+      likesCount: number;
+      solvedCount: number;
+    };
   };
   isFollowed: boolean | null;
 }
