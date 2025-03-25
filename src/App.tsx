@@ -19,7 +19,6 @@ import QuestionsPage from "./pages/questions";
 import ChosenQuestionPage from "./pages/questions/ChosenQuestionPage";
 import useAuthStore from "./store/authTokenStore";
 import JoinUsPopup from "./components/common/JoinUsPopup/JoinUsPopup";
-// import LandingPage from "./pages/landing";
 import { getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { messaging } from "./firebase";
@@ -231,7 +230,6 @@ function App() {
       <TopNavBar />
 
       <Routes>
-        {/* <Route path="/" element={<LandingPage />} /> */}
         <Route path="/" element={<HomePage />} />
         <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
