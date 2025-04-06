@@ -46,6 +46,46 @@
   --border-color: #374151;
 }
 
+[data-theme="darker"] {
+  --background: #090202;
+  --secondary-background: #353438;
+  --primary: #818cf8;
+  --primary-bold: #6366f1;
+  --primary-extra-bold: #4f46e5;
+  --secondary: #c7d2fe;
+  --secondary-light: #312e81;
+  --base: #000000;
+  --highlight: #9ca3af;
+  --card-bg-color: #2b2b2d;
+  --questions-bg: white;
+
+  /* Add these new variables */
+  --background: #121314;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --card-background: #1b1818;
+  --border-color: #374151;
+}
+
+[data-theme="darker"] .home.container,
+[data-theme="darker"] .main-content {
+  background-color: black;
+}
+
+[data-theme="darker"] {
+  .personal-info {
+    background-color: #353438;
+  }
+}
+
+[data-theme="“darker”"] .home.container {
+  background-color: #2b2b2d;
+}
+
+[data-theme="“darker”"] .posted-questions-container {
+  background-color: #c1c1d1;
+}
+
 /* Apply the variables to your elements */
 body {
   width: 100vw;
@@ -183,19 +223,19 @@ li {
   display: block !important;
 }
 
+.show-on-small {
+  display: none !important;
+}
+
 @media (max-width: 767px) {
   .hide-on-small {
     display: none !important;
   }
 }
 
-.show-on-small {
-  display: none !important;
-}
-
 @media (max-width: 767px) {
   .show-on-small {
-    display: block !important;
+    display: flex !important;
   }
 }
 

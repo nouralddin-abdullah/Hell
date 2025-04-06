@@ -49,7 +49,13 @@ const QuestionsLikeButton = ({
   };
 
   return (
-    <div onClick={() => handleClick()} className="question-likes">
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        handleClick();
+      }}
+      className="question-likes"
+    >
       <FontAwesomeIcon className="like-icon" icon={faHeart} />
       <span className="likes-count">{likesNum}</span>
     </div>

@@ -17,4 +17,5 @@ export interface Leaderboard {
   caption: string;
   rank: number;
   id: string;
+  isPrivate: boolean;
 }

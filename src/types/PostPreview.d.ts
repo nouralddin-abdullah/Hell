@@ -27,7 +27,10 @@ export interface Course {
 export interface Post {
   _id: string;
   userId: PostUser;
-  courseId?: string;
+  courseId?: {
+    _id: string;
+    courseName: string;
+  };
   title: string;
   contentBlocks: ContentBlock[];
   likes: string[];
@@ -56,4 +59,6 @@ export interface PostPreviewProps {
   description: string;
   label: PostLabel;
   image: string;
+  views: number;
+  courseName: string;
 }

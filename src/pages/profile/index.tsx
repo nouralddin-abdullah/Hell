@@ -1,18 +1,15 @@
 import "../../styles/profile/style.css";
-import { anonymousUser, fwanees, verifyImage } from "../../assets";
+import { anonymousUser, verifyImage } from "../../assets";
 import { profileBadge1 } from "../../assets";
 import { profileBadge2 } from "../../assets";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 import { useGetUserPosts } from "../../hooks/posts/useGetUserPosts";
-import ChipButton from "../../components/common/button/ChipButton";
-import PostPreview from "../../components/common/post preview/PostPreview";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { getLabelImage } from "../../utils/postLabelImages";
 import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
 import { useEffect, useState, useRef } from "react";
 import Modal from "../../components/common/modal/Modal";
 import AddNoteForm from "../../components/notes/AddNoteForm";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetUserByUsername } from "../../hooks/users/useGetUserByUsername";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { Post } from "../../types/PostPreview";
@@ -25,11 +22,15 @@ import FollowersList from "../../components/profile/FollowersList";
 import FollowingList from "../../components/profile/FollowingList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import NotesList from "../../components/profile/NotesList";
+import BookmarksList from "../../components/profile/BookmarksList";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
   const profilePageRef = useRef<HTMLDivElement>(null);
+
+  const [content, setContent] = useState<"notes" | "bookmarks">("notes");
 
   const {
     data: user,
@@ -46,10 +47,6 @@ const ProfilePage = () => {
   );
   const [postsList, setPostsList] = useState<Post[]>([]);
   const { data: courses, isLoading: isLoadingCourses } = useGetAllCourses();
-
-  const handleCourseClick = (courseName: string) => {
-    setSelectedCourse(courseName);
-  };
 
   useEffect(() => {
     // Manually invalidate and refetch user data when current user changes
@@ -261,10 +258,6 @@ const ProfilePage = () => {
                           <img src={profileBadge2} alt="badge" />
                           <p className="badge-name2">Ballon D'or</p>
                         </div>
-                        <div className="profile-badge">
-                          <img src={fwanees} alt="badge" />
-                          <p className="badge-name2">Ramadan Kareem</p>
-                        </div>
                       </>
                     )}
                   </div>
@@ -294,81 +287,30 @@ const ProfilePage = () => {
               <div className="categories-title">
                 <div className="container">
                   <div className="categories-title-container">
-                    <p className="notes">Notes</p>
-                    <p className="todo">Todo</p>
+                    <p className="notes" onClick={() => setContent("notes")}>
+                      Notes
+                    </p>
+                    <p className="todo" onClick={() => setContent("bookmarks")}>
+                      Bookmarks
+                    </p>
                   </div>
                 </div>
               </div>
               {/* end categories title  */}
 
-              {/* start profile Courses */}
-              <div className="profile-courses">
-                <div className="container">
-                  <div className="profile-courses-container">
-                    <ChipButton
-                      onClick={() => handleCourseClick("All")}
-                      isSelected={selectedCourse === "All"}
-                    >
-                      All
-                    </ChipButton>
-                    {isLoadingCourses ? (
-                      <div>Loading courses...</div>
-                    ) : (
-                      courses?.map((course) => (
-                        <ChipButton
-                          key={course._id}
-                          onClick={() => handleCourseClick(course.courseName)}
-                          isSelected={selectedCourse === course.courseName}
-                        >
-                          {course.courseName}
-                        </ChipButton>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-              {/* end profile courses */}
-
-              {currentUser?.user._id === user?.user._id && (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <h3>Add a Note</h3>
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="add-content-btn"
-                  >
-                    +
-                  </button>
-                </div>
+              {content === "notes" && (
+                <NotesList
+                  courses={courses}
+                  isLoadingCourses={isLoadingCourses}
+                  postsList={postsList}
+                  selectedCourse={selectedCourse}
+                  setIsModalOpen={setIsModalOpen}
+                  setSelectedCourse={setSelectedCourse}
+                  user={user}
+                />
               )}
 
-              {/* start profile posts */}
-              <div className="profile-posts">
-                <div className="container">
-                  <div className="profile-posts-container">
-                    {postsList?.map((post) => (
-                      <Link
-                        to={`/note/${user?.user.username}/${post.slug}`}
-                        style={{ textDecoration: "none", color: "#000" }}
-                        key={post._id}
-                      >
-                        <PostPreview
-                          image={getLabelImage(post.label)}
-                          title={post.title}
-                          description={post.contentBlocks[0]?.content || ""}
-                          label={post.label}
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              {/* end profile posts */}
+              {content === "bookmarks" && <BookmarksList />}
             </>
           )}
         </section>

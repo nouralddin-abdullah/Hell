@@ -6,7 +6,7 @@ import { tokenKey } from "../../constants/tokenKey";
 import axios from "axios";
 import { useState } from "react";
 
-export const useAddQuestion = () => {
+export const useAddQuestion = (category: string) => {
   const queryClient = useQueryClient();
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -15,18 +15,22 @@ export const useAddQuestion = () => {
     mutationFn: async (formData: FormData) => {
       const accessToken = Cookies.get(tokenKey);
 
-      const response = await axios.post(`${baseURL}/api/questions`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = progressEvent.total
-            ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
-            : 0;
-          setUploadProgress(percentCompleted);
-        },
-      });
+      const response = await axios.post(
+        `${baseURL}/api/questions${category && `?category=${category}`}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = progressEvent.total
+              ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
+              : 0;
+            setUploadProgress(percentCompleted);
+          },
+        }
+      );
 
       return response.data.data.post;
     },

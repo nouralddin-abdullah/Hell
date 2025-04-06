@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import CommentSection from "../../components/questions/CommentSection";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
+// import QuestionViewsList from "../../components/questions/QuestionViewsList";
 
 const ChosenQuestionPage = () => {
   const { id } = useParams();
@@ -37,6 +38,10 @@ const ChosenQuestionPage = () => {
       console.error(error);
     }
   };
+
+  // views logic
+  // @ts-ignore
+  const [isViewsModalOpen, setIsViewsModalOpen] = useState(false);
 
   if (isPending) {
     return (
@@ -84,6 +89,7 @@ const ChosenQuestionPage = () => {
                     timestamps={question?.timestamps}
                     // @ts-ignore
                     verifiedAnswer={question.verifiedAnswer}
+                    setIsViewsModalOpen={setIsViewsModalOpen}
                   />
                 )}
 
@@ -124,6 +130,16 @@ const ChosenQuestionPage = () => {
             Confirm
           </Button>
         </Modal>
+        {/* 
+        <Modal
+          isOpen={isViewsModalOpen}
+          onClose={() => setIsViewsModalOpen(false)}
+        >
+          <QuestionViewsList
+            questionId={id}
+            onClose={() => setIsViewsModalOpen(false)}
+          />
+        </Modal> */}
       </PageWrapper>
     </ProtectedRoute>
   );

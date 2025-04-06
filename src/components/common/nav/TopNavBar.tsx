@@ -10,7 +10,12 @@ import Button from "../button/Button";
 import { useLogOut } from "../../../hooks/auth/useLogOut";
 import { useGetUnreadNotifications } from "../../../hooks/notifications/useGetUnreadNotifications";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faRightFromBracket,
+  faSliders,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const TopNavBar = () => {
   const navigate = useNavigate();
@@ -134,6 +139,7 @@ const TopNavBar = () => {
                     className="top-nav-link dropdown-button"
                     to={`/profile/${user?.user.username}`}
                   >
+                    <FontAwesomeIcon icon={faUser} />
                     Profile
                   </Link>
                 </div>
@@ -149,6 +155,7 @@ const TopNavBar = () => {
                     className="top-nav-link dropdown-button"
                     to={`/settings`}
                   >
+                    <FontAwesomeIcon icon={faSliders} />
                     Settings
                   </Link>
                 </div>
@@ -162,6 +169,7 @@ const TopNavBar = () => {
                     }}
                     className="top-nav-link dropdown-button"
                   >
+                    <FontAwesomeIcon icon={faRightFromBracket} />
                     Logout
                   </button>
                 </div>

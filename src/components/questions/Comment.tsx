@@ -48,7 +48,7 @@ const Comment = ({
   const [showDropDown, setShowDropDown] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const replyInputRef = useRef<any>(null);
-  
+
   useEffect(() => {
     if (showReplyForm && replyInputRef.current) {
       setTimeout(() => {
@@ -96,7 +96,10 @@ const Comment = ({
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "flex", gap: "1rem" }}>
-              <div className="comment-user-fullname" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <div
+                className="comment-user-fullname"
+                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+              >
                 {user.fullName}{" "}
                 {(user.role === "admin" || user.role === "group-leader") && (
                   <img
@@ -138,6 +141,7 @@ const Comment = ({
                     border: "none",
                     fontSize: "1.5rem",
                     cursor: "pointer",
+                    color: "var(--text-primary)",
                   }}
                 >
                   ...
@@ -218,7 +222,7 @@ const Comment = ({
                 commentId={id}
               />
               {!isReply && (
-                <div 
+                <div
                   className="comment-replies"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -252,11 +256,10 @@ const Comment = ({
         ))}
       </div>
 
-      {}
       {isReply === false && currentUser && showReplyForm && (
-        <AddReplyForm 
+        <AddReplyForm
           commentId={id}
-          onReplySubmitted={handleReplySubmitted} 
+          onReplySubmitted={handleReplySubmitted}
           inputRef={replyInputRef}
         />
       )}

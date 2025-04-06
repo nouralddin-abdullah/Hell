@@ -1,11 +1,14 @@
 // import { TailSpin } from "react-loader-spinner";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 import ReusableChat from "../../components/chat/ReusableChat";
+import PageWrapper from "../../components/common/page wrapper/PageWrapper";
 
 const ChatPage = () => {
   return (
     <ProtectedRoute>
-      <ReusableChat />
+      <PageWrapper>
+        <ReusableChat />
+      </PageWrapper>
     </ProtectedRoute>
   );
 };

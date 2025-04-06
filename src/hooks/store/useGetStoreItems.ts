@@ -2,15 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
 import Cookies from "js-cookie";
 import { tokenKey } from "../../constants/tokenKey";
-
-interface StoreItem {
-  id: string;
-  name: string;
-  price: number;
-  URL: string;
-  currency: string;
-  canAfford: boolean;
-}
+import { StoreItem } from "../../types/Store";
 
 interface StoreResponse {
   status: string;
@@ -41,7 +33,7 @@ export const useGetStoreItems = (
       if (sort) params.append("sort", sort);
       params.append("page", page.toString());
       params.append("limit", limit.toString());
-      
+
       const queryString = params.toString();
       const url = `${baseURL}/api/store?${queryString}`;
 
@@ -56,11 +48,11 @@ export const useGetStoreItems = (
         throw new Error(errorData.message || "Failed to fetch store items");
       }
 
-      const data = await response.json() as StoreResponse;
+      const data = (await response.json()) as StoreResponse;
       return {
         items: data.data,
         pagination: data.pagination,
-        results: data.results
+        results: data.results,
       };
     },
   });

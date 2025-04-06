@@ -23,9 +23,12 @@ interface PageData {
   totalPages: number;
 }
 
-export const useGetQuestionsList = (sort = "sort=-createdAt") => {
+export const useGetQuestionsList = (
+  sort = "sort=-createdAt",
+  isBookmark = false
+) => {
   return useInfiniteQuery<PageData, Error>({
-    queryKey: ["questions", sort],
+    queryKey: ["questions", sort, isBookmark],
     queryFn: async ({ pageParam }) => {
       const accessToken = Cookies.get(tokenKey);
 
@@ -33,7 +36,9 @@ export const useGetQuestionsList = (sort = "sort=-createdAt") => {
         throw new Error("No access token found");
       }
 
-      let url = `${baseURL}/api/questions?${sort}&page=${pageParam}`;
+      let url = `${baseURL}/api/questions?${sort}&page=${pageParam}${
+        isBookmark ? `&bookmark=true` : ""
+      }`;
 
       const response = await fetch(url, {
         headers: {

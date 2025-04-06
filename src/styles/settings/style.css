@@ -41,41 +41,36 @@
   font-size: 12px;
 }
 
-/* Menu button styling */
+/* Improved Menu button styling */
 .settings-menu-button {
   background-color: var(--background);
   color: var(--text-primary);
   padding: 1rem;
-  border-radius: 0 1rem 1rem 0;
-  border: 1px solid white;
+  border-radius: 8px;
+  border: 2px solid transparent;
   outline: none;
-  transition: all 300ms;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
   width: 100%;
   text-align: left;
   font-weight: bold;
-}
-
-[data-theme="dark"] .settings-menu-button {
-  background-color: var(--base);
-  color: white;
-  border: 1px solid var(--base);
+  font-size: 1rem;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .settings-menu-button:hover {
-  background-color: #bbb;
+  background-color: #e0e0e0;
+  color: #000;
+  border-color: #aaa;
 }
 
-[data-theme="dark"] .settings-menu-button:hover {
-  border: 1px solid white;
-  color: black;
-}
-
-[data-theme="dark"] .settings-menu-button-selected,
 .settings-menu-button-selected {
   background-color: #ccc;
   color: black;
-  border: 1px solid #ccc;
+  border: 2px solid #888;
 }
 
 /* Media queries for responsive design */
@@ -128,14 +123,11 @@
   }
 }
 
-.dark-mode-settings
-  .dark-mode-toggle.react-toggle--checked
-  .react-toggle-track {
+/* Dark mode toggle styles */
+.dark-mode-settings .dark-mode-toggle.react-toggle--checked .react-toggle-track {
   background-color: var(--primary);
 }
 
-.dark-mode-settings
-  .dark-mode-toggle.react-toggle--checked
-  .react-toggle-track:hover {
+.dark-mode-settings .dark-mode-toggle.react-toggle--checked .react-toggle-track:hover {
   background-color: var(--secondary-light);
 }

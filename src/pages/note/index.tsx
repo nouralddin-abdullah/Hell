@@ -101,6 +101,7 @@ const NotePage = () => {
                   className="tab"
                 >
                   {
+                    // @ts-ignore
                     courses?.find((course) => course._id === post.courseId)
                       ?.courseName
                   }

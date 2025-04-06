@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState, RefObject } from "react";
+import { ChangeEvent, FormEvent, useState, RefObject, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
@@ -13,6 +13,36 @@ import useAuthStore from "../../store/authTokenStore";
 import { useAddQuestionReply } from "../../hooks/questions/useAddQuestionReply";
 import { useParams } from "react-router-dom";
 
+// Function to determine if text is RTL
+const isRTL = (text: string) => {
+  // RTL Unicode ranges
+  const rtlChars =
+    /[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/;
+
+  // Check if the first non-whitespace, non-symbol character is RTL
+  const firstContentChar = text.match(
+    /[^\s\d!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/
+  );
+  return firstContentChar ? rtlChars.test(firstContentChar[0]) : false;
+};
+
+// Custom styles with RTL support
+const createDirectionalMentionStyles = (isRtl: boolean) => {
+  return {
+    ...mentionStyles,
+    control: {
+      ...mentionStyles.control,
+      direction: isRtl ? "rtl" : "ltr",
+      textAlign: isRtl ? "right" : "left",
+    },
+    input: {
+      ...mentionStyles.input,
+      direction: isRtl ? "rtl" : "ltr",
+      textAlign: isRtl ? "right" : "left",
+    },
+  };
+};
+
 interface Props {
   commentId: string;
   onReplySubmitted?: () => void;
@@ -24,6 +54,26 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
   const { data: currentUser } = useGetCurrentUser();
   const [text, setText] = useState("");
   const [attachmentReply, setAttachmentReply] = useState<any>();
+  const [isRtlMode, setIsRtlMode] = useState(false);
+  // @ts-ignore
+  const [currentLineDirection, setCurrentLineDirection] = useState<
+    "ltr" | "rtl"
+  >("ltr");
+
+  // Monitor text changes to detect RTL content per line
+  useEffect(() => {
+    // Get the last line being edited
+    const lines = text.split("\n");
+    const lastLine = lines[lines.length - 1] || "";
+
+    // Determine if current line is RTL
+    const rtl = isRTL(lastLine);
+    setCurrentLineDirection(rtl ? "rtl" : "ltr");
+
+    // If any line is RTL, set the overall mode to RTL
+    const hasRtlLine = lines.some((line) => isRTL(line));
+    setIsRtlMode(hasRtlLine);
+  }, [text]);
 
   // Pre-fetch an initial set of mentions just once for faster initial suggestions
   const { data: mentionsList } = useGetMentionsList();
@@ -70,7 +120,7 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
       setText("");
       setAttachmentReply(null);
       toast.success("You earned 1 point!");
-      
+
       if (onReplySubmitted) {
         onReplySubmitted();
       }
@@ -115,6 +165,9 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
     }
   };
 
+  // Get dynamic styles based on current text direction
+  const dynamicStyles = createDirectionalMentionStyles(isRtlMode);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -128,9 +181,10 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
           onChange={(e) => setText(e.target.value)}
           placeholder="Add a reply"
           // @ts-ignore
-          style={mentionStyles}
+          style={dynamicStyles}
           a11ySuggestionsListLabel="Suggested mentions"
           inputRef={inputRef}
+          className={isRtlMode ? "rtl-text" : "ltr-text"}
         >
           <Mention
             trigger="@"

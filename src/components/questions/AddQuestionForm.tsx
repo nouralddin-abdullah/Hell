@@ -12,12 +12,17 @@ import { MentionItem } from "../../types/Mention";
 import { baseURL } from "../../constants/baseURL";
 import useAuthStore from "../../store/authTokenStore";
 import UploadProgressModal from "../common/upload-progress-modal/UploadProgressModal";
+import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
+import Avatar from "../common/avatar/Avatar";
 
 const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
   const { data: currentUser } = useGetCurrentUser();
   const [text, setText] = useState("");
   const [attachment, setAttachment] = useState<any>();
   const [showProgressModal, setShowProgressModal] = useState(false);
+  const [category, setCategory] = useState("");
+
+  const { data: courses } = useGetAllCourses();
 
   // Pre-fetch an initial set of mentions just once for faster initial suggestions
   const { data: mentionsList } = useGetMentionsList();
@@ -43,7 +48,7 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
     setAttachment(null);
   };
 
-  const { mutateAsync, isPending, uploadProgress } = useAddQuestion();
+  const { mutateAsync, isPending, uploadProgress } = useAddQuestion(category);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -115,15 +120,35 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="post-comment">
-        <img src={currentUser?.user.photo} alt={currentUser?.user.fullName} />
-        <div className="textarea-wrapper">
+      <form
+        onSubmit={handleSubmit}
+        className="post-comment"
+        style={{ flexDirection: "column", alignItems: "flex-start" }}
+      >
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <Avatar
+            photo={currentUser?.user.photo || ""}
+            userFrame={currentUser?.user.userFrame || "null"}
+            animated
+          />
+          <p>{currentUser?.user.fullName}</p>
+        </div>
+
+        <div className="textarea-wrapper" style={{ width: "100%" }}>
           <MentionsInput
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Add a question"
             // @ts-ignore
-            style={mentionStyles}
+            style={{
+              ...mentionStyles,
+              // @ts-ignore
+              control: {
+                ...(mentionStyles?.control || {}),
+                maxWidth: "100%",
+                width: "100%",
+              },
+            }}
             a11ySuggestionsListLabel="Suggested mentions"
           >
             <Mention
@@ -163,32 +188,103 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
             />
           </MentionsInput>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {!attachment && (
-              <>
+          <div style={{ margin: "1rem 0 3rem" }}>
+            <div className="note-input-field-container">
+              <h4>Course:</h4>
+              <select
+                onChange={(e) => setCategory(e.target.value)}
+                style={{
+                  padding: "1rem",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                  background: "transparent",
+                  color: "var(--text-primary)",
+                  width: "100%",
+                }}
+              >
+                <option
+                  style={{
+                    background: "var(--background)",
+                    color: "var(--text-primary)",
+                  }}
+                  value=""
+                  selected
+                >
+                  General
+                </option>
+                {courses?.map((course) => (
+                  <option
+                    value={course._id}
+                    style={{
+                      background: "var(--background)",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {course.courseName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid var(--text-primary)",
+              background: "transparent",
+              borderRadius: "0.5rem",
+              textAlign: "center",
+              padding: "0.5rem 1rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "3rem",
+              width: "100%",
+              cursor: attachment ? "" : "pointer",
+            }}
+          >
+            {!attachment ? (
+              <label
+                htmlFor="attachment"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%", // Make label full width
+                  height: "100%", // Ensures the entire container is clickable
+                  cursor: "pointer",
+                }}
+              >
                 <input
                   type="file"
                   id="attachment"
                   onChange={handleFileChange}
                   className="announcement-form__file-input"
+                  style={{ display: "none" }}
                 />
-                <label htmlFor="attachment">
-                  <FontAwesomeIcon
-                    className="upload-image"
-                    icon={faFileImage}
-                  />
-                </label>
-              </>
-            )}
-
-            {attachment && (
-              <div className="announcement-form__attachment-info">
+                Add Attachment
+                <FontAwesomeIcon
+                  icon={faFileImage}
+                  style={{ marginLeft: "0.5rem" }}
+                />
+              </label>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
                 <span>{attachment.name}</span>
                 <button
                   type="button"
                   onClick={removeAttachment}
-                  className="announcement-form__remove-attachment"
-                  style={{ background: "none", border: "none" }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "red",
+                    cursor: "pointer",
+                  }}
                 >
                   Remove
                 </button>
@@ -196,7 +292,12 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
             )}
           </div>
         </div>
-        <Button isLoading={isPending} className="posting-comment-btn">
+
+        <Button
+          isLoading={isPending}
+          className="posting-comment-btn"
+          style={{ margin: "1rem auto 0" }}
+        >
           Post
         </Button>
       </form>

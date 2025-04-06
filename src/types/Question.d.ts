@@ -16,7 +16,12 @@ interface Badge {
 interface Stats {
   likesCount: number;
   isLikedByCurrentUser: boolean;
+  bookmarksCount: number;
+  isbookmarkedByCurrentUser: boolean;
   commentsCount: number;
+  authViews: number;
+  anonViews: number;
+  totalViews: number;
 }
 
 export interface Attachment {

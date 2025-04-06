@@ -99,8 +99,8 @@
 
 .comment-section .question-comment .question-comment-content .comment-time {
   position: absolute;
-  right: 20px;
-  top: 10px;
+  right: 50px;
+  top: 20px;
   font-size: 14px;
 }
 
@@ -185,7 +185,17 @@
   .question-comment-content
   .comment-info
   .comment-likes-and-comments
-  .comment-icon {
+  .comment-icon,
+.question-comment
+  .question-comment-content
+  .comment-info
+  .comment-likes-and-comments
+  .view-icon,
+.question-comment
+  .question-comment-content
+  .comment-info
+  .comment-likes-and-comments
+  .bookmark-icon {
   color: #ccc;
   cursor: pointer;
 }

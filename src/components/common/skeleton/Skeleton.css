@@ -1,7 +1,14 @@
 .skeleton {
-  background-color: #e0e0e0;
   position: relative;
   overflow: hidden;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .skeleton,
+[data-theme="darker"] .skeleton {
+  background-color: #333333;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .skeleton::before {
@@ -14,14 +21,67 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.6),
     transparent
   );
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+[data-theme="dark"] .skeleton::before,
+[data-theme="darker"] .skeleton::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom right,
+    transparent 20%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 80%
+  );
+}
+
+[data-theme="dark"] .skeleton::after,
+[data-theme="darker"] .skeleton::after {
+  background: linear-gradient(
+    to bottom right,
+    transparent 20%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 80%
+  );
 }
 
 @keyframes shimmer {
+  0% {
+    transform: translateX(-150%);
+  }
   100% {
     transform: translateX(150%);
+  }
+}
+
+/* Optional pulsing effect */
+.skeleton.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
   }
 }

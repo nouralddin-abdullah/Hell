@@ -1,40 +1,47 @@
+import { File, Lock, Sliders } from "lucide-react";
 import React from "react";
 
-interface Props {
-  selectedMenuCategory: string;
-  setSelectedMenuCategory: React.Dispatch<React.SetStateAction<string>>;
+
+interface MenuItem {
+  category: string;
 }
 
-const MENU = [
+interface SettingsMenuProps {
+  selectedMenuCategory: string;
+  setSelectedMenuCategory: (category: string) => void;
+}
+
+const MENU: MenuItem[] = [
   { category: "Privacy" },
   { category: "Policies" },
   { category: "Preference" },
 ];
 
-const SettingsMenu = ({
+const ICONS = {
+  Privacy: <Lock />,
+  Policies: <File />,
+  Preference: <Sliders />,
+};
+
+const SettingsMenu: React.FC<SettingsMenuProps> = ({
   selectedMenuCategory,
   setSelectedMenuCategory,
-}: Props) => {
+}) => {
   return (
-    <nav
-      className="settings-menu"
-      role="navigation"
-      aria-label="Settings Navigation"
-    >
+    <div className="settings-menu">
       {MENU.map((item) => (
         <button
           key={item.category}
-          className={`settings-menu-button ${
-            item.category === selectedMenuCategory &&
-            "settings-menu-button-selected"
-          }`}
+          className={`settings-menu-button ${item.category === selectedMenuCategory ? "settings-menu-button-selected" : ""
+            }`}
           onClick={() => setSelectedMenuCategory(item.category)}
           aria-selected={item.category === selectedMenuCategory}
         >
-          {item.category}
+          {/* @ts-ignore */}
+          {ICONS[item.category]} {item.category}
         </button>
       ))}
-    </nav>
+    </div>
   );
 };
 

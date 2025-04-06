@@ -19,21 +19,23 @@ import QuestionsPage from "./pages/questions";
 import ChosenQuestionPage from "./pages/questions/ChosenQuestionPage";
 import useAuthStore from "./store/authTokenStore";
 import JoinUsPopup from "./components/common/JoinUsPopup/JoinUsPopup";
+// import LandingPage from "./pages/landing";
 import { getToken, onMessage } from "firebase/messaging";
 import { useEffect } from "react";
 import { messaging } from "./firebase";
 import { updateDeviceToken } from "../src/hooks/notifications/updateDeviceToken";
-import RamadanModal from "./components/common/ramadan/RamadanModal";
 import NotificationPage from "./pages/notifications";
 import SettingsPage from "./pages/settings";
 import "react-quill/dist/quill.snow.css";
 import "react-toggle/style.css"; // for ES6 modules
 import useThemeStore from "./store/darkModeStore";
 import ForgotPasswordPage from "./pages/auth/forgot-password";
-import StorePage from "./pages/store"
+import StorePage from "./pages/store";
 import { io } from "socket.io-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { baseURL } from "./constants/baseURL";
+import FloatingChatButton from "./components/chat/FloatingChatButton";
+import UpdatesModal from "./components/common/UpdatesModal/UpdatesModal";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -48,38 +50,37 @@ function urlBase64ToUint8Array(base64String: string) {
 
 function App() {
   const tokenAvailable = useAuthStore((state) => state.token);
-  const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   // Socket.IO connection for notifications
   useEffect(() => {
     if (!tokenAvailable) return;
-    
+
     // Create notification socket connection
     const notificationSocket = io(`${baseURL}/notifications`, {
       auth: { token: tokenAvailable },
       transports: ["websocket"],
       reconnection: true,
     });
-    
+
     // Connection event handling
     notificationSocket.on("connect", () => {
       console.log("Connected to notification system");
     });
-    
+
     notificationSocket.on("connect_error", (error) => {
       console.error("Notification connection error:", error.message);
     });
-    
+
     // Handle new notifications
     notificationSocket.on("new_notification", ({ notification }) => {
       console.log("New notification received:", notification);
-      
+
       // Update notification counts in query cache
       queryClient.invalidateQueries({ queryKey: ["unread-notifications"] });
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
-      
+
       // Show toast notification
       toast(
         (t) => (
@@ -112,7 +113,7 @@ function App() {
         }
       );
     });
-    
+
     return () => {
       notificationSocket.disconnect();
     };
@@ -212,17 +213,19 @@ function App() {
 
   useEffect(() => {
     onMessage(messaging, (payload) => {
-      console.log("Message received:", payload);      
+      console.log("Message received:", payload);
     });
   }, [navigate]);
 
   // dark mode integration
+  const { theme, isDarkerMode } = useThemeStore();
+
   useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
-      isDarkMode ? "dark" : "light"
+      theme === "dark" && isDarkerMode ? "darker" : theme
     );
-  }, [isDarkMode]);
+  }, [theme, isDarkerMode]);
 
   return (
     <>
@@ -230,6 +233,7 @@ function App() {
       <TopNavBar />
 
       <Routes>
+        {/* <Route path="/" element={<LandingPage />} /> */}
         <Route path="/" element={<HomePage />} />
         <Route path="/profile/:username" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -257,7 +261,9 @@ function App() {
 
       <BottomNavBar />
 
-      <RamadanModal />
+      <UpdatesModal />
+
+      <FloatingChatButton />
     </>
   );
 }

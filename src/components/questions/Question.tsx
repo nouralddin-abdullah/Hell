@@ -12,10 +12,13 @@ import { verifyImage } from "../../assets";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
+import QuestionsBookmarkHandler from "./QuestionsBookmarkHandler";
+// import { BookmarkIcon } from "lucide-react";
 
 interface QuestionActionProps {
-  setSelectedQuestion: (id: string) => void; // Add type for id
-  setIsDeleteModalOpen: (isOpen: boolean) => void; // Add type for modal state
+  setSelectedQuestion: (id: string) => void;
+  setIsDeleteModalOpen: (isOpen: boolean) => void;
+  cutContent?: boolean;
 }
 
 type Props = QuestionType & QuestionActionProps;
@@ -63,6 +66,7 @@ const Question = ({
             photo={`${baseURL}/profilePics/${user.photo}`}
             userFrame={user.userFrame}
           />
+
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <div className="question-publisher-fullname">{user.fullName}</div>
             {user.role === "admin" && (
@@ -91,6 +95,7 @@ const Question = ({
                 border: "none",
                 fontSize: "1.5rem",
                 cursor: "pointer",
+                color: "var(--text-primary)",
               }}
             >
               ...
@@ -115,10 +120,11 @@ const Question = ({
               </button>
             </div>
           </Dropdown>
+          {/* <BookmarkIcon /> */}
         </div>
       </div>
       <div className="question-content" style={{ overflow: "hidden" }}>
-        <LinkifyText text={content} />
+        <LinkifyText text={content} limit={150} />
       </div>
       <div className="question-info">
         <div className="question-date">{timestamps.formatted}</div>
@@ -133,6 +139,15 @@ const Question = ({
             <FontAwesomeIcon className="comment-icon" icon={faMessage} />
             <span className="comments-count">{stats.commentsCount}</span>
           </div>
+          {/* <div>
+            <FontAwesomeIcon className="view-icon" icon={faEye} />
+            <span>{stats.totalViews}</span>
+          </div> */}
+          <QuestionsBookmarkHandler
+            contentId={id}
+            bookmarksCount={stats.bookmarksCount}
+            isBookmarkedByCurrentUser={stats.isbookmarkedByCurrentUser}
+          />
         </div>
       </div>
     </div>

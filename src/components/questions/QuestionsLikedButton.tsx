@@ -39,7 +39,13 @@ const QuestionsLikedButton = ({
   };
 
   return (
-    <div onClick={() => handleClick()} className="question-likes">
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        handleClick();
+      }}
+      className="question-likes"
+    >
       <FontAwesomeIcon
         className="like-icon"
         style={{ color: "red" }}

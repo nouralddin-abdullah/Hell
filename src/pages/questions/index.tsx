@@ -12,18 +12,26 @@ import { useDeleteQuestion } from "../../hooks/questions/useDeleteQuestion";
 import toast from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
+import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
 
 const QuestionsPage = () => {
+  const { data: coursesList } = useGetAllCourses();
+
   const [sort, setSort] = useState("-createdAt");
   const [answered, setAnswered] = useState("");
+  const [category, setCategory] = useState("");
   const [params, setParams] = useState("sort=-createdAt");
   const { ref, inView } = useInView({
     threshold: 0.5, // Trigger when element is 50% visible
   });
 
   useEffect(() => {
-    setParams(`sort=${sort}${answered && `&answered=${answered}`}`);
-  }, [sort, answered]);
+    setParams(
+      `sort=${sort}${answered && `&answered=${answered}`}${
+        category && `&category=${category}`
+      }`
+    );
+  }, [sort, answered, category]);
 
   const { data: currentUser } = useGetCurrentUser();
   const {
@@ -79,7 +87,7 @@ const QuestionsPage = () => {
               <div className="posted-questions-container">
                 {/* Sorting/filtering section */}
                 <div className="questions-select">
-                  <div>Recent Posts</div>
+                  <div className="hide-on-small">Recent Posts</div>
                   <div className="sorting-filtering">
                     <select
                       onChange={(e) => setSort(e.target.value)}
@@ -89,6 +97,7 @@ const QuestionsPage = () => {
                       <option value="createdAt">Oldest</option>
                       <option value="-likes">Most Liked</option>
                     </select>
+
                     <select
                       onChange={(e) => setAnswered(e.target.value)}
                       className="questions-filtering"
@@ -96,6 +105,18 @@ const QuestionsPage = () => {
                       <option value="">All</option>
                       <option value="true">Verified</option>
                       <option value="false">Not Verified</option>
+                    </select>
+
+                    <select
+                      style={{ maxWidth: "150px" }}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="questions-filtering"
+                    >
+                      <option value="">All Courses</option>
+                      <option value="General">General</option>
+                      {coursesList?.map((course) => (
+                        <option value={course._id}>{course.courseName}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -124,10 +145,13 @@ const QuestionsPage = () => {
                   </React.Fragment>
                 ))}
 
+                {isFetchingNextPage && <QuestionsListSkeletons />}
+
                 {/* Infinite scroll trigger */}
-                <div ref={ref} style={{ height: "20px", margin: "20px 0" }}>
-                  {isFetchingNextPage && <QuestionsListSkeletons />}
-                </div>
+                <div
+                  ref={ref}
+                  style={{ height: "20px", margin: "20px 0" }}
+                ></div>
               </div>
             </div>
           </div>

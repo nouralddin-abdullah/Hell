@@ -36,7 +36,7 @@
   overflow-y: auto;
   transform: scale(0.9);
   opacity: 0;
-  transition: transform 300ms ease, opacity 300ms ease;
+  /* transition: transform 100ms ease; */
   display: flex;
   flex-direction: column;
 }
@@ -44,6 +44,11 @@
 .modal-content.show {
   transform: scale(1);
   opacity: 1;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-content.hide {

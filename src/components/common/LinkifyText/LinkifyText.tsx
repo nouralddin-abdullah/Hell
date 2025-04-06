@@ -1,7 +1,8 @@
-const LinkifyText = ({ text }: { text: string }) => {
-  // Regular expression to match URLs and @mentions
+const LinkifyText = ({ text, limit }: { text: string; limit?: number }) => {
+  // Regular expression to match URLs, @mentions, and bold text
   const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
   const mentionRegex = /@([\w-]+)/g;
+  const boldRegex = /\*(.*?)\*/g;
 
   // Function to determine if a string is RTL
   const isRTL = (text: string) => {
@@ -18,7 +19,9 @@ const LinkifyText = ({ text }: { text: string }) => {
   };
 
   // Split text by newlines for line-by-line direction detection
-  const lines = text.split("\n");
+  const truncatedText =
+    limit && text.length > limit ? text.slice(0, limit) + "..." : text;
+  const lines = truncatedText.split("\n");
 
   // Process each line
   return (
@@ -27,51 +30,90 @@ const LinkifyText = ({ text }: { text: string }) => {
         // Determine direction for this line
         const direction = isRTL(line) ? "rtl" : "ltr";
 
-        // Process URLs and mentions for this line
+        // Process URLs, mentions, and bold text for this line
         const parts = [];
-        let lastIndex = 0;
+        // let lastIndex = 0;
 
-        // Combined regex that matches both URLs and mentions
-        const combinedRegex = new RegExp(
-          `${urlRegex.source}|${mentionRegex.source}`,
-          "g"
-        );
-        let match;
+        // Process the line in multiple passes to handle different patterns
+        // Step 1: Extract all patterns into a combined array
+        const patterns = [];
 
-        while ((match = combinedRegex.exec(line)) !== null) {
-          // Add text before the match
-          if (match.index > lastIndex) {
-            parts.push({
-              type: "text",
-              content: line.slice(lastIndex, match.index),
-            });
-          }
-
-          // Check if it's a URL or a mention
-          const matchedText = match[0];
-
-          if (matchedText.startsWith("@")) {
-            // It's a mention
-            const username = matchedText.substring(1); // Remove the @ symbol
-            parts.push({
-              type: "mention",
-              content: matchedText,
-              href: `/profile/${username}`,
-            });
-          } else {
-            // It's a URL
-            const href = matchedText.startsWith("www.")
-              ? `https://${matchedText}`
-              : matchedText;
-            parts.push({ type: "link", content: matchedText, href });
-          }
-
-          lastIndex = match.index + matchedText.length;
+        // Find URLs
+        let urlMatch;
+        while ((urlMatch = urlRegex.exec(line)) !== null) {
+          patterns.push({
+            type: "link",
+            start: urlMatch.index,
+            end: urlMatch.index + urlMatch[0].length,
+            content: urlMatch[0],
+            href: urlMatch[0].startsWith("www.")
+              ? `https://${urlMatch[0]}`
+              : urlMatch[0],
+          });
         }
 
-        // Add remaining text after the last match
-        if (lastIndex < line.length) {
-          parts.push({ type: "text", content: line.slice(lastIndex) });
+        // Find mentions
+        let mentionMatch;
+        while ((mentionMatch = mentionRegex.exec(line)) !== null) {
+          patterns.push({
+            type: "mention",
+            start: mentionMatch.index,
+            end: mentionMatch.index + mentionMatch[0].length,
+            content: mentionMatch[0],
+            href: `/profile/${mentionMatch[0].substring(1)}`,
+          });
+        }
+
+        // Find bold text
+        let boldMatch;
+        while ((boldMatch = boldRegex.exec(line)) !== null) {
+          patterns.push({
+            type: "bold",
+            start: boldMatch.index,
+            end: boldMatch.index + boldMatch[0].length,
+            content: boldMatch[1], // The content without asterisks
+            original: boldMatch[0], // The original match with asterisks
+          });
+        }
+
+        // Sort patterns by start position
+        patterns.sort((a, b) => a.start - b.start);
+
+        // Step 2: Handle overlapping patterns by prioritizing
+        const filteredPatterns = [];
+        let currentEnd = 0;
+
+        for (const pattern of patterns) {
+          if (pattern.start >= currentEnd) {
+            filteredPatterns.push(pattern);
+            currentEnd = pattern.end;
+          }
+        }
+
+        // Step 3: Build the result parts from filtered patterns
+        let currentIndex = 0;
+
+        for (const pattern of filteredPatterns) {
+          // Add text before this pattern
+          if (pattern.start > currentIndex) {
+            parts.push({
+              type: "text",
+              content: line.slice(currentIndex, pattern.start),
+            });
+          }
+
+          // Add the pattern itself
+          parts.push(pattern);
+
+          currentIndex = pattern.end;
+        }
+
+        // Add remaining text after the last pattern
+        if (currentIndex < line.length) {
+          parts.push({
+            type: "text",
+            content: line.slice(currentIndex),
+          });
         }
 
         // Render this line with proper direction
@@ -83,24 +125,32 @@ const LinkifyText = ({ text }: { text: string }) => {
               textAlign: direction === "rtl" ? "right" : "left",
             }}
           >
-            {parts.map((part, i) =>
-              part.type === "link" ? (
-                <a
-                  key={i}
-                  href={part.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {part.content}
-                </a>
-              ) : part.type === "mention" ? (
-                <a key={i} href={part.href} className="mention-link">
-                  {part.content}
-                </a>
-              ) : (
-                <span key={i}>{part.content}</span>
-              )
-            )}
+            {parts.map((part, i) => {
+              if (part.type === "link") {
+                return (
+                  <a
+                    key={i}
+                    // @ts-ignore
+                    href={part.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {part.content}
+                  </a>
+                );
+              } else if (part.type === "mention") {
+                return (
+                  // @ts-ignore
+                  <a key={i} href={part.href} className="mention-link">
+                    {part.content}
+                  </a>
+                );
+              } else if (part.type === "bold") {
+                return <strong key={i}>{part.content}</strong>;
+              } else {
+                return <span key={i}>{part.content}</span>;
+              }
+            })}
           </div>
         );
       })}

@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/nav/bottom-nav-bar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faHouse } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faHouse,
+  faRightFromBracket,
+  faSliders,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { faBullhorn } from "@fortawesome/free-solid-svg-icons";
@@ -120,13 +126,14 @@ const BottomNavBar = () => {
                 e.stopPropagation();
                 setIsDropdownOpen(false);
               }}
-              // className="dropdown-button"
+              className="dropdown-button"
             >
               <Link
                 style={{ textDecoration: "none", color: "black" }}
                 className="top-nav-link dropdown-button"
                 to={`/profile/${currentUser?.user.username}`}
               >
+                <FontAwesomeIcon icon={faUser} />
                 Profile
               </Link>
             </div>
@@ -136,27 +143,31 @@ const BottomNavBar = () => {
                 e.stopPropagation();
                 setIsDropdownOpen(false);
               }}
-              // className="dropdown-button"
+              className="dropdown-button"
             >
               <Link
                 style={{ textDecoration: "none", color: "black" }}
                 className="top-nav-link dropdown-button"
                 to={`/settings`}
               >
+                <FontAwesomeIcon icon={faSliders} />
                 Settings
               </Link>
             </div>
 
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsDropdownOpen(false);
-                setIsLogoutModalOpen(true);
-              }}
-              className="dropdown-button"
-            >
-              Logout
-            </button>
+            <div className="dropdown-button">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDropdownOpen(false);
+                  setIsLogoutModalOpen(true);
+                }}
+                className="dropdown-button"
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} />
+                Logout
+              </button>
+            </div>
           </Dropdown>
         </div>
       </nav>

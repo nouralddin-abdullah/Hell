@@ -9,6 +9,7 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import Modal from "../../components/common/modal/Modal";
 import AnnouncementForm from "../../components/announcements/AnnouncementForm";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
+import AnnouncementDeleteContent from "../../components/announcements/AnnouncementDeleteContent";
 
 const AnnouncementsPage = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -23,6 +24,9 @@ const AnnouncementsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+
+  const [isDeleteAnnouncementModalOpen, setIsDeleteAnnouncementModalOpen] =
+    useState(false);
 
   return (
     <ProtectedRoute>
@@ -94,6 +98,9 @@ const AnnouncementsPage = () => {
                 <AnnouncementDetails
                   courseId="general"
                   announcementId={selectedAnnouncement}
+                  setIsDeleteAnnouncementModalOpen={
+                    setIsDeleteAnnouncementModalOpen
+                  }
                 />
               )}
             </div>
@@ -121,11 +128,26 @@ const AnnouncementsPage = () => {
                 <AnnouncementDetails
                   courseId="general"
                   announcementId={selectedAnnouncement}
+                  setIsDeleteAnnouncementModalOpen={
+                    setIsDeleteAnnouncementModalOpen
+                  }
                 />
               )}
             </div>
           </Modal>
         </div>
+
+        <Modal
+          isOpen={isDeleteAnnouncementModalOpen}
+          onClose={() => setIsDeleteAnnouncementModalOpen(false)}
+        >
+          <AnnouncementDeleteContent
+            // @ts-ignore
+            announcementId={selectedAnnouncement}
+            setIsDeleteAnnouncementModalOpen={setIsDeleteAnnouncementModalOpen}
+            setSelectedAnnouncement={setSelectedAnnouncement}
+          />
+        </Modal>
       </PageWrapper>
     </ProtectedRoute>
   );

@@ -310,92 +310,130 @@
 
 /* end profile courses  */
 /* start profile posts  */
-
-.profile-posts .profile-posts-container {
-  padding-top: 70px;
-  padding-bottom: var(--main-padding-bottom);
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 40px;
+/* Variables */
+:root {
+  --text-light: #777;
+  --border-radius: 12px;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 767px) {
-  .profile-posts .profile-posts-container {
-    padding-top: 40px;
-    justify-items: center;
-  }
-
-  .profile-posts .profile-posts-container a {
-    display: block;
-    width: 97%;
-  }
+[data-theme="dark"],
+[data-theme="darker"] {
+  --shadow: rgba(255, 255, 255, 0.1);
 }
 
-.profile-posts .profile-posts-container .profile-post {
-  background-color: var(--secondary-light);
-  border-radius: 12px;
-  box-shadow: 0px 4px 4px 0px #00000040;
-  padding: 10px 80px;
-  position: relative;
+/* Note Container */
+.memo-note {
+  background-color: #eef2ff;
+  box-shadow: 0 4px 10px var(--shadow);
+  transition: 0.3s;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  width: 100%;
   cursor: pointer;
-  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.profile-posts .profile-posts-container .profile-post:hover {
-  transition: 0.3s;
-  box-shadow: 0px 4px 4px 0px var(--primary);
-  transform: translateY(-5px);
+[data-theme="dark"] .memo-note,
+[data-theme="darker"] .memo-note {
+  background-color: var(--base);
 }
 
 @media (max-width: 767px) {
-  .profile-posts .profile-posts-container .profile-post {
+  .memo-note {
     width: 100%;
   }
-
-  .profile-posts .profile-posts-container .profile-post:hover {
-    margin-top: 0;
-  }
 }
 
-.profile-posts .profile-posts-container .profile-post img {
-  position: absolute;
-  width: 85px;
+.memo-note:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px var(--primary);
+}
+
+/* Note Header */
+.memo-note .memo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.memo-note .memo-title img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  top: 0;
-  left: 0;
-  transform: translate(-20%, -30%);
-  cursor: default;
+  border: 2px solid var(--primary);
+  /* padding: 6px; */
 }
 
-@media (max-width: 767px) {
-  .profile-posts .profile-posts-container .profile-post img {
-    width: 80px;
-    transform: translate(-14%, -30%);
-  }
-}
-
-.profile-posts .profile-posts-container .profile-post .post-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 5px;
+.memo-note .memo-title p {
+  font-size: 22px;
+  font-weight: bold;
   color: var(--text-primary);
 }
 
-.profile-posts .profile-posts-container .profile-post .post-description {
+/* Note Content */
+
+.memo-note .memo-content > p {
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: 10px;
-  color: var(--text-secondary);
+  /* margin-bottom: 10px; */
 }
 
-.profile-posts .profile-posts-container .profile-post .post-label {
-  background-color: var(--primary);
+.memo-content-label {
+  display: flex;
+  gap: 10px;
+}
+
+.memo-content-label p {
+  background-color: #6366f1;
   width: fit-content;
   padding: 3px 15px;
   border-radius: 50px;
-  color: white;
-  font-weight: 500;
+  color: #fff;
 }
 
+/* Note Footer */
+.memo-note .memo-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.memo-note .note-views {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.memo-note .view-count {
+  font-weight: bold;
+}
+
+/* Container for multiple posts */
+.profile-posts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+
+@media (max-width: 767px) {
+  .profile-posts-container {
+    justify-items: center;
+    padding: 20px 0px;
+  }
+
+  .profile-posts-container a {
+    width: 100%;
+  }
+}
 /* end profile posts  */

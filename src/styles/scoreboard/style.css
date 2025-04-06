@@ -7,6 +7,10 @@ html[data-theme="dark"] .bg-scoreboard {
   background-color: var(--background) !important;
 }
 
+html[data-theme="darker"] .bg-scoreboard {
+  background-color: var(--background) !important;
+}
+
 /* Option 2: Use a direct approach with standard colors as fallback */
 .bg-scoreboard {
   background-color: #eef2ff; /* Same as var(--secondary-light) but hardcoded as fallback */

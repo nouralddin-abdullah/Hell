@@ -5,7 +5,8 @@ const AnnouncementSkeleton = () => {
     <>
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -13,7 +14,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -21,7 +23,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -29,7 +32,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -37,7 +41,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -45,7 +50,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",
@@ -53,7 +59,8 @@ const AnnouncementSkeleton = () => {
       />
       <Skeleton
         style={{
-          width: "200px",
+          minWidth: "200px",
+          width: "100%",
           padding: "1.5rem",
           borderRadius: "0.5rem",
           marginBottom: "1rem",

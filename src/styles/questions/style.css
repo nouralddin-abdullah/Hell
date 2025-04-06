@@ -73,9 +73,15 @@
   transition: 0.3s;
 }
 
-[data-theme="dark"] .ask-question-container div:hover {
+[data-theme="dark"] .ask-question-container div:hover,
+[data-theme="darker"] .ask-question-container div:hover {
   background-color: #ccc;
   color: black;
+}
+
+[data-theme="darker"] .questions-select .questions-sorting,
+[data-theme="darker"] .questions-select .questions-filtering {
+  background-color: #ccc;
 }
 
 @media (max-width: 767px) {
@@ -84,6 +90,7 @@
     font-size: small;
   }
 }
+
 /* asking questions end  */
 /* questions view start  */
 
@@ -232,8 +239,10 @@
 
 .posted-question .question-info {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  gap: 15px;
+  /* align-items: center; */
 }
 
 .posted-question .question-info .question-date {
@@ -248,7 +257,8 @@
 
 .posted-question .question-info .question-likes-and-comments {
   display: flex;
-  gap: 20px;
+  /* gap: 20px 20px; */
+  justify-content: space-around;
   font-size: 20px;
   margin-right: 10px;
 }
@@ -267,7 +277,9 @@
 }
 
 .posted-question .question-info .question-likes-and-comments .like-icon,
-.posted-question .question-info .question-likes-and-comments .comment-icon {
+.posted-question .question-info .question-likes-and-comments .comment-icon,
+.posted-question .question-info .question-likes-and-comments .view-icon,
+.posted-question .question-info .question-likes-and-comments .bookmark-icon {
   color: #ccc;
   cursor: pointer;
 }
@@ -280,7 +292,7 @@
 
 /* dropdown start */
 .dropdown-button {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   cursor: pointer;
   border: none;
   border-radius: 1rem;
@@ -288,16 +300,28 @@
   background-color: transparent;
   width: 100%;
   text-align: center;
-  color: var(--text-primary);
 }
 
 @media (max-width: 767px) {
   .dropdown-button {
-    padding: 0.5rem 1rem;
     font-size: 10px;
   }
 }
 
 .dropdown-button:hover {
   background-color: #ddd;
+}
+
+.dropdown-button a,
+.dropdown-button button {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  color: var(--text-primary) !important;
+}
+
+.dropdown-button:hover a,
+.dropdown-button:hover button {
+  background-color: transparent;
+  color: black !important;
 }

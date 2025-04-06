@@ -2,6 +2,7 @@ import { baseURL } from "../../constants/baseURL";
 import { Question } from "../../types/Question";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faEye,
   faMessage,
   faPenClip,
   faTrash,
@@ -21,6 +22,13 @@ import { verifyImage } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
+import QuestionsBookmarkHandler from "./QuestionsBookmarkHandler";
+
+interface AdditionalProps {
+  setIsViewsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+type Props = Question & AdditionalProps;
 
 const QuestionContent = ({
   content,
@@ -29,7 +37,8 @@ const QuestionContent = ({
   verifiedAnswer,
   timestamps,
   attachment,
-}: Question) => {
+  setIsViewsModalOpen,
+}: Props) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -108,6 +117,7 @@ const QuestionContent = ({
                 border: "none",
                 fontSize: "1.5rem",
                 cursor: "pointer",
+                color: "var(--text-primary)",
               }}
             >
               ...
@@ -148,6 +158,7 @@ const QuestionContent = ({
               </button>
             </div>
           </Dropdown>
+          {/* <BookmarkIcon /> */}
         </div>
       </div>
 
@@ -186,6 +197,18 @@ const QuestionContent = ({
             <FontAwesomeIcon className="comment-icon" icon={faMessage} />
             <span className="comments-count">{stats.commentsCount}</span>
           </div>
+
+          <div onClick={() => setIsViewsModalOpen(true)}>
+            <FontAwesomeIcon className="view-icon" icon={faEye} />
+            <span>{stats.totalViews}</span>
+          </div>
+
+          <QuestionsBookmarkHandler
+            // @ts-ignore
+            contentId={id}
+            bookmarksCount={stats.bookmarksCount}
+            isBookmarkedByCurrentUser={stats.isbookmarkedByCurrentUser}
+          />
         </div>
       </div>
 

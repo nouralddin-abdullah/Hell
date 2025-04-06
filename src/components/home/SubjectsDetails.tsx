@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
-import { zeena } from "../../assets";
 
 const SubjectsDetails = () => {
   const { data: courses } = useGetAllCourses();
@@ -42,12 +41,6 @@ const SubjectsDetails = () => {
           </ul>
         </details>
       ))}
-
-      <img
-        style={{ position: "absolute", top: "0", right: "5%", width: "40%" }}
-        src={zeena}
-        alt=""
-      />
     </div>
   );
 };

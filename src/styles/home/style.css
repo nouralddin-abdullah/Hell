@@ -60,6 +60,11 @@
   line-height: 1.6;
 }
 
+[data-theme="dark"] .home .container > div .sub-card,
+[data-theme="darker"] .home .container > div .sub-card {
+  background: var(--secondary-background);
+}
+
 [data-theme="dark"] .home .container > div .sub-card {
   background-color: var(--card-bg-color);
 }
