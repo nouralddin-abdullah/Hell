@@ -1,6 +1,6 @@
 import "../../styles/announcements/style.css";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { useGetAllAnnouncements } from "../../hooks/announcements/useGetAllAnnouncements";
+import { useGetAllAnnouncements } from "../../hooks/announcements/useGetAllAnouncements";
 import { baseURL } from "../../constants/baseURL";
 import AnnouncementSkeleton from "../../components/announcements/AnnouncementSkeleton";
 import { useState } from "react";
