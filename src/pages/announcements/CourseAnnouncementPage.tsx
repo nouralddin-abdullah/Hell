@@ -1,6 +1,6 @@
 import "../../styles/announcements/style.css";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { useGetAllAnnouncements } from "../../hooks/announcements/useGetAllAnouncements";
+import { useGetAllAnnouncements } from "../../hooks/announcements/useGetAllAnnouncements";
 import { baseURL } from "../../constants/baseURL";
 import AnnouncementSkeleton from "../../components/announcements/AnnouncementSkeleton";
 import { useState } from "react";
@@ -24,6 +24,7 @@ const CourseAnnouncementPage = () => {
   >();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteAnnouncementModalOpen, setIsDeleteAnnouncementModalOpen] = useState(false);
 
   return (
     <ProtectedRoute>
@@ -35,7 +36,7 @@ const CourseAnnouncementPage = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                // gap: "1rem",
+// gap: "1rem",
                 width: "250px",
                 background: "#fff",
                 borderRadius: "1rem",
@@ -92,6 +93,7 @@ const CourseAnnouncementPage = () => {
                 <AnnouncementDetails
                   courseId={courseId}
                   announcementId={selectedAnnouncement}
+                  setIsDeleteAnnouncementModalOpen={setIsDeleteAnnouncementModalOpen}
                 />
               )}
             </div>
@@ -104,6 +106,30 @@ const CourseAnnouncementPage = () => {
             courseId={courseId}
             onClose={() => setIsModalOpen(false)}
           />
+        </Modal>
+
+        <Modal isOpen={isDeleteAnnouncementModalOpen} onClose={() => setIsDeleteAnnouncementModalOpen(false)}>
+          <div className="delete-confirmation">
+            <h3>Delete Announcement</h3>
+            <p>Are you sure you want to delete this announcement?</p>
+            <div className="button-group">
+              <button 
+                className="cancel-btn"
+                onClick={() => setIsDeleteAnnouncementModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="delete-btn"
+                onClick={() => {
+                  // Add delete functionality here
+                  setIsDeleteAnnouncementModalOpen(false);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </Modal>
       </PageWrapper>
     </ProtectedRoute>
