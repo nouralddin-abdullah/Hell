@@ -64,7 +64,7 @@ const ScheduleContainer = () => {
           alignItems: "center",
         }}
       >
-        {["Q", "B", "C", "D"].map((group) => (
+        {["A", "B", "C", "D"].map((group) => (
           <ChipButton
             key={group}
             isSelected={selectedGroup === group}
