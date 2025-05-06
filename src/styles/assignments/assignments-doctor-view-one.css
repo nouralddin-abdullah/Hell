@@ -1,0 +1,126 @@
+.assignment-page {
+  background-color: var(--base);
+  min-height: calc(100vh - 70px);
+  width: 100vw;
+  padding: 50px 0px;
+}
+
+.assignment-page .container {
+  padding: 0px 30px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.assignment-page .assign-title {
+  background-color: var(--background);
+  padding: 40px 40px 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0px 1px 1px 1px silver;
+  border-radius: 20px;
+  min-height: 70vh;
+  width: 80%;
+}
+
+.assignment-page .assign-title > p:only-of-type {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.assignment-page .assign-title .assign-card {
+  padding: 10px 30px;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  border: solid 1px #ddd;
+  width: 90%;
+  transition: 0.3s;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px 10px;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .assignment-page .assign-title .assign-card {
+  background-color: var(--card-bg-color);
+}
+
+[data-theme="darker"] .assignment-page .assign-title .assign-card {
+  background: var(--secondary-background);
+}
+
+.assignment-page .assign-title .assign-card .right {
+  transition: all 0.3s;
+}
+
+.assignment-page .assign-title .assign-card .right.rotated {
+  transform: rotate(90deg);
+}
+
+.assignment-page .assign-title .assign-card .footer {
+  display: none;
+  transition: all 0.3s;
+  grid-column: 1 / -1;
+}
+
+.assignment-page .assign-title .assign-card .footer.show {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+.assignment-page .assign-title .assign-card .footer button {
+  background-color: #6366f1;
+  padding: 10px 20px;
+  color: white;
+  width: fit-content;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.assignment-page .assign-title .assign-card .right .icon {
+  display: flex;
+  align-items: center;
+  color: #8f9098;
+  transform: scale(0.9);
+}
+
+@media (max-width: 991px) {
+  .assignment-page {
+    padding: 50px 0px 80px;
+  }
+  .assignment-page .container {
+    padding: 0;
+    width: 100%;
+  }
+  .assignment-page .assign-title {
+    padding: 25px;
+    gap: 20px;
+  }
+
+  .assignment-page .assign-title .assign-card {
+    width: 100%;
+  }
+}
+
+.assignment-page .assign-title .assign-card .title {
+  font-weight: bold;
+}
+.assignment-page .assign-title .assign-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-light);
+  font-size: 14px;
+  margin-top: 5px;
+}

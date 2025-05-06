@@ -12,7 +12,11 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-extra-bold)
+  );
   color: white;
   border: none;
   cursor: pointer;
@@ -61,7 +65,11 @@
 
 .chat-header {
   padding: 16px;
-  background-color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-extra-bold)
+  );
   color: white;
   display: flex;
   justify-content: space-between;
@@ -109,8 +117,8 @@
   max-width: 85%;
 }
 
-.chat-message.user {
-  margin-left: auto;
+.chat-message.assistant {
+  margin-right: auto;
   flex-direction: row-reverse;
 }
 
@@ -200,7 +208,11 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-extra-bold)
+  );
   color: white;
   border: none;
   cursor: pointer;
@@ -229,5 +241,59 @@
 
   .floating-chat-container {
     bottom: 5rem;
+  }
+}
+
+.typing-indicator .message-content {
+  /* Adjust padding if needed, maybe make it smaller */
+  padding: 12px 16px;
+  background-color: var(--secondary-background); /* Match assistant bubble */
+  border-radius: 0 12px 12px 12px; /* Match assistant bubble */
+  display: inline-block; /* Fit content */
+}
+
+.typing-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--text-secondary); /* Adjust color as needed */
+  margin: 0 2px;
+  /* Animation */
+  animation: typing-blink 1.4s infinite both;
+}
+
+/* Stagger the animation */
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.assistant-avatar.loading img {
+  animation: pulse-avatar 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-avatar {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
   }
 }

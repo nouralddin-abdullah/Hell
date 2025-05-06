@@ -21,24 +21,28 @@ import { MaterialType } from "../../types/Material";
 import Button from "../../components/common/button/Button";
 
 const MaterialsPage = () => {
-  const { id } = useParams();
+  const { id, "*": splat } = useParams();
+  const parentPath = splat || "";
   const navigate = useNavigate();
 
   const { data: currentUser } = useGetCurrentUser();
-
-  const [parentPath, setParentPath] = useState("");
 
   const { data: materials, isLoading } = useGetAllCourseMaterial(
     id || "",
     parentPath
   );
+
   const handleBackButton = () => {
-    if (parentPath) {
-      const paths = parentPath.split("/");
-      const prevPath = paths.slice(0, -1).join("/");
-      setParentPath(prevPath);
+    if (parentPath || parentPath !== "") {
+      // Split the path and remove last segment
+      const pathSegments = parentPath.split("/");
+      pathSegments.pop();
+      const newParentPath = pathSegments.join("/");
+
+      // Navigate to the new path
+      navigate(`/materials/${id}/${newParentPath}`);
     } else {
-      navigate(-1);
+      navigate("/");
     }
   };
 
@@ -52,15 +56,13 @@ const MaterialsPage = () => {
     } catch (error) {
       console.error(error);
     }
-
     setIsDownloading("");
   };
 
   const [showUploadModal, setShowUploadModal] = useState(false);
-
-  // delete modal states
-  const [selectedMaterial, setSelectedMaterial] =
-    useState<null | MaterialType>();
+  const [selectedMaterial, setSelectedMaterial] = useState<null | MaterialType>(
+    null
+  );
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   return (
@@ -122,11 +124,10 @@ const MaterialsPage = () => {
                 <span
                   key={material._id}
                   onClick={() => {
-                    setParentPath((prevState) =>
-                      prevState === ""
-                        ? material.name
-                        : `${prevState}/${material.name}`
-                    );
+                    const newParentPath = parentPath
+                      ? `${parentPath}/${material.name}`
+                      : material.name;
+                    navigate(`/materials/${id}/${newParentPath}`);
                   }}
                 >
                   <FolderComponent title={material.name} />
@@ -151,7 +152,6 @@ const MaterialsPage = () => {
                     <FontAwesomeIcon icon={faDownload} />
                   )}
                 </button>
-
                 {currentUser?.user.role !== "student" && (
                   <button
                     className="download-material-button"

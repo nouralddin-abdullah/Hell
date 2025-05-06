@@ -1,0 +1,62 @@
+.document-viewer {
+  width: 100%;
+  height: 500px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.word-viewer {
+  padding: 20px;
+  height: 500px;
+  overflow-y: auto;
+  background-color: white;
+  color: #000;
+  font-family: "Calibri", "Arial", sans-serif;
+  line-height: 1.5;
+}
+
+.document-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #f8f9fa;
+  color: #666;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 1px dashed #ccc;
+}
+
+.document-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background-color: #fff8f8;
+  color: #d32f2f;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .document-viewer {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .document-viewer {
+    height: 300px;
+  }
+}

@@ -1,8 +1,7 @@
 import { ChangeEvent, FormEvent, useState, RefObject, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileImage } from "@fortawesome/free-solid-svg-icons";
+import { faFileImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
-import Button from "../common/button/Button";
 import toast from "react-hot-toast";
 import { MentionsInput, Mention } from "react-mentions";
 import { mentionStyles } from "../../constants/mentions";
@@ -12,6 +11,7 @@ import { baseURL } from "../../constants/baseURL";
 import useAuthStore from "../../store/authTokenStore";
 import { useAddQuestionReply } from "../../hooks/questions/useAddQuestionReply";
 import { useParams } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 
 // Function to determine if text is RTL
 const isRTL = (text: string) => {
@@ -175,87 +175,112 @@ const AddReplyForm = ({ commentId, onReplySubmitted, inputRef }: Props) => {
       style={{ paddingLeft: "3.5rem" }}
     >
       <img src={currentUser?.user.photo} alt={currentUser?.user.fullName} />
-      <div className="textarea-wrapper">
-        <MentionsInput
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Add a reply"
-          // @ts-ignore
-          style={dynamicStyles}
-          a11ySuggestionsListLabel="Suggested mentions"
-          inputRef={inputRef}
-          className={isRtlMode ? "rtl-text" : "ltr-text"}
-        >
-          <Mention
-            trigger="@"
-            data={fetchMentions}
-            renderSuggestion={(suggestion) => (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                <img
-                  // @ts-ignore
-                  src={`${baseURL}/profilePics/${suggestion.photo}`}
-                  // @ts-ignore
-                  alt={suggestion.fullName}
+
+      <div className="comment-body-wrapper">
+        {/* Row 1: Input */}
+        <div className="textarea-wrapper">
+          <MentionsInput
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Add a reply"
+            // @ts-ignore
+            style={dynamicStyles}
+            inputRef={inputRef}
+            a11ySuggestionsListLabel="Suggested mentions"
+            className={isRtlMode ? "rtl-text" : "ltr-text"}
+          >
+            <Mention
+              trigger="@"
+              data={fetchMentions}
+              renderSuggestion={(suggestion) => (
+                <div
                   style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: "50%",
-                    marginRight: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                    cursor: "pointer",
                   }}
-                />
-                <div>
-                  <strong>{suggestion.display}</strong>
-                  <p style={{ fontSize: "12px", margin: 0, color: "#666" }}>
-                    {/* @ts-ignore */}
-                    {suggestion.fullName} - {suggestion.role}
-                  </p>
+                >
+                  <img
+                    // @ts-ignore
+                    src={`${baseURL}/profilePics/${suggestion.photo}`}
+                    // @ts-ignore
+                    alt={suggestion.fullName}
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      marginRight: 10,
+                    }}
+                  />
+                  <div>
+                    <strong>{suggestion.display}</strong>
+                    <p style={{ fontSize: "12px", margin: 0, color: "#666" }}>
+                      {/* @ts-ignore */}
+                      {suggestion.fullName} - {suggestion.role}
+                    </p>
+                  </div>
                 </div>
+              )}
+              style={{ backgroundColor: "#cee4e5" }}
+            />
+          </MentionsInput>
+        </div>
+
+        {/* Row 2: Actions */}
+        <div className="comment-actions-row">
+          <div className="left-actions">
+            {!attachmentReply && (
+              <>
+                <input
+                  type="file"
+                  id={`attachmentReply-${commentId}`}
+                  onChange={handleFileChange}
+                  className="announcement-form__file-input"
+                />
+                <label
+                  htmlFor={`attachmentReply-${commentId}`}
+                  className="icon-button"
+                >
+                  <FontAwesomeIcon icon={faFileImage} />
+                </label>
+              </>
+            )}
+
+            {attachmentReply && (
+              <div className="announcement-form__attachment-info">
+                <span>{attachmentReply.name}</span>
+                <button
+                  type="button"
+                  onClick={removeAttachment}
+                  className="announcement-form__remove-attachment"
+                >
+                  Remove
+                </button>
               </div>
             )}
-            style={{ backgroundColor: "#cee4e5" }}
-          />
-        </MentionsInput>
+          </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          {!attachmentReply && (
-            <>
-              <input
-                type="file"
-                id={`attachmentReply-${commentId}`}
-                onChange={handleFileChange}
-                className="announcement-form__file-input"
+          <button
+            type="submit"
+            className="icon-button"
+            disabled={isPending}
+            style={{ cursor: isPending ? "not-allowed" : "pointer" }}
+          >
+            {isPending ? (
+              <Oval
+                height={20}
+                width={20}
+                color="#fff"
+                secondaryColor="#ccc"
+                strokeWidth={4}
               />
-              <label htmlFor={`attachmentReply-${commentId}`}>
-                <FontAwesomeIcon className="upload-image" icon={faFileImage} />
-              </label>
-            </>
-          )}
-
-          {attachmentReply && (
-            <div className="announcement-form__attachment-info">
-              <span>{attachmentReply.name}</span>
-              <button
-                type="button"
-                onClick={removeAttachment}
-                className="announcement-form__remove-attachment"
-                style={{ background: "none", border: "none" }}
-              >
-                Remove
-              </button>
-            </div>
-          )}
+            ) : (
+              <FontAwesomeIcon icon={faPaperPlane} />
+            )}
+          </button>
         </div>
       </div>
-      <Button isLoading={isPending} className="posting-comment-btn">
-        Post
-      </Button>
     </form>
   );
 };

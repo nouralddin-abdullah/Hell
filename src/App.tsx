@@ -36,6 +36,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { baseURL } from "./constants/baseURL";
 import FloatingChatButton from "./components/chat/FloatingChatButton";
 import UpdatesModal from "./components/common/UpdatesModal/UpdatesModal";
+import AssignmentsListPage from "./pages/assignments";
+import SubmissionsPage from "./pages/submissions/page";
+import PreviewPage from "./pages/preview";
+import CreateAssignments from "./pages/assignments/createAssignments";
+import { useGetCurrentUser } from "./hooks/auth/useGetCurrentUser";
+import NotFound from "./pages/not-found";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -49,6 +55,8 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 
 function App() {
+  const { data: currentUser } = useGetCurrentUser();
+
   const tokenAvailable = useAuthStore((state) => state.token);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -240,7 +248,7 @@ function App() {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/join-us" element={<JoinUsPage />} />
-        <Route path="/materials/:id" element={<MaterialsPage />} />
+        <Route path="/materials/:id/*" element={<MaterialsPage />} />{" "}
         <Route path="/note/:username/:id" element={<NotePage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route
@@ -255,6 +263,22 @@ function App() {
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/store" element={<StorePage />} />
+        <Route
+          path="/assignments/:courseId"
+          element={<AssignmentsListPage />}
+        />
+        <Route
+          path="/submission/:courseId/assignments/:assignmentId"
+          element={<SubmissionsPage />}
+        />
+        {currentUser?.user.role === "instructor" && (
+          <Route
+            path="/assignments/:courseId/create-assignment"
+            element={<CreateAssignments />}
+          />
+        )}
+        <Route path="/preview" element={<PreviewPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {!tokenAvailable && <JoinUsPopup />}

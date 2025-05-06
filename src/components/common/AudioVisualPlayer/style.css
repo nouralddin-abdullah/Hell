@@ -1,0 +1,26 @@
+.audio-player-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding: 12px;
+  min-width: 200px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  gap: 16px;
+  background-color: var(--secondary-background);
+}
+
+.audio-waveform__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.audio-waveform__waveform {
+  flex: 1;
+  overflow: hidden;
+}

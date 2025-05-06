@@ -1,0 +1,88 @@
+.material-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin: 0 2px;
+  background-color: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 4px;
+  color: #333;
+  text-decoration: none;
+  gap: 5px;
+  max-width: 100%;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.material-link:hover {
+  background-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.material-link:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.material-link .material-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* File type colors */
+.material-link.pdf .material-icon {
+  color: #ff4d4d;
+}
+
+.material-link.doc .material-icon,
+.material-link.docx .material-icon {
+  color: #2b7cd3;
+}
+
+.material-link.xls .material-icon,
+.material-link.xlsx .material-icon {
+  color: #1e8449;
+}
+
+.material-link.ppt .material-icon,
+.material-link.pptx .material-icon {
+  color: #ff8c1a;
+}
+
+.material-link.image .material-icon {
+  color: #9b59b6;
+}
+
+.material-link.archive .material-icon {
+  color: #7f8c8d;
+}
+
+.material-link.txt .material-icon {
+  color: #34495e;
+}
+
+/* Hover tooltip */
+.material-link .tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.material-link:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}

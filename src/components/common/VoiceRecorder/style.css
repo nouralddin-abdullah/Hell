@@ -1,0 +1,62 @@
+.voice-recorder {
+  margin: 10px 0;
+  width: 250px;
+  display: flex;
+  gap: 1rem;
+}
+
+.recorder-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.record-button {
+  padding: 15px 15px;
+  border: none;
+  border-radius: 4px;
+  background: #e74c3c;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.record-button.recording {
+  background: #2ecc71;
+}
+
+.audio-preview {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.visualizer {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  gap: 2px;
+  padding: 10px 1rem;
+  background-color: var(--secondary-background);
+  border-radius: 8px;
+}
+
+.bar {
+  width: 4px;
+  min-height: 2px; /* Minimum visible height */
+  max-height: 35px;
+  border-radius: 2px;
+  transition: height 0.1s ease-out; /* Smoother animation */
+}
+
+.voice-recorder-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.microphone-icon {
+  color: #4a90e2;
+  font-size: 1.2rem;
+}

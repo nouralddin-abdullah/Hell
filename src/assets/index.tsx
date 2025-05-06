@@ -44,3 +44,4 @@ export { default as askByCourse } from "./ask-by-course.png";
 export { default as improvedStyles } from "./styles-profile.png";
 export { default as elDa7ee7Comment } from "./el-da7ee7-comment.png";
 export { default as sortinglikes  } from "./sortinglikes.png";
+export { default as assignmentstudent } from "./assignmentstudent.png";

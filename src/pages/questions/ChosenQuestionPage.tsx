@@ -93,7 +93,6 @@ const ChosenQuestionPage = () => {
                   />
                 )}
 
-                {}
                 {currentUser && <AddCommentForm />}
 
                 <div className="all-comments-section">
@@ -109,7 +108,6 @@ const ChosenQuestionPage = () => {
                     />
                   )}
                 </div>
-                {}
               </div>
             </div>
           </div>
@@ -130,16 +128,8 @@ const ChosenQuestionPage = () => {
             Confirm
           </Button>
         </Modal>
-        {/* 
-        <Modal
-          isOpen={isViewsModalOpen}
-          onClose={() => setIsViewsModalOpen(false)}
-        >
-          <QuestionViewsList
-            questionId={id}
-            onClose={() => setIsViewsModalOpen(false)}
-          />
-        </Modal> */}
+
+        {/* Views modal removed for now since it was commented out */}
       </PageWrapper>
     </ProtectedRoute>
   );

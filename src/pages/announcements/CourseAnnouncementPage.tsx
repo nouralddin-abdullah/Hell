@@ -10,6 +10,7 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import Modal from "../../components/common/modal/Modal";
 import AnnouncementForm from "../../components/announcements/AnnouncementForm";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
+import AnnouncementDeleteContent from "../../components/announcements/AnnouncementDeleteContent";
 
 const CourseAnnouncementPage = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -24,7 +25,9 @@ const CourseAnnouncementPage = () => {
   >();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteAnnouncementModalOpen, setIsDeleteAnnouncementModalOpen] = useState(false);
+
+  const [isDeleteAnnouncementModalOpen, setIsDeleteAnnouncementModalOpen] =
+    useState(false);
 
   return (
     <ProtectedRoute>
@@ -36,9 +39,9 @@ const CourseAnnouncementPage = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-// gap: "1rem",
+                // gap: "1rem",
                 width: "250px",
-                background: "#fff",
+                background: "var(--background)",
                 borderRadius: "1rem",
                 margin: "1rem auto 3rem",
               }}
@@ -93,7 +96,9 @@ const CourseAnnouncementPage = () => {
                 <AnnouncementDetails
                   courseId={courseId}
                   announcementId={selectedAnnouncement}
-                  setIsDeleteAnnouncementModalOpen={setIsDeleteAnnouncementModalOpen}
+                  setIsDeleteAnnouncementModalOpen={
+                    setIsDeleteAnnouncementModalOpen
+                  }
                 />
               )}
             </div>
@@ -108,28 +113,16 @@ const CourseAnnouncementPage = () => {
           />
         </Modal>
 
-        <Modal isOpen={isDeleteAnnouncementModalOpen} onClose={() => setIsDeleteAnnouncementModalOpen(false)}>
-          <div className="delete-confirmation">
-            <h3>Delete Announcement</h3>
-            <p>Are you sure you want to delete this announcement?</p>
-            <div className="button-group">
-              <button 
-                className="cancel-btn"
-                onClick={() => setIsDeleteAnnouncementModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button 
-                className="delete-btn"
-                onClick={() => {
-                  // Add delete functionality here
-                  setIsDeleteAnnouncementModalOpen(false);
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+        <Modal
+          isOpen={isDeleteAnnouncementModalOpen}
+          onClose={() => setIsDeleteAnnouncementModalOpen(false)}
+        >
+          <AnnouncementDeleteContent
+            // @ts-ignore
+            announcementId={selectedAnnouncement}
+            setIsDeleteAnnouncementModalOpen={setIsDeleteAnnouncementModalOpen}
+            setSelectedAnnouncement={setSelectedAnnouncement}
+          />
         </Modal>
       </PageWrapper>
     </ProtectedRoute>

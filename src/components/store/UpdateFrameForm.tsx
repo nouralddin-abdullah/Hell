@@ -14,6 +14,7 @@ interface Props {
   URL: string;
   currency: string;
   canAfford: boolean;
+  onClose: () => void;
 }
 
 const UpdateFrameForm = (frame: Props) => {
@@ -48,6 +49,7 @@ const UpdateFrameForm = (frame: Props) => {
 
     try {
       await mutateAsync(formData);
+      frame.onClose();
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +104,7 @@ const UpdateFrameForm = (frame: Props) => {
         style={{ margin: "1rem auto" }}
         isLoading={isPending}
       >
-        Add Frame
+        Edit Frame
       </Button>
     </form>
   );

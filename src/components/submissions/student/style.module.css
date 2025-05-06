@@ -1,0 +1,142 @@
+.student-name-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.student-name-input:focus {
+  border-color: #0056b3;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.1);
+}
+
+/* File Input Styling */
+.file-input {
+  display: none; /* Hide the default file input */
+}
+
+.file-input-group {
+  position: relative;
+}
+
+.custom-file-upload {
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed #ced4da;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  background-color: var(--base);
+  transition: all 0.2s;
+}
+
+.custom-file-upload:hover {
+  border-color: #0056b3;
+  background-color: var(--card-bg);
+}
+
+.file-upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eef5ff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #0056b3;
+}
+
+.file-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.file-placeholder {
+  color: #6c757d;
+  text-align: center;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.selected-file-name {
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  background-color: #e6f2ff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.file-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Submit Button */
+.btn.submit {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.btn.submit:hover {
+  background-color: #004494;
+}
+
+.btn.submit:active {
+  background-color: #003b7a;
+}
+
+.btn.submit.submitting {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Success Message */
+.submission-success {
+  margin-top: 16px;
+  padding: 10px;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .submission-form {
+    padding: 15px;
+  }
+
+  .custom-file-upload {
+    padding: 10px;
+  }
+}

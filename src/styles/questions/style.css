@@ -300,6 +300,7 @@
   background-color: transparent;
   width: 100%;
   text-align: center;
+  color: var(--text-primary);
 }
 
 @media (max-width: 767px) {
@@ -309,7 +310,7 @@
 }
 
 .dropdown-button:hover {
-  background-color: #ddd;
+  background-color: var(--text-secondary);
 }
 
 .dropdown-button a,

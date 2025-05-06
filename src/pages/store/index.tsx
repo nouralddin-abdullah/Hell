@@ -586,7 +586,7 @@ const StorePage = () => {
               isOpen={isAddFrameModalOpen}
               onClose={() => setIsAddFrameModalOpen(false)}
             >
-              <AddFrameForm />
+              <AddFrameForm onClose={() => setIsAddFrameModalOpen(false)} />
             </Modal>
           )}
 
@@ -603,6 +603,7 @@ const StorePage = () => {
                 name={selectedFrameForCRUD?.name}
                 price={selectedFrameForCRUD?.price}
                 canAfford={selectedFrameForCRUD.canAfford}
+                onClose={() => setIsUpdateFrameModalOpen(false)}
               />
             </Modal>
           )}

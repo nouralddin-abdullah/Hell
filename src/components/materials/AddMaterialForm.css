@@ -19,7 +19,7 @@
 
 .file-input-label {
   padding: 0.5rem 1rem;
-  background-color: #f0f0f0;
+  background-color: var(--base);
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
@@ -27,7 +27,7 @@
 }
 
 .file-input-label:hover {
-  background-color: #e0e0e0;
+  background-color: var(--highlight);
 }
 
 .file-name {

@@ -124,29 +124,19 @@ const QuestionContent = ({
             </button>
           )}
           <Dropdown isVisible={showDropDown}>
-            <div>
+            <div className="dropdown-menu">
               <button
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "1rem",
-                }}
                 className="dropdown-button dropdown-delete-btn"
                 onClick={() => {
                   setIsDeleteModalOpen(true);
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} />
-                <p>Delete</p>
+                <span>Delete</span>
               </button>
 
               <button
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "1rem",
-                }}
-                className="dropdown-button"
+                className="dropdown-button dropdown-edit-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowDropDown(false);
@@ -154,7 +144,7 @@ const QuestionContent = ({
                 }}
               >
                 <FontAwesomeIcon icon={faPenClip} />
-                <p>Edit</p>
+                <span>Edit</span>
               </button>
             </div>
           </Dropdown>

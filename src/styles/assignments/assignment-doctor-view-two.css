@@ -1,0 +1,270 @@
+.assignment2-page {
+  background-color: var(--base);
+  padding: 80px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.assignment2-page .assignment2-container {
+  width: 95%;
+  margin: 0 auto;
+  background-color: var(--background);
+  border-radius: 8px;
+}
+
+/* starting assignment details */
+.assignment2-details-and-filtering {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 18px;
+}
+
+@media (max-width: 991px) {
+  .assignment2-details-and-filtering {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+.assignment2-details-and-filtering .assignment2-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.assignment2-details-and-filtering .assignment2-details .assignment2-desc {
+  color: var(--highlight);
+}
+/* ending assignment details */
+
+/* starting assignment filtering */
+.assignment2-details-and-filtering .assignment2-filtering {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+@media (max-width: 991px) {
+  .assignment2-details-and-filtering .assignment2-filtering {
+    gap: 10px;
+    font-size: 12px;
+  }
+}
+
+.assignment2-details-and-filtering .assignment2-filtering .assignment2-delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: #ff3333;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-delete:hover {
+  transform: scale(1.05);
+}
+
+.assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-group-status-filter {
+  display: flex;
+  gap: 25px;
+}
+
+@media (max-width: 991px) {
+  .assignment2-details-and-filtering
+    .assignment2-filtering
+    .assignment2-group-status-filter {
+    gap: 10px;
+  }
+}
+
+.assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-group-filter,
+.assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-status-filter {
+  background-color: var(--background);
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  padding: 10px 8px;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+@media (max-width: 991px) {
+  .assignment2-details-and-filtering
+    .assignment2-filtering
+    .assignment2-group-filter,
+  .assignment2-details-and-filtering
+    .assignment2-filtering
+    .assignment2-status-filter {
+    font-size: 10px;
+  }
+}
+
+[data-theme="dark"]
+  .assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-group-filter,
+[data-theme="darker"]
+  .assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-group-filter,
+[data-theme="dark"]
+  .assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-status-filter,
+[data-theme="darker"]
+  .assignment2-details-and-filtering
+  .assignment2-filtering
+  .assignment2-status-filter {
+  background-color: var(--base);
+  color: white;
+}
+
+/* starting assignment filtering */
+
+/*starting assignment table */
+.assignment2-table-container {
+  overflow-x: auto;
+  text-wrap: nowrap;
+}
+
+.assignment2-table-container .student-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.assignment2-table-container .student-table .assignment2-student-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 991px) {
+  .assignment2-table-container .student-table .assignment2-student-name img {
+    width: 33px !important;
+  }
+}
+
+.assignment2-table-container .student-table th,
+.assignment2-table-container .student-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+[data-theme="dark"] .assignment2-table-container .student-table th,
+[data-theme="darker"] .assignment2-table-container .student-table th {
+  background-color: var(--primary);
+  color: white;
+}
+
+.assignment2-table-container .student-table th {
+  background-color: #f9fafb;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+@media (max-width: 991px) {
+  .assignment2-table-container .student-table th {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 991px) {
+  .assignment2-table-container .student-table td {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .assignment2-table-container .student-table td:last-child {
+    padding-right: 50px;
+  }
+}
+
+.assignment2-table-container .student-table td::after {
+  content: "\2807";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .assignment2-table-container .student-table td::after {
+    font-size: 16px;
+  }
+}
+
+.assignment2-table-container .student-table tr {
+  position: relative;
+}
+
+.assignment2-table-container .student-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+[data-theme="dark"] .assignment2-table-container .student-table tr:hover,
+[data-theme="darker"] .assignment2-table-container .student-table tr:hover {
+  background-color: transparent;
+}
+
+.assignment2-table-container .student-table a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.assignment2-table-container .student-table a:hover {
+  text-decoration: underline;
+}
+
+.assignment2-table-container .student-table .student-attachment {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.student-table .status {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 40px;
+  padding: 4px 14px;
+  font-weight: 500;
+  border-radius: 100px;
+}
+
+.student-table .status.finished {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+.student-table .status.pending {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+/*ending assignment table */

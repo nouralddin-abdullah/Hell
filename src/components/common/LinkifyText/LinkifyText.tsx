@@ -1,8 +1,13 @@
+import { File } from "lucide-react";
+import styles from "./style.module.css";
+
 const LinkifyText = ({ text, limit }: { text: string; limit?: number }) => {
-  // Regular expression to match URLs, @mentions, and bold text
+  // Regular expression to match URLs, @mentions, bold text, and material links
   const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/g;
   const mentionRegex = /@([\w-]+)/g;
   const boldRegex = /\*(.*?)\*/g;
+  const materialLinkRegex =
+    /\[(.*?)\]\((https?:\/\/[^)]+\/materials\/[^)]+)\)/g;
 
   // Function to determine if a string is RTL
   const isRTL = (text: string) => {
@@ -16,6 +21,41 @@ const LinkifyText = ({ text, limit }: { text: string; limit?: number }) => {
       /[^\s\d!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/
     );
     return firstContentChar ? rtlChars.test(firstContentChar[0]) : false;
+  };
+
+  // Get file extension from filename
+  const getFileExtension = (filename: string) => {
+    const parts = filename.split(".");
+    return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : "";
+  };
+
+  // Get color based on file extension
+  const getFileColor = (extension: string) => {
+    switch (extension) {
+      case "pdf":
+        return "#ff4d4d"; // Red
+      case "doc":
+      case "docx":
+        return "#2b7cd3"; // Blue
+      case "xls":
+      case "xlsx":
+        return "#1E8449"; // Green
+      case "ppt":
+      case "pptx":
+        return "#ff8c1a"; // Orange
+      case "jpg":
+      case "jpeg":
+      case "png":
+      case "gif":
+        return "#9b59b6"; // Purple
+      case "zip":
+      case "rar":
+        return "#7f8c8d"; // Gray
+      case "txt":
+        return "#34495e"; // Dark blue/gray
+      default:
+        return "#6366f1"; // Default indigo
+    }
   };
 
   // Split text by newlines for line-by-line direction detection
@@ -32,24 +72,51 @@ const LinkifyText = ({ text, limit }: { text: string; limit?: number }) => {
 
         // Process URLs, mentions, and bold text for this line
         const parts = [];
-        // let lastIndex = 0;
 
         // Process the line in multiple passes to handle different patterns
         // Step 1: Extract all patterns into a combined array
         const patterns = [];
 
+        // Find material links first (they have priority)
+        let materialMatch;
+        while ((materialMatch = materialLinkRegex.exec(line)) !== null) {
+          patterns.push({
+            type: "material",
+            start: materialMatch.index,
+            end: materialMatch.index + materialMatch[0].length,
+            content: materialMatch[1], // The filename/label
+            href: materialMatch[2], // The URL
+            original: materialMatch[0], // The complete markdown link
+          });
+        }
+
         // Find URLs
         let urlMatch;
         while ((urlMatch = urlRegex.exec(line)) !== null) {
-          patterns.push({
-            type: "link",
-            start: urlMatch.index,
-            end: urlMatch.index + urlMatch[0].length,
-            content: urlMatch[0],
-            href: urlMatch[0].startsWith("www.")
-              ? `https://${urlMatch[0]}`
-              : urlMatch[0],
-          });
+          // Skip if this URL is part of a material link we already processed
+          let isPartOfMaterialLink = false;
+          for (const pattern of patterns) {
+            if (
+              pattern.type === "material" &&
+              // @ts-ignore
+              pattern.original.includes(urlMatch[0])
+            ) {
+              isPartOfMaterialLink = true;
+              break;
+            }
+          }
+
+          if (!isPartOfMaterialLink) {
+            patterns.push({
+              type: "link",
+              start: urlMatch.index,
+              end: urlMatch.index + urlMatch[0].length,
+              content: urlMatch[0],
+              href: urlMatch[0].startsWith("www.")
+                ? `https://${urlMatch[0]}`
+                : urlMatch[0],
+            });
+          }
         }
 
         // Find mentions
@@ -126,7 +193,52 @@ const LinkifyText = ({ text, limit }: { text: string; limit?: number }) => {
             }}
           >
             {parts.map((part, i) => {
-              if (part.type === "link") {
+              if (part.type === "material") {
+                // Extract file extension from content (filename)
+                const extension = getFileExtension(part.content);
+                const fileColor = getFileColor(extension);
+
+                // Create a distinct material link component
+                return (
+                  <a
+                    key={i}
+                    // @ts-ignore
+                    href={part.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles["material-link"]}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      padding: "2px 8px",
+                      margin: "0 2px",
+                      backgroundColor: "rgba(99, 102, 241, 0.1)",
+                      border: "1px solid rgba(99, 102, 241, 0.3)",
+                      borderRadius: "4px",
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                      gap: "5px",
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <File
+                      size={16}
+                      style={{ color: fileColor, flexShrink: 0 }}
+                    />
+                    <span
+                      style={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {part.content}
+                    </span>
+                  </a>
+                );
+              } else if (part.type === "link") {
                 return (
                   <a
                     key={i}

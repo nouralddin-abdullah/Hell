@@ -1,0 +1,29 @@
+.typedTextContainer {
+  display: inline-block;
+  font-family: monospace;
+  line-height: 1.5;
+}
+
+.animated-text {
+  white-space: pre-wrap;
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.blinking {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

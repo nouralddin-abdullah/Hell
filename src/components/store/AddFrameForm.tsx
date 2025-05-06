@@ -3,7 +3,7 @@ import Input from "../common/input/Input";
 import Button from "../common/button/Button";
 import { useAddFrame } from "../../hooks/store/useAddFrame";
 
-const AddFrameForm = () => {
+const AddFrameForm = ({ onClose }: { onClose: () => void }) => {
   const [inputFields, setInputFields] = useState({
     frameName: "",
     frameURL: "",
@@ -28,6 +28,7 @@ const AddFrameForm = () => {
 
     try {
       await mutateAsync(formData);
+      onClose();
     } catch (error) {
       console.error(error);
     }

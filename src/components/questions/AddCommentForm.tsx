@@ -1,11 +1,9 @@
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileImage } from "@fortawesome/free-solid-svg-icons";
-import Button from "../common/button/Button";
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useAddQuestionComment } from "../../hooks/questions/useAddQuestionComment";
-// import { containsBadWords } from "../../utils/containsBadWords";
 import toast from "react-hot-toast";
 import { MentionsInput, Mention } from "react-mentions";
 import { mentionStyles } from "../../constants/mentions";
@@ -13,6 +11,13 @@ import { useGetMentionsList } from "../../hooks/common/useGetMentionList";
 import { MentionItem } from "../../types/Mention";
 import { baseURL } from "../../constants/baseURL";
 import useAuthStore from "../../store/authTokenStore";
+import VoiceRecorder from "../common/VoiceRecorder/VoiceRecorder";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { Oval } from "react-loader-spinner";
+import { Delete, Import } from "lucide-react";
+import Modal from "../common/modal/Modal";
+import MaterialsImporter from "../questions/MaterialsImporter";
+import useMaterialStore from "../../store/materialStore";
 
 // Function to determine if text is RTL
 const isRTL = (text: string) => {
@@ -51,10 +56,29 @@ const AddCommentForm = () => {
   const [text, setText] = useState("");
   const [attachment, setAttachment] = useState<any>();
   const [isRtlMode, setIsRtlMode] = useState(false);
-  // @ts-ignore
-  const [currentLineDirection, setCurrentLineDirection] = useState<
-    "ltr" | "rtl"
-  >("ltr");
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioAttachment, setAudioAttachment] = useState<Blob | null>(null);
+  const [_, setCurrentLineDirection] = useState<"ltr" | "rtl">("ltr");
+
+  const {
+    selectedMaterial,
+    setSelectedMaterial,
+    isImporterOpen,
+    setIsImporterOpen,
+  } = useMaterialStore();
+
+  useEffect(() => {
+    if (selectedMaterial) {
+      const materialLink = `[${selectedMaterial.name}](${selectedMaterial.url})`;
+      setText((prev) => {
+        if (prev.length > 0 && !prev.endsWith(" ")) {
+          return `${prev} ${materialLink} `;
+        }
+        return `${prev}${materialLink} `;
+      });
+      setSelectedMaterial(null);
+    }
+  }, [selectedMaterial, setSelectedMaterial]);
 
   // Monitor text changes to detect RTL content per line
   useEffect(() => {
@@ -95,16 +119,30 @@ const AddCommentForm = () => {
     setAttachment(null);
   };
 
+  // Toggle material importer modal
+  const toggleMaterialImporter = () => {
+    setIsImporterOpen(!isImporterOpen);
+  };
+
+  // Handle recording state changes from VoiceRecorder
+  const handleRecordingStateChange = (recording: boolean) => {
+    setIsRecording(recording);
+  };
+
+  // Handle audio recording
+  const handleAudioRecording = (audioBlob: Blob) => {
+    setAudioAttachment(audioBlob);
+  };
+
+  const clearAudioRecording = () => {
+    setAudioAttachment(null);
+  };
+
   // @ts-ignore
   const { mutateAsync, isPending } = useAddQuestionComment(id);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    // if (containsBadWords(text) === true) {
-    //   toast.error("عيب كدة يسطا");
-    //   return;
-    // }
 
     // Process text to replace mention format - convert from default format to simple @username
     let processedText = text;
@@ -114,12 +152,14 @@ const AddCommentForm = () => {
     const formData = new FormData();
     formData.append("content", processedText);
     if (attachment) formData.append("attach_file", attachment);
+    if (audioAttachment) formData.append("attach_file", audioAttachment);
 
     try {
       await mutateAsync(formData);
 
       setText("");
       setAttachment(null);
+      setAudioAttachment(null);
       toast.success("You earned 1 point!");
     } catch (error) {
       console.error(error);
@@ -166,91 +206,143 @@ const AddCommentForm = () => {
   const dynamicStyles = createDirectionalMentionStyles(isRtlMode);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="post-comment"
-      style={{ maxWidth: "100%" }}
-    >
-      <img src={currentUser?.user.photo} alt="profileImage" />
-      <div className="textarea-wrapper">
-        <MentionsInput
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Add a comment"
-          // @ts-ignore
-          style={dynamicStyles}
-          a11ySuggestionsListLabel="Suggested mentions"
-          className={isRtlMode ? "rtl-text" : "ltr-text"}
-        >
-          <Mention
-            trigger="@"
-            data={fetchMentions}
-            renderSuggestion={(suggestion) => (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                <img
-                  // @ts-ignore
-                  src={`${baseURL}/profilePics/${suggestion.photo}`}
-                  // @ts-ignore
-                  alt={suggestion.fullName}
-                  style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: "50%",
-                    marginRight: 10,
-                  }}
-                />
-                <div>
-                  <strong>{suggestion.display}</strong>
-                  <p style={{ fontSize: "12px", margin: 0, color: "#666" }}>
-                    {/* @ts-ignore */}
-                    {suggestion.fullName} - {suggestion.role}
-                  </p>
+    <>
+      <form onSubmit={handleSubmit} className="post-comment">
+        <img src={currentUser?.user.photo} alt="profileImage" />
+
+        <div className="comment-body-wrapper">
+          {/* Row 1: Input */}
+          <div className="textarea-wrapper">
+            <MentionsInput
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Add a comment"
+              // @ts-ignore
+              style={dynamicStyles}
+              a11ySuggestionsListLabel="Suggested mentions"
+              className={isRtlMode ? "rtl-text" : "ltr-text"}
+            >
+              <Mention
+                trigger="@"
+                data={fetchMentions}
+                renderSuggestion={(suggestion) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "5px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <img
+                      // @ts-ignore
+                      src={`${baseURL}/profilePics/${suggestion.photo}`}
+                      // @ts-ignore
+                      alt={suggestion.fullName}
+                      style={{
+                        width: 30,
+                        height: 30,
+                        borderRadius: "50%",
+                        marginRight: 10,
+                      }}
+                    />
+                    <div>
+                      <strong>{suggestion.display}</strong>
+                      <p style={{ fontSize: "12px", margin: 0, color: "#666" }}>
+                        {/* @ts-ignore */}
+                        {suggestion.fullName} - {suggestion.role}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                style={{ backgroundColor: "#cee4e5" }}
+              />
+            </MentionsInput>
+          </div>
+
+          {/* Row 2: Actions */}
+          <div className="comment-actions-row">
+            <div className="left-actions">
+              <input
+                type="file"
+                id="attachment"
+                onChange={handleFileChange}
+                className="announcement-form__file-input"
+              />
+
+              {/* Only show attachment button when not recording, not already attached */}
+              {!attachment && !audioAttachment && !isRecording && (
+                <label
+                  htmlFor="attachment"
+                  className="icon-button"
+                  title="Add Attachment"
+                  style={{ cursor: "pointer" }}
+                >
+                  <FontAwesomeIcon icon={faFileAlt} />
+                </label>
+              )}
+
+              {attachment && (
+                <div className="announcement-form__attachment-info">
+                  <span>{attachment.name}</span>
+                  <button
+                    type="button"
+                    onClick={removeAttachment}
+                    className="announcement-form__remove-attachment"
+                  >
+                    <Delete />
+                  </button>
                 </div>
-              </div>
-            )}
-            style={{ backgroundColor: "#cee4e5" }}
-          />
-        </MentionsInput>
+              )}
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <input
-            type="file"
-            id="attachment"
-            onChange={handleFileChange}
-            className="announcement-form__file-input"
-          />
-          {!attachment && (
-            <label htmlFor="attachment">
-              <FontAwesomeIcon className="upload-image" icon={faFileImage} />
-            </label>
-          )}
-
-          {attachment && (
-            <div className="announcement-form__attachment-info">
-              <span>{attachment.name}</span>
-              <button
-                type="button"
-                onClick={removeAttachment}
-                className="announcement-form__remove-attachment"
-                style={{ background: "none", border: "none" }}
+              {/* Material Import Button */}
+              <div
+                className="icon-button"
+                title="Import Materials Links"
+                style={{ cursor: "pointer" }}
+                onClick={toggleMaterialImporter}
               >
-                Remove
-              </button>
+                <Import />
+              </div>
+
+              {!attachment && (
+                <VoiceRecorder
+                  onRecordingComplete={handleAudioRecording}
+                  onClearRecording={clearAudioRecording}
+                  onRecordingStateChange={handleRecordingStateChange}
+                  visualizerColor="#4a90e2"
+                />
+              )}
             </div>
-          )}
+
+            {/* Post button */}
+            <button
+              type="submit"
+              className="icon-button"
+              disabled={isPending}
+              style={{ cursor: isPending ? "not-allowed" : "pointer" }}
+            >
+              {isPending ? (
+                <Oval
+                  height={20}
+                  width={20}
+                  color="#fff"
+                  secondaryColor="#ccc"
+                  strokeWidth={4}
+                />
+              ) : (
+                <FontAwesomeIcon icon={faPaperPlane} />
+              )}
+            </button>
+          </div>
         </div>
-      </div>
-      <Button isLoading={isPending} className="posting-comment-btn">
-        Post
-      </Button>
-    </form>
+      </form>
+
+      {/* Material Importer Modal */}
+      <Modal isOpen={isImporterOpen} onClose={() => setIsImporterOpen(false)}>
+        <MaterialsImporter />
+      </Modal>
+    </>
   );
 };
 
