@@ -1,7 +1,7 @@
 /* NotFound.css */
 :root {
   --primary-color: #3498db;
-  --secondary-color: #2ecc71;
+  --secondary-not-found-color: #2ecc71;
   --accent-color: #e74c3c;
   --text-color: #34495e;
   --light-color: #ecf0f1;
@@ -89,7 +89,11 @@
 .book-2 {
   top: 20%;
   right: 8%;
-  background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+  background: linear-gradient(
+    135deg,
+    var(--secondary-not-found-color),
+    #27ae60
+  );
   transform: rotate(20deg);
 }
 
@@ -252,7 +256,7 @@
   transform: translate(-50%, -50%);
   width: 60px;
   height: 60px;
-  border: 8px solid var(--secondary-color);
+  border: 8px solid var(--secondary-not-found-color);
   border-radius: 50%;
 }
 
@@ -263,7 +267,7 @@
   right: -18px;
   width: 20px;
   height: 8px;
-  background: var(--secondary-color);
+  background: var(--secondary-not-found-color);
   transform: rotate(45deg);
   border-radius: 4px;
 }
@@ -279,7 +283,11 @@
   width: 60%;
   height: 4px;
   margin: 0 auto 30px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary-color));
+  background: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--secondary-not-found-color)
+  );
   border-radius: 2px;
 }
 
