@@ -160,6 +160,8 @@ const AddCommentForm = () => {
       setText("");
       setAttachment(null);
       setAudioAttachment(null);
+      setIsRecording(false);
+      clearAudioRecording();
       toast.success("You earned 1 point!");
     } catch (error) {
       console.error(error);
@@ -296,14 +298,16 @@ const AddCommentForm = () => {
               )}
 
               {/* Material Import Button */}
-              <div
-                className="icon-button"
-                title="Import Materials Links"
-                style={{ cursor: "pointer" }}
-                onClick={toggleMaterialImporter}
-              >
-                <Import />
-              </div>
+              {!audioAttachment && !isRecording && (
+                <div
+                  className="icon-button"
+                  title="Import Materials Links"
+                  style={{ cursor: "pointer" }}
+                  onClick={toggleMaterialImporter}
+                >
+                  <Import />
+                </div>
+              )}
 
               {!attachment && (
                 <VoiceRecorder

@@ -1,4 +1,5 @@
 import { Attachment } from "../../types/Question";
+import AudioPlayer from "../common/AudioVisualPlayer/AudioPlayer";
 import FileAttachment from "../common/File/File";
 import ImageComponent from "../common/ImageComponent/ImageComponent";
 import VideoPlayer from "../common/VideoPlayer/VideoPlayer";
@@ -17,6 +18,10 @@ const QuestionAttachment = (attachment: Attachment) => {
 
   if (attachment.mimeType.includes("video")) {
     return <VideoPlayer videoUrl={attachment.url} />;
+  }
+
+  if (attachment.mimeType.includes("audio")) {
+    return <AudioPlayer audioFile={attachment.url} />;
   }
 
   return <FileAttachment file={attachment} />;

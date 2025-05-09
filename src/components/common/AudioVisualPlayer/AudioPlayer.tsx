@@ -79,6 +79,7 @@ export default function AudioPlayer({ audioFile }: AudioPlayerProps) {
             display: "flex",
             alignItems: "center",
             padding: "0.8rem 1rem",
+            borderRadius: "50%",
           }}
         >
           <FontAwesomeIcon icon={playing ? faPause : faPlay} />
