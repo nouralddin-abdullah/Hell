@@ -42,6 +42,9 @@ import PreviewPage from "./pages/preview";
 import CreateAssignments from "./pages/assignments/createAssignments";
 import { useGetCurrentUser } from "./hooks/auth/useGetCurrentUser";
 import NotFound from "./pages/not-found";
+import PostsList from "./pages/posts/posts";
+import PostComponent from "./pages/posts/post";
+import AddPost from "./pages/posts/add-post";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -259,6 +262,9 @@ function App() {
         <Route path="/chat/:courseName" element={<ChatPage />} />
         <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/questions/:id" element={<ChosenQuestionPage />} />
+        <Route path="/posts" element={<PostsList />} />
+        <Route path="/posts/:id" element={<PostComponent />} />
+        <Route path="/create-post" element={<AddPost />} />
         <Route path="/scoreboard" element={<ScoreboardPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/settings" element={<SettingsPage />} />

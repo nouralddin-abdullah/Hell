@@ -1,20 +1,26 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { baseURL } from "../../constants/baseURL";
-import { Post } from "../../types/PostPreview";
 import Cookies from "js-cookie";
 import { tokenKey } from "../../constants/tokenKey";
+import { SelectedPost } from "../../types/Post";
 
-export const useGetPost = (
-  username: string | undefined,
-  postId: string | undefined
-) => {
-  return useQuery({
-    queryKey: ["post", postId, username],
-    queryFn: async () => {
-      if (!postId || !username) return;
+interface PostResponse {
+  data: {
+    post: SelectedPost;
+  };
+}
+
+export const useGetPost = (postId: string | undefined) => {
+  return useInfiniteQuery<PostResponse>({
+    queryKey: ["posts", postId],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
+      if (!postId) {
+        throw new Error("post ID is required");
+      }
 
       const accessToken = Cookies.get(tokenKey);
-      const url = `${baseURL}/api/posts/${username}/${postId}`;
+      const url = `${baseURL}/api/posts/${postId}?page=${pageParam}`;
       const headers: HeadersInit = {};
 
       if (accessToken) {
@@ -24,11 +30,16 @@ export const useGetPost = (
       const response = await fetch(url, { headers });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        const errorDetails = await response.json();
+        throw new Error(errorDetails?.message || "Failed to fetch the post");
       }
 
-      const data = await response.json();
-      return data.data.post as Post;
+      return response.json();
+    },
+    getNextPageParam: (lastPage) => {
+      const { currentPage, totalPages } =
+        lastPage.data.post.comments.pagination;
+      return currentPage < totalPages ? currentPage + 1 : undefined;
     },
     enabled: !!postId,
   });

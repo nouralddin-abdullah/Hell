@@ -37,7 +37,7 @@
   }
 }
 
-.store-container .store-nav>div:not(:last-child) {
+.store-container .store-nav > div:not(:last-child) {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -78,19 +78,19 @@
   color: white;
 }
 
-.store-nav> :nth-child(2):not(.active),
-.store-nav> :nth-child(3):not(.active) {
+.store-nav > :nth-child(2):not(.active),
+.store-nav > :nth-child(3):not(.active) {
   background-color: var(--background);
 }
 
-.store-nav> :nth-child(2):not(.active):hover,
-.store-nav> :nth-child(3):not(.active):hover {
+.store-nav > :nth-child(2):not(.active):hover,
+.store-nav > :nth-child(3):not(.active):hover {
   background-color: #ccc;
   transition: 0.3s;
 }
 
-[data-theme="dark"] .store-nav> :nth-child(2):not(.active):hover,
-[data-theme="dark"] .store-nav> :nth-child(3):not(.active):hover {
+[data-theme="dark"] .store-nav > :nth-child(2):not(.active):hover,
+[data-theme="dark"] .store-nav > :nth-child(3):not(.active):hover {
   color: black;
 }
 
@@ -106,7 +106,6 @@
 }
 
 @media (max-width: 991px) {
-
   .store-nav .store-tab,
   .store-nav .inventory-tab {
     font-size: 12px;
@@ -179,7 +178,6 @@
 }
 
 [data-theme="darker"] .frame-card {
-
   background-color: #212121;
 }
 
@@ -273,7 +271,7 @@
   justify-content: center;
   align-items: center;
   gap: 11px;
-
+  margin-bottom: 60px;
 }
 
 .store-container .page-pagination a {
@@ -316,7 +314,6 @@
 }
 
 @media (max-width: 991px) {
-
   .previousPageArrow,
   .nextPageArrow {
     font-size: 16px;

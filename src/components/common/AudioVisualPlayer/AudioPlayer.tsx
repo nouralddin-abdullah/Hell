@@ -75,7 +75,7 @@ export default function AudioPlayer({ audioFile }: AudioPlayerProps) {
             background: "var(--background)",
             border: "none",
             cursor: "pointer",
-            color: "#fff",
+            color: "var(--text-primary)",
             display: "flex",
             alignItems: "center",
             padding: "0.8rem 1rem",

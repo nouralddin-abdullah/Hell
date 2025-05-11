@@ -1,0 +1,257 @@
+.container {
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--base);
+}
+
+.article {
+  max-width: 800px;
+  background: var(--card-background);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  margin: 0 auto;
+}
+
+.postHeader {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border-color);
+  position: relative; /* Enable positioning context for menu button */
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.meta {
+  flex-grow: 1;
+}
+
+.title {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  word-wrap: break-word; /* Ensure long titles wrap properly */
+  overflow-wrap: break-word;
+  padding-right: 40px; /* Make space for the menu button */
+}
+
+.authorDate {
+  display: flex;
+  gap: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.author {
+  font-weight: 600;
+}
+
+.date {
+  font-style: italic;
+}
+
+/* Menu button styling */
+.menuButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: background-color 0.2s ease;
+}
+
+.menuButton:hover {
+  background-color: var(--secondary-background);
+  color: var(--primary);
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.content blockquote {
+  border-left: 4px solid var(--primary);
+  margin: 1.5rem 0;
+  padding: 0.5rem 1.5rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.content pre {
+  background: var(--secondary-background);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.content {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.content h1 {
+  font-size: 2.5rem;
+  margin: 2rem 0 1rem;
+}
+
+.content h2 {
+  font-size: 2rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.content h3 {
+  font-size: 1.75rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.content strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.content ul,
+.content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.content li {
+  margin: 0.5rem 0;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content .ql-video {
+  width: 100%;
+  min-height: 500px;
+  margin: 2rem 0;
+}
+
+.content a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.postActions {
+  display: flex;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: var(--secondary-background);
+  color: var(--primary);
+}
+
+.actionIcon {
+  width: 24px;
+  height: 24px;
+}
+.likedIcon {
+  color: var(--primary);
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 778px) {
+  .postHeader {
+    display: block;
+  }
+
+  .title {
+    font-size: 1.5rem; /* Smaller font size on mobile */
+    padding-right: 35px; /* Adjusted space for menu button on mobile */
+  }
+
+  .avatar {
+    width: 50px; /* Smaller avatar on mobile */
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .authorDate {
+    flex-direction: column; /* Stack author and date vertically */
+    gap: 0.25rem;
+  }
+
+  .article {
+    padding: 1.5rem; /* Less padding on small screens */
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .meta {
+    transform: translateY(-5rem);
+  }
+  .postActions {
+    gap: 0.5rem;
+  }
+
+  .menuButton {
+    top: 5px;
+    right: 5px;
+  }
+}
+
+.content [dir="rtl"],
+.content .ql-direction-rtl {
+  direction: rtl;
+  text-align: right;
+}

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
   faHouse,
+  faNewspaper,
   faRightFromBracket,
   faSliders,
   faUser,
@@ -56,8 +57,8 @@ const BottomNavBar = () => {
           </Link>
         </div>
         <div className="bottomNav-icon-wrapper">
-          <Link to="/store">
-            <FontAwesomeIcon className="bottomNav-icon" icon={faStore} />
+          <Link to="/posts">
+            <FontAwesomeIcon className="bottomNav-icon" icon={faNewspaper} />
           </Link>
         </div>
         <div className="bottomNav-icon-wrapper">
@@ -135,6 +136,23 @@ const BottomNavBar = () => {
               >
                 <FontAwesomeIcon icon={faUser} />
                 Profile
+              </Link>
+            </div>
+
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDropdownOpen(false);
+              }}
+              className="dropdown-button"
+            >
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                className="top-nav-link dropdown-button"
+                to={`/store`}
+              >
+                <FontAwesomeIcon icon={faStore} />
+                Store
               </Link>
             </div>
 

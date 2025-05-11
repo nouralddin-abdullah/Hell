@@ -14,6 +14,7 @@ import {
   faBell,
   faRightFromBracket,
   faSliders,
+  faStore,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -60,8 +61,8 @@ const TopNavBar = () => {
               </li>
 
               <li>
-                <Link className="top-nav-link" to="/store">
-                  Store
+                <Link className="top-nav-link" to="/posts">
+                  Posts
                 </Link>
               </li>
 
@@ -141,6 +142,19 @@ const TopNavBar = () => {
                   >
                     <FontAwesomeIcon icon={faUser} />
                     Profile
+                  </Link>
+                </div>
+
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDropdownOpen(false);
+                  }}
+                  className="dropdown-button"
+                >
+                  <Link className="top-nav-link dropdown-button" to={`/store`}>
+                    <FontAwesomeIcon icon={faStore} />
+                    Store
                   </Link>
                 </div>
 

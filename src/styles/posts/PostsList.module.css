@@ -1,0 +1,176 @@
+.pageContainer {
+  background-color: var(--base);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--background);
+  border-radius: 1rem;
+}
+
+.title {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 3rem;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.card {
+  background: var(--card-background);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  /* background: var(--primary); */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.postTitle {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.link:hover {
+  color: var(--primary);
+}
+
+.meta {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.author {
+  margin-right: 1rem;
+}
+
+.date {
+  font-style: italic;
+}
+
+.excerpt {
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cardHeader {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.course {
+  background: var(--primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.engagementMetrics {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.icon:hover {
+  color: var(--primary);
+}
+
+/* PostsList.module.css */
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 0.5rem; /* Add padding */
+  border-radius: 8px; /* Add border radius */
+  transition: all 0.2s ease; /* Add transition */
+  cursor: pointer; /* Show pointer */
+  background: none; /* Reset background */
+  border: none; /* Remove border */
+}
+
+.metricItem:hover {
+  background: var(--secondary-background); /* Add hover background */
+}
+
+/* Post.module.css */
+.actionIcon[fill="currentColor"] {
+  color: var(--primary); /* Ensure filled color matches theme */
+}
+
+.actionButton:hover .actionIcon {
+  color: var(--primary); /* Ensure icon color on hover */
+}

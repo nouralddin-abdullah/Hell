@@ -1,0 +1,156 @@
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comment {
+  display: flex;
+  gap: 1rem;
+}
+
+.commentAvatar {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: bold;
+  /* background-color: var(--secondary-background); */
+}
+
+.commentContent {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.commentHeader :global(.dropdown-menu) {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+  animation: none;
+}
+
+.commentAuthor {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.commentTime {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.commentMore {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.commentMore:hover {
+  background-color: var(--secondary-background);
+  color: var(--text-primary);
+}
+
+.commentText {
+  color: var(--text-primary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.commentActions {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: var(--secondary-background);
+  color: var(--text-primary);
+}
+
+.actionButton.liked {
+  color: var(--primary);
+}
+
+.actionButton.liked .actionIcon {
+  fill: var(--primary);
+}
+
+.replyForm {
+  margin-top: 0.5rem;
+}
+
+.replies {
+  margin-left: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-color);
+}
+
+.reply {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .replies {
+    margin-left: 2rem;
+    padding-left: 0.5rem;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .commentActions {
+    gap: 1rem;
+  }
+
+  .commentAuthor {
+    font-size: 0.75rem;
+  }
+
+  .commentTime {
+    font-size: 0.5rem;
+  }
+}

@@ -1,0 +1,296 @@
+/* Post Editor CSS Module */
+
+.createPostForm {
+  max-width: 800px;
+  margin: 0 auto 5rem;
+  padding: 24px;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.15s ease-in-out;
+  background-color: var(--base);
+  color: var(--text-primary);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--secondary-light);
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.errorText {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #ef4444;
+}
+
+/* Editor Styling */
+.editorContainer {
+  margin-bottom: 8px;
+}
+
+.editor {
+  border-radius: 6px;
+}
+
+.editorError :global(.ql-toolbar),
+.editorError :global(.ql-container) {
+  border-color: #ef4444;
+}
+
+/* Image styling inside the editor */
+.uploadingImage {
+  opacity: 0.5;
+  border: 2px dashed var(--primary);
+  padding: 4px;
+}
+
+.uploadedImage {
+  border: 1px solid var(--border-color);
+  padding: 4px;
+}
+
+/* Attachment Controls */
+.attachmentControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.addFilesButton {
+  padding: 8px 16px;
+  background-color: var(--base);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addFilesButton:hover {
+  background-color: var(--secondary-light);
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadingIndicator {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+}
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  animation: spin 1s linear infinite;
+  border-color: var(--primary);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.uploadingText {
+  font-size: 14px;
+}
+
+/* Attachments List */
+.attachmentsList {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--base);
+}
+
+.attachmentIcon {
+  margin-right: 8px;
+}
+
+.fileTypeIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--highlight);
+}
+
+.attachmentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.attachmentName {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.attachmentSize {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.removeButton {
+  padding: 4px;
+  background: none;
+  border: none;
+  color: var(--highlight);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.removeButton:hover {
+  color: var(--primary-bold);
+}
+
+/* Submit Button */
+.submitContainer {
+  margin-top: 24px;
+}
+
+.submitButton {
+  padding: 8px 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: var(--primary-bold);
+}
+
+.buttonDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--highlight);
+}
+
+.buttonDisabled:hover {
+  background-color: var(--highlight);
+}
+
+/* Quill Editor Global Styles */
+:global(.ql-container) {
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  color: var(--text-primary);
+  background-color: var(--base);
+}
+
+:global(.ql-toolbar) {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: var(--secondary-color);
+  border-color: var(--border-color);
+}
+
+:global(.ql-editor) {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+:global(.ql-editor img) {
+  max-width: 100%;
+  height: auto;
+  margin: 16px 0;
+}
+
+:global(.ql-editor .ql-direction-rtl) {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .createPostForm {
+    padding: 16px;
+  }
+
+  :global(.ql-container) {
+    min-height: 150px;
+    max-height: 300px;
+  }
+
+  :global(.ql-toolbar .ql-formats) {
+    margin-right: 4px !important;
+  }
+}
+
+/* Image tooltip styles */
+.imageTooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  display: none;
+  pointer-events: none;
+}
+
+/* Existing uploaded image styles */
+.uploadedImage {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.uploadedImage:hover {
+  box-shadow: 0 0 0 2px var(--primary-color);
+}

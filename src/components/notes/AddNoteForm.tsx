@@ -10,6 +10,16 @@ import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
 // import Textarea from "../common/input/Textarea";
 import ReactQuill from "react-quill";
 
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline"],
+    ["image", "video"], // Add image and video buttons
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["clean"],
+  ],
+};
+
 interface Props {
   setPostsList: React.Dispatch<React.SetStateAction<Post[]>>;
   onClose: () => void;
@@ -204,6 +214,7 @@ const AddNoteForm = ({ setPostsList, onClose }: Props) => {
                     value={contentItem.content}
                     onChange={(e) => handleContentChange(idx, e, "text")}
                     theme="snow"
+                    modules={modules}
                   />
 
                   <input
