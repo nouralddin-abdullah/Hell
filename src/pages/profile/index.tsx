@@ -3,16 +3,12 @@ import { anonymousUser, verifyImage } from "../../assets";
 import { profileBadge1 } from "../../assets";
 import { profileBadge2 } from "../../assets";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
-import { useGetUserPosts } from "../../hooks/posts/useGetUserPosts";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
 import { useEffect, useState, useRef } from "react";
 import Modal from "../../components/common/modal/Modal";
-import AddNoteForm from "../../components/notes/AddNoteForm";
 import { useParams } from "react-router-dom";
 import { useGetUserByUsername } from "../../hooks/users/useGetUserByUsername";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
-import { Post } from "../../types/PostPreview";
 import EditProfileForm from "../../components/profile/EditProfileForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { TailSpin } from "react-loader-spinner";
@@ -22,15 +18,15 @@ import FollowersList from "../../components/profile/FollowersList";
 import FollowingList from "../../components/profile/FollowingList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import NotesList from "../../components/profile/NotesList";
 import BookmarksList from "../../components/profile/BookmarksList";
+import PostsList from "../posts/posts";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const queryClient = useQueryClient();
   const profilePageRef = useRef<HTMLDivElement>(null);
 
-  const [content, setContent] = useState<"notes" | "bookmarks">("notes");
+  const [content, setContent] = useState<"posts" | "questions">("posts");
 
   const {
     data: user,
@@ -39,14 +35,6 @@ const ProfilePage = () => {
   } = useGetUserByUsername(username);
   const { data: currentUser, isPending: currentUserLoading } =
     useGetCurrentUser();
-
-  const [selectedCourse, setSelectedCourse] = useState<string>("All");
-  const { data: postsData } = useGetUserPosts(
-    user?.user._id || "",
-    selectedCourse
-  );
-  const [postsList, setPostsList] = useState<Post[]>([]);
-  const { data: courses, isLoading: isLoadingCourses } = useGetAllCourses();
 
   useEffect(() => {
     // Manually invalidate and refetch user data when current user changes
@@ -58,12 +46,6 @@ const ProfilePage = () => {
     }
   }, [currentUser, username, queryClient, refetchUserByUsername]);
 
-  useEffect(() => {
-    // @ts-ignore
-    setPostsList(postsData?.data.posts);
-  }, [postsData]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditingMode, setIsEditingMode] = useState(false);
   const [isFollowersModalOpen, setIsFollowersModalOpen] = useState(false);
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
@@ -287,42 +269,24 @@ const ProfilePage = () => {
               <div className="categories-title">
                 <div className="container">
                   <div className="categories-title-container">
-                    <p className="notes" onClick={() => setContent("notes")}>
-                      Notes
+                    <p className="notes" onClick={() => setContent("posts")}>
+                      Posts
                     </p>
-                    <p className="todo" onClick={() => setContent("bookmarks")}>
-                      Bookmarks
+                    <p className="todo" onClick={() => setContent("questions")}>
+                      Questions
                     </p>
                   </div>
                 </div>
               </div>
               {/* end categories title  */}
 
-              {content === "notes" && (
-                <NotesList
-                  courses={courses}
-                  isLoadingCourses={isLoadingCourses}
-                  postsList={postsList}
-                  selectedCourse={selectedCourse}
-                  setIsModalOpen={setIsModalOpen}
-                  setSelectedCourse={setSelectedCourse}
-                  user={user}
-                />
-              )}
+              {content === "posts" && <PostsList bookmark={true} />}
 
-              {content === "bookmarks" && <BookmarksList />}
+              {content === "questions" && <BookmarksList />}
             </>
           )}
         </section>
       </PageWrapper>
-
-      {/* modal for adding the note */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <AddNoteForm
-          onClose={() => setIsModalOpen(false)}
-          setPostsList={setPostsList}
-        />
-      </Modal>
 
       {/* modal for editig profile data */}
       <Modal isOpen={isEditingMode} onClose={() => setIsEditingMode(false)}>

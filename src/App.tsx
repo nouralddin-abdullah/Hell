@@ -10,7 +10,6 @@ import toast, { Toaster } from "react-hot-toast";
 import "react-image-crop/dist/ReactCrop.css"; // needed for the crop uploaded img functionalities
 import MaterialsPage from "./pages/materials";
 import BottomNavBar from "./components/common/nav/BottomNavBar";
-import NotePage from "./pages/note";
 import AnnouncementsPage from "./pages/announcements";
 import ScoreboardPage from "./pages/scoreboard";
 import CourseAnnouncementPage from "./pages/announcements/CourseAnnouncementPage";
@@ -252,7 +251,6 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/join-us" element={<JoinUsPage />} />
         <Route path="/materials/:id/*" element={<MaterialsPage />} />{" "}
-        <Route path="/note/:username/:id" element={<NotePage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route
           path="/announcements/:courseId"

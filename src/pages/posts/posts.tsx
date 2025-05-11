@@ -2,7 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/posts/PostsList.module.css";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 import PageWrapper from "../../components/common/page wrapper/PageWrapper";
-import { Bookmark, MessageSquare, ThumbsUp } from "lucide-react";
+import {
+  Bookmark,
+  MessageSquare,
+  ThumbsUp,
+  PlusCircle,
+  Edit3,
+} from "lucide-react";
 import { useGetPostsList } from "../../hooks/posts/useGetPostsList";
 import Avatar from "../../components/common/avatar/Avatar";
 import { useAddLike } from "../../hooks/posts/useAddLike";
@@ -13,7 +19,11 @@ import PostsListSkeletons from "../../components/posts/PostsListSkeletons";
 import { useBookmark } from "../../hooks/posts/useBookmark";
 import { useRemoveBookmark } from "../../hooks/posts/useRemoveBookmark";
 
-const PostsList = () => {
+interface Props {
+  bookmark?: boolean;
+}
+
+const PostsList = ({ bookmark = false }: Props) => {
   const navigate = useNavigate();
 
   const { ref, inView } = useInView();
@@ -24,7 +34,7 @@ const PostsList = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetPostsList();
+  } = useGetPostsList("sort=-createdAt", bookmark);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -44,35 +54,36 @@ const PostsList = () => {
     <ProtectedRoute>
       <PageWrapper>
         <div className={styles.pageContainer}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              // gap: "1rem",
-              width: "250px",
-              background: "var(--background)",
-              borderRadius: "1rem",
-              margin: "1rem auto 3rem",
-            }}
-          >
-            <h3>Add Post</h3>
-            <button
-              onClick={() => navigate("/create-post")}
-              className="add-content-btn"
-            >
-              +
-            </button>
-          </div>
+          {bookmark === false && (
+            <div className={styles.addPostContainer}>
+              <div className={styles.addPostContent}>
+                <Edit3 className={styles.addPostIcon} size={24} />
+                <div className={styles.addPostTextContent}>
+                  <h3 className={styles.addPostTitle}>Share your thoughts</h3>
+                  <p className={styles.addPostDescription}>
+                    Create a new post to engage with the community
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate("/create-post")}
+                  className={styles.addPostButton}
+                >
+                  <PlusCircle size={18} />
+                  <span>Create Post</span>
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className={styles.container}>
-            <h1 className={styles.title}>Latest Posts</h1>
+            {bookmark === false && (
+              <h1 className={styles.title}>Latest Posts</h1>
+            )}
             <div className={styles.postsContainer}>
               {postsList?.pages.map((page) =>
                 page.posts.map((post) => (
                   <article key={post.id} className={styles.card}>
                     <div className={styles.cardHeader}>
-                      {/* <div className={styles.avatar}>{post.user.photo}</div> */}
                       <Avatar
                         photo={post.user.photo}
                         userFrame={post.user.userFrame}
@@ -91,10 +102,6 @@ const PostsList = () => {
                         </h2>
                       </div>
                     </div>
-                    {/* <div
-                      className={styles.excerpt}
-                      dangerouslySetInnerHTML={{ __html: post.content }}
-                    /> */}
                     <div className={styles.cardFooter}>
                       <div className={styles.engagementMetrics}>
                         <button

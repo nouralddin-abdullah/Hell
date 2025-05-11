@@ -3,13 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import Modal from "../modal/Modal";
 import Button from "../button/Button";
 import {
-  askByCourse,
-  bookmarks,
-  darkerMode,
-  elda7ee7,
-  elDa7ee7Comment,
-  improvedStyles,
-  sortinglikes,
+  attachMaterialsToComments,
+  postGhassam,
+  postsList,
+  voiceRecorder,
 } from "../../../assets";
 import useAuthStore from "../../../store/authTokenStore";
 
@@ -21,52 +18,27 @@ interface UpdateContent {
 
 const updateContents: UpdateContent[] = [
   {
-    image: elda7ee7,
-    title: "El Da7ee7",
-    description: `Now we introduce Bishell CHAT AI !
-      our new AI Chatbot is a very special experience 
-      that can answer about your question already better than chatgpt !`,
+    image: postsList,
+    title: "New Post Page.",
+    description: `Introducing our brand-new Posts Page!
+Enjoy a more organized experience with all your posts neatly gathered in one place
+completely separate from questions.`,
   },
   {
-    image: elDa7ee7Comment,
-    title: "El Da7ee7 Answers You!",
-    description: `You can use El Da7ee7 to Ask questions publicly ,
-       just mention /ai and get an answer from it!`,
+    image: postGhassam,
+    title: "No Limits!",
+    description: `Unleash your creativity with our powerful rich text editor
+    designed to give you complete freedom of expression.`,
   },
   {
-    image: darkerMode,
-    title: "Turn off the lights",
-    description: "An EVEN DARKER dark mode, try it now!",
+    image: voiceRecorder,
+    title: "Voice Notes",
+    description: "You can now comment/reply with a voice note",
   },
   {
-    image: bookmarks,
-    title: "Bookmarks",
-    description: `You can now add any question to a bookmark & access it whenever you want,
-     
-      you will find the bookmarks on your profile click the button and see the bookmarks you do!
-      
-      Just try it and you gonna see !!!!`,
-  },
-  {
-    image: askByCourse,
-    title: "Questions course filteration",
-    description:
-      "You can now Specify which course you are asking about & see the questions related to a specific course.",
-  },
-  {
-    image: improvedStyles,
-    title: "Styling Improvements & Fixes",
-    description: `We've added our touch to the styles to make it better & modern beside fixing some issues.
-      
-      Try it and tell us your opinion !
-      enjoy.`,
-  },
-
-  {
-    image: sortinglikes,
-    title: "sorting-likes",
-    description: ` we have fixed the problem of sorting likes just click Recent and choose,
-      Try it!`,
+    image: attachMaterialsToComments,
+    title: "Attach Material",
+    description: `You can now add any files from the website's materials in just few seconds`,
   },
 ];
 
@@ -83,7 +55,7 @@ const UpdatesModal = () => {
   useEffect(() => {
     // Check if user has already seen the updates
     const hasSeenUpdatesStorage = localStorage.getItem(
-      "BISHell-5-april-update-2025"
+      "BISHell-11-may-update-2025"
     );
     if (hasSeenUpdatesStorage === "true") {
       setHasSeenUpdates(true);
@@ -93,7 +65,7 @@ const UpdatesModal = () => {
   const handleNext = () => {
     if (isLastContent) {
       // If we're on the last content, mark as seen and close
-      localStorage.setItem("BISHell-5-april-update-2025", "true");
+      localStorage.setItem("BISHell-11-may-update-2025", "true");
       setHasSeenUpdates(true);
     } else if (!isAnimating) {
       // Start animation
@@ -157,7 +129,7 @@ const UpdatesModal = () => {
   };
 
   const handleClose = () => {
-    localStorage.setItem("BISHell-5-april-update-2025", "true");
+    localStorage.setItem("BISHell-11-may-update-2025", "true");
     setHasSeenUpdates(true);
   };
 

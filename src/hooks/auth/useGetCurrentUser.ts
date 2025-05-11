@@ -4,8 +4,11 @@ import Cookies from "js-cookie";
 // import toast from "react-hot-toast";
 import { User } from "../../types/User";
 import { tokenKey } from "../../constants/tokenKey"; // Import the key used to store the token
+import useAuthStore from "../../store/authTokenStore";
 
 export const useGetCurrentUser = () => {
+  const { deleteToken } = useAuthStore();
+
   return useQuery({
     queryKey: ["user"],
     queryFn: async () => {
@@ -27,6 +30,7 @@ export const useGetCurrentUser = () => {
       if (!response.ok) {
         const errorData = await response.json();
         // toast.error(errorData.message || "Error Loading User Data");
+        deleteToken();
         throw new Error(errorData.message || "Error Loading User Data");
       }
 

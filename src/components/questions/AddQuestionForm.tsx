@@ -61,6 +61,7 @@ const AddQuestionForm = ({ onClose }: { onClose: () => void }) => {
     const formData = new FormData();
     formData.append("content", processedText);
     if (attachment) formData.append("attach_file", attachment);
+    if (category) formData.append("category", category);
 
     try {
       // Show progress modal
