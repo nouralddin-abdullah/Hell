@@ -4,7 +4,7 @@ import { Trash } from "lucide-react";
 import { useState } from "react";
 import Modal from "../common/modal/Modal";
 import Button from "../common/button/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDeletePost } from "../../hooks/posts/useDeletePost";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 
@@ -42,12 +42,14 @@ const PostHeader = ({ user, title, timestamp }: PostHeaderProps) => {
   return (
     <div className={styles.postHeader}>
       <div className={styles.avatar}>
-        <Avatar
-          photo={`${user.photo}`}
-          userFrame={user.userFrame || ""}
-          animated
-          className={styles.avatar}
-        />
+        <Link to={`/profile/${user.username}`}>
+          <Avatar
+            photo={`${user.photo}`}
+            userFrame={user.userFrame || ""}
+            animated
+            className={styles.avatar}
+          />
+        </Link>
       </div>
       <div className={styles.meta}>
         <h1 className={styles.title}>{title}</h1>

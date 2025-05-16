@@ -52,7 +52,13 @@ const BottomNavBar = () => {
           </Link>
         </div>
         <div className="bottomNav-icon-wrapper">
-          <Link to="/chat">
+          <Link
+            to={
+              currentUser?.user.role === "instructor"
+                ? `/chat/${currentUser.courses[0].slug}`
+                : "/chat"
+            }
+          >
             <FontAwesomeIcon className="bottomNav-icon" icon={faComment} />
           </Link>
         </div>
@@ -70,7 +76,13 @@ const BottomNavBar = () => {
           </Link>
         </div>
         <div className="bottomNav-icon-wrapper">
-          <Link to="/announcements">
+          <Link
+            to={
+              currentUser?.user.role === "instructor"
+                ? `/announcements/${currentUser.courses[0]._id}`
+                : "/announcements"
+            }
+          >
             <FontAwesomeIcon className="bottomNav-icon" icon={faBullhorn} />
           </Link>
         </div>

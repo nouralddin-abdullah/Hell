@@ -18,8 +18,8 @@ import FollowersList from "../../components/profile/FollowersList";
 import FollowingList from "../../components/profile/FollowingList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
-import BookmarksList from "../../components/profile/BookmarksList";
 import PostsList from "../posts/posts";
+import QuestionsPage from "../questions";
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -280,9 +280,27 @@ const ProfilePage = () => {
               </div>
               {/* end categories title  */}
 
-              {content === "posts" && <PostsList bookmark={true} />}
+              {content === "posts" && (
+                <PostsList
+                  bookmark={currentUser?.user.username === user?.user.username}
+                  userId={
+                    currentUser?.user.username !== user?.user.username
+                      ? user?.user._id
+                      : ""
+                  }
+                />
+              )}
 
-              {content === "questions" && <BookmarksList />}
+              {content === "questions" && (
+                <QuestionsPage
+                  bookmarks={currentUser?.user.username === user?.user.username}
+                  userId={
+                    currentUser?.user.username !== user?.user.username
+                      ? user?.user._id
+                      : ""
+                  }
+                />
+              )}
             </>
           )}
         </section>

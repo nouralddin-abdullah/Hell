@@ -25,7 +25,8 @@ interface PageData {
 
 export const useGetPostsList = (
   sort = "sort=-createdAt",
-  isBookmark = false
+  isBookmark = false,
+  userId = ""
 ) => {
   return useInfiniteQuery<PageData, Error>({
     queryKey: ["posts", sort, isBookmark],
@@ -38,7 +39,7 @@ export const useGetPostsList = (
 
       let url = `${baseURL}/api/posts?${sort}&page=${pageParam}${
         isBookmark ? `&bookmark=true` : ""
-      }`;
+      }${userId ? `&userId=${userId}` : ""}`;
 
       const response = await fetch(url, {
         headers: {

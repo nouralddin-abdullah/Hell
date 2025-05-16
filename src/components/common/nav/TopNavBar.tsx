@@ -55,7 +55,14 @@ const TopNavBar = () => {
               </li>
 
               <li>
-                <Link className="top-nav-link" to="/chat">
+                <Link
+                  className="top-nav-link"
+                  to={
+                    user?.user.role === "instructor"
+                      ? `/chat/${user.courses[0].slug}`
+                      : "/chat"
+                  }
+                >
                   Chat
                 </Link>
               </li>
@@ -73,7 +80,14 @@ const TopNavBar = () => {
               </li>
 
               <li>
-                <Link className="top-nav-link" to="/announcements">
+                <Link
+                  className="top-nav-link"
+                  to={
+                    user?.user.role === "instructor"
+                      ? `/announcements/${user.courses[0]._id}`
+                      : "/announcements"
+                  }
+                >
                   Announcements
                 </Link>
               </li>

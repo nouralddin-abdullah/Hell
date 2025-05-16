@@ -1,0 +1,160 @@
+.dashboardContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboardHeader {
+  margin-bottom: 30px;
+}
+
+.dashboardHeader h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.dashboardHeader p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.statsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.statCard {
+  background-color: var(--bg-element);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.statCard h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+}
+
+.statValue {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.actionsSection {
+  margin-bottom: 30px;
+}
+
+.actionsSection h2 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.actionButton {
+  display: inline-block;
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.actionButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.courseSection h2 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.coursesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.courseCard {
+  background-color: var(--bg-element);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.courseCard h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+}
+
+.courseCard p {
+  margin-bottom: 15px;
+  color: var(--text-secondary);
+}
+
+.courseActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.courseActions a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.courseActions a:hover {
+  text-decoration: underline;
+}
+
+.viewAllCourses {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.viewAllCourses a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.viewAllCourses a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .statsSection {
+    grid-template-columns: 1fr;
+  }
+
+  .coursesList {
+    grid-template-columns: 1fr;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    width: 100%;
+    text-align: center;
+  }
+}

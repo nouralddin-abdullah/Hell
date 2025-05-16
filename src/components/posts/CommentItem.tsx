@@ -8,7 +8,7 @@ import LinkifyText from "../common/LinkifyText/LinkifyText";
 import PostCommentAttachment from "./PostCommentAttachment";
 import { useLikeComment } from "../../hooks/posts/useLikeComment";
 import { useUnlikeComment } from "../../hooks/posts/useUnlikeComment";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Dropdown from "../common/Dropdown/dropdown";
 import toast from "react-hot-toast";
 import { useDeletePostComment } from "../../hooks/posts/useDeletePostComment";
@@ -93,13 +93,16 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   return (
     <div className={styles.commentContainer}>
       <div className={styles.comment}>
-        <div className={styles.commentAvatar}>
+        <Link
+          to={`/profile/${comment.user.username}`}
+          className={styles.commentAvatar}
+        >
           <Avatar
             photo={comment.user.photo}
             userFrame={comment.user.userFrame || ""}
             className={styles.avatar}
           />
-        </div>
+        </Link>
 
         <div className={styles.commentContent}>
           <div className={styles.commentHeader}>

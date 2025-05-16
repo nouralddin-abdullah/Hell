@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, FormEvent } from "react";
 import { io, Socket } from "socket.io-client";
-import { Send, Trash2, Edit2, X } from "lucide-react";
-import "../../styles/chat/style.css";
+import { Send, Trash2, Edit2, X, Loader } from "lucide-react";
+import style from "../../styles/chat/style.module.css";
 import useAuthStore from "../../store/authTokenStore";
 import { Link, useParams } from "react-router-dom";
 import { baseURL } from "../../constants/baseURL";
@@ -51,6 +51,10 @@ const ReusableChat: React.FC = () => {
   const [selectedMsgForReply, setSelectedMsgForReply] =
     useState<Message | null>();
 
+  // Loading states
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isSendingMessage, setIsSendingMessage] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<Socket | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
@@ -59,6 +63,7 @@ const ReusableChat: React.FC = () => {
     setSelectedMsgForReply(null);
     setMessages([]);
     setNewMessage("");
+    setIsInitialLoading(true);
 
     // Initialize socket connection
     socketRef.current = io("https://api.bishell.online", {
@@ -71,11 +76,13 @@ const ReusableChat: React.FC = () => {
     // Set up event listeners
     socketRef.current.on("load", (loadedMessages: Message[]) => {
       setMessages((prevState) => [...loadedMessages, ...prevState]);
+      setIsInitialLoading(false);
       console.log("Socket Connected, messages loaded");
     });
 
     socketRef.current.on("receivedMessage", (message: Message) => {
       setMessages((prev) => [...prev, message]);
+      setIsSendingMessage(false);
     });
 
     socketRef.current.on("deletedMessage", (message: Message) => {
@@ -100,6 +107,8 @@ const ReusableChat: React.FC = () => {
 
     socketRef.current.on("error", (errorMsg: string) => {
       console.error("Socket error:", errorMsg);
+      setIsSendingMessage(false);
+      setIsInitialLoading(false);
     });
 
     // Load initial messages
@@ -136,6 +145,7 @@ const ReusableChat: React.FC = () => {
     } else if (selectedMsgForReply) {
       handleReply(selectedMsgForReply._id);
     } else {
+      setIsSendingMessage(true);
       socketRef.current?.emit("sendMessage", newMessage);
       setNewMessage("");
     }
@@ -146,6 +156,7 @@ const ReusableChat: React.FC = () => {
   };
 
   const handleReply = (messageId: string) => {
+    setIsSendingMessage(true);
     const replyPayload: ReplyPayload = {
       replyTo: messageId,
       content: newMessage,
@@ -174,135 +185,151 @@ const ReusableChat: React.FC = () => {
 
   return (
     <>
-      <div className="chat-container">
-        <div className="messages-container">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`message-wrapper ${
-                isSelfMessage(message) ? "self-message" : ""
-              }`}
-              draggable={!message.deletedAt}
-              onDragStart={(e) => {
-                if (message.deletedAt) return;
-                e.dataTransfer.setData("messageId", message._id);
-              }}
-              onDrop={(e) => {
-                e.preventDefault();
-                const draggedMessageId = e.dataTransfer.getData("messageId");
-                const draggedMessage = messages.find(
-                  (msg) => msg._id === draggedMessageId
-                );
-                if (draggedMessage) {
-                  startReply(draggedMessage);
-                }
-              }}
-              onDragOver={(e) => e.preventDefault()}
-            >
-              <div className="message">
-                <div className="message-header">
-                  <Link
-                    to={`/profile/${message.sender?.username}`}
-                    className="username"
-                  >
-                    <img
-                      src={`${baseURL}/profilePics/${message.sender?.photo}`}
-                      alt={message.sender?.username || "User"}
-                    />
-                    {message.sender?.username === currentUser?.user.username
-                      ? `${message.sender?.username} (You)`
-                      : message.sender?.username || "User"}
-                  </Link>
+      <div className={`${style["chat-container"]}`}>
+        <div className={`${style["messages-container"]}`}>
+          {isInitialLoading ? (
+            <div className={`${style["loading-container"]}`}>
+              <Loader className={`${style["loading-spinner"]}`} />
+              <p>Loading messages...</p>
+            </div>
+          ) : messages.length === 0 ? (
+            <div className={`${style["empty-chat-message"]}`}>
+              <p>No messages yet. Start the conversation!</p>
+            </div>
+          ) : (
+            messages.map((message) => (
+              <div
+                key={message.id}
+                className={`${style["message-wrapper"]} ${
+                  isSelfMessage(message) ? style["self-message"] : ""
+                }`}
+                draggable={!message.deletedAt}
+                onDragStart={(e) => {
+                  if (message.deletedAt) return;
+                  e.dataTransfer.setData("messageId", message._id);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const draggedMessageId = e.dataTransfer.getData("messageId");
+                  const draggedMessage = messages.find(
+                    (msg) => msg._id === draggedMessageId
+                  );
+                  if (draggedMessage) {
+                    startReply(draggedMessage);
+                  }
+                }}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <div className={`${style["message"]}`}>
+                  <div className={`${style["message-header"]}`}>
+                    <Link
+                      to={`/profile/${message.sender?.username}`}
+                      className={`${style["username"]}`}
+                    >
+                      <img
+                        src={`${baseURL}/profilePics/${message.sender?.photo}`}
+                        alt={message.sender?.username || "User"}
+                      />
+                      {message.sender?.username === currentUser?.user.username
+                        ? `${message.sender?.username} (You)`
+                        : message.sender?.username || "User"}
+                    </Link>
 
-                  {!message.deletedAt && isSelfMessage(message) && (
-                    <div className="message-actions">
-                      <button
-                        type="button"
-                        onClick={() => startEdit(message)}
-                        className="action-button"
-                        aria-label="Edit message"
-                      >
-                        <Edit2 className="icon" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(message._id)}
-                        className="action-button"
-                        aria-label="Delete message"
-                      >
-                        <Trash2 className="icon" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                <div className="content-reply-container">
-                  {message.replyTo && (
-                    <div className="selected-reply-container">
-                      <p>{message.replyTo.sender.username}</p>
-                      <p>{message.replyTo.content}</p>
-                    </div>
-                  )}
-
-                  <div className="message-content">
-                    {message.deletedAt ? (
-                      <span className="deleted-message">
-                        This message was deleted
-                      </span>
-                    ) : editingMessage?._id === message._id ? (
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          handleSendMessage(e);
-                        }}
-                        className="edit-form"
-                      >
-                        <input
-                          type="text"
-                          value={newEditingMessage}
-                          onChange={(e) => setNewEditingMessage(e.target.value)}
-                          placeholder="Edit message..."
-                          className="message-input"
-                          autoFocus
-                          required
-                        />
-                        <div className="edit-actions">
-                          <button type="submit" className="edit-button">
-                            Save
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setEditingMessage(null)}
-                            className="cancel-button"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </form>
-                    ) : (
-                      <LinkifyText text={message.content} />
+                    {!message.deletedAt && isSelfMessage(message) && (
+                      <div className={`${style["message-actions"]}`}>
+                        <button
+                          type="button"
+                          onClick={() => startEdit(message)}
+                          className={`${style["action-button"]}`}
+                          aria-label="Edit message"
+                        >
+                          <Edit2 className={`${style["icon"]}`} />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(message._id)}
+                          className={`${style["action-button"]}`}
+                          aria-label="Delete message"
+                        >
+                          <Trash2 className={`${style["icon"]}`} />
+                        </button>
+                      </div>
                     )}
                   </div>
-                </div>
 
-                <span className="timestamp">
-                  {new Date(message.createdAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
+                  <div className={`${style["content-reply-container"]}`}>
+                    {message.replyTo && (
+                      <div className={`${style["selected-reply-container"]}`}>
+                        <p>{message.replyTo.sender.username}</p>
+                        <p>{message.replyTo.content}</p>
+                      </div>
+                    )}
+
+                    <div className={`${style["message-content"]}`}>
+                      {message.deletedAt ? (
+                        <span className={`${style["deleted-message"]}`}>
+                          This message was deleted
+                        </span>
+                      ) : editingMessage?._id === message._id ? (
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSendMessage(e);
+                          }}
+                          className={`${style["edit-form"]}`}
+                        >
+                          <input
+                            type="text"
+                            value={newEditingMessage}
+                            onChange={(e) =>
+                              setNewEditingMessage(e.target.value)
+                            }
+                            placeholder="Edit message..."
+                            className={`${style["message-input"]}`}
+                            autoFocus
+                            required
+                          />
+                          <div className={`${style["edit-actions"]}`}>
+                            <button
+                              type="submit"
+                              className={`${style["edit-button"]}`}
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setEditingMessage(null)}
+                              className={`${style["cancel-button"]}`}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      ) : (
+                        <LinkifyText text={message.content} />
+                      )}
+                    </div>
+                  </div>
+
+                  <span className={`${style["timestamp"]}`}>
+                    {new Date(message.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
           <div ref={messagesEndRef} />
         </div>
 
         <div>
           {selectedMsgForReply && (
-            <div className="selected-reply-container">
+            <div className={`${style["selected-reply-container"]}`}>
               <button
                 onClick={() => setSelectedMsgForReply(null)}
-                className="close-reply"
+                className={`${style["close-reply"]}`}
                 aria-label="Cancel reply"
               >
                 <X size={14} />
@@ -311,21 +338,32 @@ const ReusableChat: React.FC = () => {
               <p>{selectedMsgForReply.content}</p>
             </div>
           )}
-          <form onSubmit={handleSendMessage} className="message-form">
+          <form
+            onSubmit={handleSendMessage}
+            className={`${style["message-form"]}`}
+          >
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
-              className="message-input"
+              className={`${style["message-input"]}`}
               ref={messageInputRef}
+              disabled={isSendingMessage}
             />
             <button
               type="submit"
-              className="send-button"
+              className={`${style["send-button"]}`}
               aria-label="Send message"
+              disabled={isSendingMessage}
             >
-              <Send className="icon" />
+              {isSendingMessage ? (
+                <Loader
+                  className={`${style["icon"]} ${style["loading-spinner"]}`}
+                />
+              ) : (
+                <Send className={`${style["icon"]}`} />
+              )}
             </button>
           </form>
         </div>

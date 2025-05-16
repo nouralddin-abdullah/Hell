@@ -28,4 +28,11 @@ export interface User {
     };
   };
   isFollowed: boolean | null;
+  courses: [
+    {
+      _id: string;
+      courseName: string;
+      slug: string;
+    }
+  ];
 }

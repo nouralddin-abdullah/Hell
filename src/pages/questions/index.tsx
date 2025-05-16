@@ -14,7 +14,12 @@ import { useInView } from "react-intersection-observer";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
 import { useGetAllCourses } from "../../hooks/course/useGetAllCourses";
 
-const QuestionsPage = () => {
+interface Props {
+  bookmarks?: boolean;
+  userId?: string;
+}
+
+const QuestionsPage = ({ bookmarks = false, userId = "" }: Props) => {
   const { data: coursesList } = useGetAllCourses();
 
   const [sort, setSort] = useState("-createdAt");
@@ -41,7 +46,7 @@ const QuestionsPage = () => {
     isFetchingNextPage,
     isPending,
     isError,
-  } = useGetQuestionsList(params);
+  } = useGetQuestionsList(params, bookmarks, userId);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -74,7 +79,7 @@ const QuestionsPage = () => {
           <div className="container">
             <div className="questions-container">
               {/* Ask question section */}
-              {currentUser && (
+              {currentUser && !bookmarks && !userId && (
                 <div
                   className="ask-question-container"
                   onClick={() => setIsModalOpen(true)}
@@ -86,40 +91,46 @@ const QuestionsPage = () => {
 
               <div className="posted-questions-container">
                 {/* Sorting/filtering section */}
-                <div className="questions-select">
-                  <div className="hide-on-small">Recent Posts</div>
-                  <div className="sorting-filtering">
-                    <select
-                      onChange={(e) => setSort(e.target.value)}
-                      className="questions-sorting"
-                    >
-                      <option value="-createdAt">Recent</option>
-                      <option value="createdAt">Oldest</option>
-                      <option value="-likes">Most Liked</option>
-                    </select>
+                {!bookmarks && !userId && (
+                  <div className="questions-select">
+                    <div className="hide-on-small">Recent Posts</div>
+                    <div className="sorting-filtering">
+                      <select
+                        onChange={(e) => setSort(e.target.value)}
+                        className="questions-sorting"
+                      >
+                        <option value="-createdAt">Recent</option>
+                        <option value="createdAt">Oldest</option>
+                        <option value="-likes">Most Liked</option>
+                      </select>
 
-                    <select
-                      onChange={(e) => setAnswered(e.target.value)}
-                      className="questions-filtering"
-                    >
-                      <option value="">All</option>
-                      <option value="true">Verified</option>
-                      <option value="false">Not Verified</option>
-                    </select>
+                      <select
+                        onChange={(e) => setAnswered(e.target.value)}
+                        className="questions-filtering"
+                      >
+                        <option value="">All</option>
+                        <option value="true">Verified</option>
+                        <option value="false">Not Verified</option>
+                      </select>
 
-                    <select
-                      style={{ maxWidth: "150px" }}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="questions-filtering"
-                    >
-                      <option value="">All Courses</option>
-                      <option value="General">General</option>
-                      {coursesList?.map((course) => (
-                        <option value={course._id}>{course.courseName}</option>
-                      ))}
-                    </select>
+                      {currentUser?.user.role !== "instructor" && (
+                        <select
+                          style={{ maxWidth: "150px" }}
+                          onChange={(e) => setCategory(e.target.value)}
+                          className="questions-filtering"
+                        >
+                          <option value="">All Courses</option>
+                          <option value="General">General</option>
+                          {coursesList?.map((course) => (
+                            <option value={course._id}>
+                              {course.courseName}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Loading state */}
                 {isPending && <QuestionsListSkeletons />}

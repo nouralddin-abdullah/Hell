@@ -21,9 +21,10 @@ import { useRemoveBookmark } from "../../hooks/posts/useRemoveBookmark";
 
 interface Props {
   bookmark?: boolean;
+  userId?: string;
 }
 
-const PostsList = ({ bookmark = false }: Props) => {
+const PostsList = ({ bookmark = false, userId = "" }: Props) => {
   const navigate = useNavigate();
 
   const { ref, inView } = useInView();
@@ -34,7 +35,7 @@ const PostsList = ({ bookmark = false }: Props) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-  } = useGetPostsList("sort=-createdAt", bookmark);
+  } = useGetPostsList("sort=-createdAt", bookmark, userId);
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -54,7 +55,7 @@ const PostsList = ({ bookmark = false }: Props) => {
     <ProtectedRoute>
       <PageWrapper>
         <div className={styles.pageContainer}>
-          {bookmark === false && (
+          {bookmark === false && !userId && (
             <div className={styles.addPostContainer}>
               <div className={styles.addPostContent}>
                 <Edit3 className={styles.addPostIcon} size={24} />
@@ -84,12 +85,14 @@ const PostsList = ({ bookmark = false }: Props) => {
                 page.posts.map((post) => (
                   <article key={post.id} className={styles.card}>
                     <div className={styles.cardHeader}>
-                      <Avatar
-                        photo={post.user.photo}
-                        userFrame={post.user.userFrame}
-                        animated
-                        className={styles.avatar}
-                      />
+                      <Link to={`/profile/${post.user.username}`}>
+                        <Avatar
+                          photo={post.user.photo}
+                          userFrame={post.user.userFrame}
+                          animated
+                          className={styles.avatar}
+                        />
+                      </Link>
                       <div className={styles.meta}>
                         <span className={styles.course}>{post.category}</span>
                         <h2 className={styles.postTitle}>

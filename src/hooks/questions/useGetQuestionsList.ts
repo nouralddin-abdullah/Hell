@@ -25,7 +25,8 @@ interface PageData {
 
 export const useGetQuestionsList = (
   sort = "sort=-createdAt",
-  isBookmark = false
+  isBookmark = false,
+  userId = ""
 ) => {
   return useInfiniteQuery<PageData, Error>({
     queryKey: ["questions", sort, isBookmark],
@@ -38,7 +39,7 @@ export const useGetQuestionsList = (
 
       let url = `${baseURL}/api/questions?${sort}&page=${pageParam}${
         isBookmark ? `&bookmark=true` : ""
-      }`;
+      }${userId ? `&userId=${userId}` : ""}`;
 
       const response = await fetch(url, {
         headers: {
