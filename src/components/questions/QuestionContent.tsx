@@ -18,7 +18,7 @@ import Button from "../common/button/Button";
 import QuestionsLikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditQuestionForm from "./EditQuestionForm";
-import { verifyImage } from "../../assets";
+import { verifyImage, verifyPink } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
@@ -38,6 +38,7 @@ const QuestionContent = ({
   timestamps,
   attachment,
   setIsViewsModalOpen,
+  verifiedBy,
 }: Props) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -70,7 +71,11 @@ const QuestionContent = ({
 
   return (
     <div className="posted-question">
-      {verifiedAnswer && <div className="verified-answer">Verified Answer</div>}
+      {verifiedAnswer && (
+        <div className="verified-answer">
+          {verifiedBy ? `Verified By ${verifiedBy}` : "Verified Answer"}
+        </div>
+      )}
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Link
           to={`/profile/${user.username}`}
@@ -96,6 +101,9 @@ const QuestionContent = ({
                 src={verifyImage}
                 style={{ width: "20px", height: "20px" }}
               />
+            )}
+            {user.role === "instructor" && (
+              <img src={verifyPink} style={{ width: "20px", height: "20px" }} />
             )}
             {user.badges && user.badges.length > 0 && (
               <BadgeIcon badge={user.badges[0]} size={30} />

@@ -151,6 +151,7 @@ const QuestionsPage = ({ bookmarks = false, userId = "" }: Props) => {
                         {...question}
                         setIsDeleteModalOpen={setIsDeleteModalOpen}
                         setSelectedQuestion={setSelectedQuestion}
+                        verifiedBy={question.verifiedBy}
                       />
                     ))}
                   </React.Fragment>

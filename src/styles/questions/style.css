@@ -190,6 +190,7 @@
   /* border: 3px solid green; */
   padding: 5px 15px;
   font-weight: bold;
+  font-size: 12px;
 }
 
 .question-publisher-fullname {
@@ -198,7 +199,7 @@
 
 @media (max-width: 767px) {
   .posted-question .verified-answer {
-    font-size: 10px;
+    font-size: 8px;
   }
 }
 

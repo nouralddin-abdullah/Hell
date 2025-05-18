@@ -17,6 +17,8 @@ export { default as noMaterialsIcon } from "./no-materials-icon.svg";
 export { default as imageIcon } from "./image-icon.svg";
 export { default as scoreboardCrown } from "./crown.png";
 export { default as verifyImage } from "./verify.png";
+export { default as verifyPink } from "./verifyPink.png";
+export { default as verifyOrange } from "./verifyOrange.png";
 export { default as universityLogo } from "./suez-canal-logo.png";
 export { default as lectureTable } from "./lectures-table.png";
 export { default as subjectsImage } from "./subjects.png";

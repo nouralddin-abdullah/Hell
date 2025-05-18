@@ -90,6 +90,7 @@ const ChosenQuestionPage = () => {
                     // @ts-ignore
                     verifiedAnswer={question.verifiedAnswer}
                     setIsViewsModalOpen={setIsViewsModalOpen}
+                    verifiedBy={question.verifiedBy}
                   />
                 )}
 

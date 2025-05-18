@@ -1,5 +1,5 @@
 import "../../styles/profile/style.css";
-import { anonymousUser, verifyImage } from "../../assets";
+import { anonymousUser, verifyImage, verifyPink } from "../../assets";
 import { profileBadge1 } from "../../assets";
 import { profileBadge2 } from "../../assets";
 import ProtectedRoute from "../../components/common/protected Route/ProtectedRoute";
@@ -151,6 +151,13 @@ const ProfilePage = () => {
                           style={{ width: "20px", height: "20px" }}
                         />
                       )}
+
+                      {user?.user.role === "instructor" && (
+                        <img
+                          src={verifyPink}
+                          style={{ width: "20px", height: "20px" }}
+                        />
+                      )}
                     </div>
                     <p className="user-name">@{user?.user.username}</p>
                     {isProfilePrivate && (
@@ -226,8 +233,19 @@ const ProfilePage = () => {
                 </div>
                 <div className="profile-description-and-badges">
                   <div className="profile-group-and-description">
-                    <p className="profile-group">Group {user?.user.group}</p>
-                    <p className="profile-description">{user?.user.caption}</p>
+                    {user?.user.role !== "instructor" && (
+                      <p className="profile-group">Group {user?.user.group}</p>
+                    )}
+                    {user?.user.role !== "instructor" && (
+                      <p className="profile-description">
+                        {user?.user.caption}
+                      </p>
+                    )}
+                    {user?.user.role === "instructor" && (
+                      <p className="profile-description">
+                        {user.courses[0].courseName} Instructor
+                      </p>
+                    )}
                   </div>
                   <div className="profile-badges">
                     {!isProfilePrivate && (

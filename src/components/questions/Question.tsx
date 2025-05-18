@@ -8,7 +8,7 @@ import Dropdown from "../common/Dropdown/dropdown";
 import { useState } from "react";
 import LikeHandler from "./QuestionsLikeHandler";
 import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
-import { verifyImage } from "../../assets";
+import { verifyImage, verifyPink } from "../../assets";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
@@ -32,6 +32,7 @@ const Question = ({
   id,
   setIsDeleteModalOpen,
   setSelectedQuestion,
+  verifiedBy,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ const Question = ({
           className="verified-answer"
           // style={{ transform: "translateY(1.5rem)" }}
         >
-          Verified Answer
+          {verifiedBy ? `Verified By ${verifiedBy}` : "Verified Answer"}
         </div>
       )}
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -74,6 +75,9 @@ const Question = ({
                 src={verifyImage}
                 style={{ width: "20px", height: "20px" }}
               />
+            )}
+            {user.role === "instructor" && (
+              <img src={verifyPink} style={{ width: "20px", height: "20px" }} />
             )}
             {user.badges && user.badges.length > 0 && (
               <BadgeIcon badge={user.badges[0]} size={25} />

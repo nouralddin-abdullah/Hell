@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { CommentData } from "../../types/Question";
 import { baseURL } from "../../constants/baseURL";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,7 @@ import { useGetCurrentUser } from "../../hooks/auth/useGetCurrentUser";
 import EditCommentForm from "./EditCommentForm";
 import AddReplyForm from "./AddReplyForm";
 import VerifyHandler from "./VerifyHandler";
-import { verifyImage } from "../../assets";
+import { verifyImage, verifyPink } from "../../assets";
 import LinkifyText from "../common/LinkifyText/LinkifyText";
 import Avatar from "../common/avatar/Avatar";
 import BadgeIcon from "../common/badge/BadgeIcon";
@@ -27,6 +27,7 @@ interface AdditionalProps {
   setSelectedComment: React.Dispatch<React.SetStateAction<string>>;
   isVerified?: boolean;
   asker: string;
+  verifiedBy?: "instructor" | "author" | "group-leader";
 }
 
 const Comment = ({
@@ -42,14 +43,15 @@ const Comment = ({
   setSelectedComment,
   isVerified = false,
   asker = "",
+  verifiedBy,
 }: CommentData & AdditionalProps) => {
   const { id: contentId } = useParams();
   const { data: currentUser } = useGetCurrentUser();
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [showReplyForm, setShowReplyForm] = useState(false);
-  const replyInputRef = useRef<any>(null);
+  const [showDropDown, setShowDropDown] = React.useState(false);
+  const [showReplyForm, setShowReplyForm] = React.useState(false);
+  const replyInputRef = React.useRef<any>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (showReplyForm && replyInputRef.current) {
       setTimeout(() => {
         replyInputRef.current.focus();
@@ -68,20 +70,15 @@ const Comment = ({
   };
 
   // editing handling
-  const [isEditingMode, setIsEditingMode] = useState(false);
+  const [isEditingMode, setIsEditingMode] = React.useState(false);
 
-  // accessible
-  const [canVerify] = useState(currentUser?.user.username === asker);
+  // Check if current user is the question author
+  const isQuestionAuthor = currentUser?.user.username === asker;
 
   return (
     <>
       <div className="question-comment">
         <Link to={`/profile/${user.username}`}>
-          {/* <img
-            className="question-comment-profile-pic"
-            src={`${baseURL}/profilePics/${user.photo}`}
-            alt="profileImage"
-            /> */}
           <Avatar
             photo={`${baseURL}/profilePics/${user.photo}`}
             userFrame={user.userFrame}
@@ -91,7 +88,6 @@ const Comment = ({
         </Link>
         <div className="question-comment-content">
           <div className="comment-time">
-            {/* <p style={{ fontSize: "12px" }}>{createdAt.split("T")[0]}</p> */}
             <p>{createdAt?.split(",")[1] || ""}</p>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -104,6 +100,12 @@ const Comment = ({
                 {(user.role === "admin" || user.role === "group-leader") && (
                   <img
                     src={verifyImage}
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                )}{" "}
+                {user.role === "instructor" && (
+                  <img
+                    src={verifyPink}
                     style={{ width: "20px", height: "20px" }}
                   />
                 )}{" "}
@@ -121,7 +123,8 @@ const Comment = ({
                   commentId={id}
                   // @ts-ignore
                   questionId={contentId}
-                  accessible={canVerify}
+                  accessible={isQuestionAuthor}
+                  verifiedBy={verifiedBy}
                 />
               )}
             </div>
@@ -131,7 +134,7 @@ const Comment = ({
                 position: "relative",
                 zIndex: "100",
               }}
-              onClick={handleDropdownClick} // Add this to stop event propagation
+              onClick={handleDropdownClick}
             >
               {(currentUser?.user.username == user.username ||
                 currentUser?.user.role === "admin") && (
@@ -242,6 +245,7 @@ const Comment = ({
       <div className="comment-replies-section">
         {replies?.map((reply) => (
           <Comment
+            key={reply.id}
             // @ts-ignore
             attachment={reply.attachment}
             content={reply.content}
@@ -252,6 +256,7 @@ const Comment = ({
             id={reply.id}
             openDeleteComment={openDeleteComment}
             setSelectedComment={setSelectedComment}
+            asker={asker}
           />
         ))}
       </div>

@@ -60,38 +60,50 @@ const CommentSection = ({
               setSelectedComment={setSelectedComment}
               isVerified={true}
               asker={question.user.username}
+              verifiedBy={question.verifiedBy}
             />
           </div>
         )}
 
         {
           // @ts-ignore
-
           data?.pages?.map((page, pageIndex) =>
             page.data.question.comments.data.map(
-              (comment: any, idx: number) => (
-                <motion.span
-                  key={comment.id}
-                  transition={{ duration: 0.3, delay: idx * 0.3 }}
-                  initial={{ opacity: 0, x: -40 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 40 }}
-                >
-                  <Comment
-                    attachment={comment.attachment}
-                    content={comment.content}
-                    createdAt={comment.createdAt}
-                    stats={comment.stats}
-                    user={comment.user}
-                    id={comment.id}
-                    replies={comment.replies}
-                    openDeleteComment={() => setIsDeleteCommentModalOpen(true)}
-                    setSelectedComment={setSelectedComment}
-                    isVerified={false}
-                    asker={question.user.username}
-                  />
-                </motion.span>
-              )
+              (comment: any, idx: number) => {
+                // Skip the comment if it's already displayed as the verified answer
+                if (
+                  question?.verifiedAnswer &&
+                  comment.id === question.verifiedAnswer.id
+                ) {
+                  return null;
+                }
+
+                return (
+                  <motion.span
+                    key={comment.id}
+                    transition={{ duration: 0.3, delay: idx * 0.3 }}
+                    initial={{ opacity: 0, x: -40 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 40 }}
+                  >
+                    <Comment
+                      attachment={comment.attachment}
+                      content={comment.content}
+                      createdAt={comment.createdAt}
+                      stats={comment.stats}
+                      user={comment.user}
+                      id={comment.id}
+                      replies={comment.replies}
+                      openDeleteComment={() =>
+                        setIsDeleteCommentModalOpen(true)
+                      }
+                      setSelectedComment={setSelectedComment}
+                      isVerified={false}
+                      asker={question.user.username}
+                    />
+                  </motion.span>
+                );
+              }
             )
           )
         }

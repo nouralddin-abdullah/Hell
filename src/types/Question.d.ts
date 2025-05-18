@@ -34,6 +34,7 @@ export interface Attachment {
 export interface Question {
   id: string;
   content: string;
+  verifiedBy: "instructor" | "author" | "group-leader";
   user: User;
   stats: Stats;
   timestamps: {
@@ -53,6 +54,7 @@ export interface Question {
 export interface ChosenQuestion {
   id: string;
   content: string;
+  verifiedBy: "instructor" | "author" | "group-leader";
   user: User;
   stats: Stats;
   timestamps: Timestamps;
