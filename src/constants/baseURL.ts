@@ -1,1 +1,1 @@
-export const baseURL = "https://api.bishell.online:8000";
+export const baseURL = "https://api.bishell.online";
