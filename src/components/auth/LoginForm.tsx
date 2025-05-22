@@ -43,10 +43,10 @@ const LoginFormComponent = () => {
     }
 
     // Password validation
-    if (formFields.password.length < 8) {
+    if (formFields.password.length < 6) {
       handleErrorsChange(
         "password",
-        "Password must have at least 8 characters"
+        "Password must have at least 6 characters"
       );
       isValid = false;
     } else {
