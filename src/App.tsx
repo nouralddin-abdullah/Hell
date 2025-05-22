@@ -44,6 +44,7 @@ import NotFound from "./pages/not-found";
 import PostsList from "./pages/posts/posts";
 import PostComponent from "./pages/posts/post";
 import AddPost from "./pages/posts/add-post";
+import ResetPasswordPage from "./pages/auth/reset-password";
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -249,6 +250,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/reset-password/:resetToken"
+          element={<ResetPasswordPage />}
+        />
         <Route path="/join-us" element={<JoinUsPage />} />
         <Route path="/materials/:id/*" element={<MaterialsPage />} />{" "}
         <Route path="/announcements" element={<AnnouncementsPage />} />
